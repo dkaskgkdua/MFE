@@ -23,7 +23,7 @@ public class Member_deleteAction implements Action {
 		}
 		out.println("<script>");
 		out.println("alert('"+message+"');");
-		out.println("location.href='member_list.net'");
+		out.println("location.href='adminPage.net'");
 		out.println("</script>");
 		out.close();
 		return null;

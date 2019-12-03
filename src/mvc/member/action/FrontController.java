@@ -99,7 +99,7 @@ public class FrontController extends HttpServlet {
     		} catch(Exception e) {
     			e.printStackTrace();
     		}
-    	} else if(command.equals("/member_list.net")) {
+    	} else if(command.equals("/adminPage.net")) {
     		action = new ListAction();
     		try {
     			forward = action.execute(request, response);

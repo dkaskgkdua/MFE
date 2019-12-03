@@ -65,7 +65,7 @@ public class ListAction implements Action {
 		}
 		
 		forward.setRedirect(false);
-		forward.setPath("member/member_list.jsp");
+		forward.setPath("admin/adminPage.jsp");
 		return forward;
 	}
 }

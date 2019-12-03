@@ -294,7 +294,6 @@
         
         <!-- Modal footer -->
        			 <div class="modal-footer">
-        			
          			 <button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
      			 </div>
         
@@ -307,7 +306,7 @@ $(function() {
 	
 	
 	$('#adminMode_Button').click(function() {
-		location.href='member_list.net';
+		location.href='adminPage.net';
 		
 	});
 	var idCheck = false;

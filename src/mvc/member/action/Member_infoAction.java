@@ -1,8 +1,14 @@
 package mvc.member.action;
 
+import java.io.PrintWriter;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import mvc.comment.db.CommentDAO;
 import mvc.member.db.Member;
 import mvc.member.db.MemberDAO;
 
@@ -10,26 +16,25 @@ public class Member_infoAction implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 	 							throws Exception {
-		 ActionForward forward = new ActionForward();
-	      
+		 response.setContentType("text/html;charset=UTF-8");
+		 response.setHeader("cache-control", "no-cache,no-store");
+			PrintWriter out = response.getWriter();
 	      MemberDAO mdao = new MemberDAO();
-	      Member mdata = new Member();
 	      
-	      String id = request.getParameter("id");
+	      String id = request.getParameter("MEMBER_ID");
 	      
-	      mdata = mdao.getDetail(id);
+	      JsonObject json = mdao.getDetail(id);
+	      out.print(json);
 	      
-	      if(mdata==null) {
-	         System.out.println("상세 페이지 이동 실패");
-	         forward.setRedirect(false);
-	         request.setAttribute("message", "회원 상세보기 실패입니다.");
-	         forward.setPath("error/error.jsp");
-	         return forward;
-	      }
 	      System.out.println("상세보기 성공");
-	      request.setAttribute("mdata", mdata);
-	      forward.setRedirect(false);
-	      forward.setPath("member/member_info.jsp");
-	      return forward;
+	  	  System.out.println(json);
+	  	
+	  	  return null;
 	   }
+	
+	
+	
+	
+
+
 }

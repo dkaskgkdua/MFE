@@ -9,6 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mvc.comment.action.CommentAdd;
+import mvc.comment.action.CommentDelete;
+import mvc.comment.action.CommentUpdate;
+import mvc.comment.action.commentList;
 import mvc.member.action.Action;
 import mvc.member.action.ActionForward;
 
@@ -125,7 +129,35 @@ public class BoardFrontController extends HttpServlet {
         	  } catch(Exception e) {
         		  e.printStackTrace();
         	  }
-          }
+          } else if(command.equals("/CommentList.bo")) {
+        	  action = new commentList();
+        	  try {
+        		  forward = action.execute(request, response);
+        	  } catch(Exception e) {
+        		  e.printStackTrace();
+        	  }
+          } else if(command.equals("/CommentAdd.bo")) {
+        	  action = new CommentAdd();
+        	  try {
+        		  forward = action.execute(request, response);
+        	  } catch(Exception e) {
+        		  e.printStackTrace();
+        	  }
+          } else if(command.equals("/CommentDelete.bo")) {
+        	  action = new CommentDelete();
+        	  try {
+        		  forward = action.execute(request, response);
+        	  } catch(Exception e) {
+        		  e.printStackTrace();
+        	  }
+          } else if(command.equals("/CommentUpdate.bo")) {
+        	  action = new CommentUpdate();
+        	  try {
+        		  forward = action.execute(request, response);
+        	  } catch(Exception e) {
+        		  e.printStackTrace();
+        	  }
+          } 
     	
     	if(forward !=null) {
     		if(forward.isRedirect()) { //리다이렉트 된다.

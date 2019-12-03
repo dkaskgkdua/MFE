@@ -56,7 +56,7 @@ public class JoinProcessAction2  implements Action {
 			forward.setPath("main.net");
 			forward.setRedirect(true);
 		} else if(result == -1) {
-			response.setContentType("text/html); charset=UTF-8");
+			response.setContentType("text/html; charset=UTF-8");
 			PrintWriter out = response.getWriter();
 			out.println("<script>");
 			out.println("alert('아이디가 중복되었습니다. 다시 입력하세요')");

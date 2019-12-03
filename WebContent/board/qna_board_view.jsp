@@ -15,9 +15,119 @@ span{width:20px;}
 .no {
 	display : none;
 }
+#count {
+	position : relative;
+	top : -10px;
+	left : -10px;
+	background : orange;
+	color : white;
+	border-radius : 30%;
+}
 </style>
+<script>
+$(function() {
+	$("#comment table").hide();
+	$("#write").click(function() {
+		buttonText = $("#write").text();
+		content = $("#content").val();
+		$(".float-left").text('총 50자까지 가능합니다.');
+		if(buttonText =="등록") { //추가 하는 경우
+			url = "CommentAdd.bo";
+			data = {"content" : content,
+					"id" : $("#loginid").val(),
+					"BOARD_RE_REF" : $("#BOARD_RE_REF").val()};
+		} else { // 수정하는 경우
+			url = "CommentUpdate.bo";
+			data = {"num" : num, "content" : content};
+			$("#write").text("등록");
+		}
+		$.ajax({
+			type:"post",
+			url : url,
+			data : data,
+			success:function(result) {
+				$("#content").val('');
+				if(result==1) {
+					getList();
+				}
+			}
+		})
+		
+	})
+	function getList() {
+		$.ajax({
+			type: "post",
+			url : "CommentList.bo",
+			data : {"BOARD_RE_REF" : $("#BOARD_RE_REF").val()},
+			dataType:"json",
+			success:function(rdata) {
+				if(rdata.length>0) {
+					$("#comment table").show(); //문서 로딩될 때 숨긴게 나온다.
+					$("#comment thead").show();
+                	$("#comment tbody").empty();
+                	$("#message").text('');
+                	output ='';
+                	$(rdata).each(function() {
+                		img='';
+                		if($("#loginid").val() == this.member_id) {
+                			img="<img src='images/pencil2.png' width = '15px' class='update'>"
+                				+"<img src='images/remove.png' width = '15px' class='remove'>"
+                				+"<input type='hidden' value='" +this.reply_id + "'>";
+                		}
+                		output +="<tr><td>" + this.member_id + "</td>";
+                		output +="<td>" + this.reply_content + "</td>";
+                		output += "<td>" + this.reg_date + img + "</td></tr>";
+                	});
+                	$("#comment tbody").append(output);
+				}else {
+					$("#message").text("등록된 댓글이 없다.");
+					$("#comment thead").hide();
+				}
+				$("#count").text(rdata.length);
+			}
+		})
+	}
+	$(".start").click(function() {
+		getList();
+	});
+	$("#content").on('input', function() {
+		length = $(this).val().length;
+		if(length>50) {
+			length =50;
+			content = content.substring(0,length);
+		}
+		$(".float-left").text(length + "/50");
+	});
+	// 수정버튼 클릭경우(댓글)
+	$("#comment").on('click', '.update', function() {
+		// this는 해당 클래스가 있는 요소를 기준으로해서 parent는 부모, prev는 전 요소, next는 다음 요소, 즉 요소를 찾아감 
+		before = $(this).parent().prev().text(); // 선택한 내용을 가져온다.
+		$("#content").focus().val(before); // textarea에 수정전 내용을 입력
+		num = $(this).next().next().val(); //수정할 댓글번호를 저장합니다.
+		$("#write").text("수정완료");	//등록버튼의 라벨을 '수정완료'로 변경합니다.
+		$(this).parent().parent().css('background', 'lightgray');
+	});
+	
+	// 삭제버튼 클릭경우(댓글)
+	$("#comment").on('click', '.remove', function() {
+		var num = $(this).next().val();//댓글번호
+		$.ajax({
+			type:"post",
+			url : "CommentDelete.bo",
+			data : {"num":num},
+			success :function(result) {
+				if(result == 1)
+					getList();
+			}
+		})
+	})
+	
+})
+
+</script>
 </head>
 <body>
+<input type="hidden" id="loginid" value="${id}" name = "loginid">
 <div class="container">
 	
 	<table class= "table table-bordered">
@@ -47,6 +157,9 @@ span{width:20px;}
 		
 		<tr>
 			<td colspan ="2" class="center">
+				<button class="btn btn-primary start">댓글</button>
+				<span id = "count">${count}</span>
+				
 				<a href = "BoardReplyView.bo?num=${boarddata.BOARD_NUM}">
 					<button class="btn btn-primary">답변</button>
 				</a>
@@ -71,7 +184,19 @@ span{width:20px;}
 			</td>
 		</tr>
 	</table>
-	
+	<div id = "comment">
+		<button class= "btn btn-info float-left">총 50자까지 가능합니다.</button>
+		<button id = "write" class= "btn btn-info float-right">등록</button>
+		<textarea rows=3 class="form-control" name = "content" id="content" maxLength="50"></textarea>
+		<table class="table table_striped">
+			<thead>
+				<tr><td>아이디</td><td>내용</td><td>날짜</td></tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+		<div id = "message"></div>
+	</div>
 	<%-- delete 모달 --%>
 <div class="modal" id="myModal">
       <div class="modal-dialog">
@@ -82,8 +207,9 @@ span{width:20px;}
             <div class="modal-body">
                <form name="deleteForm" action="BoardDeleteAction.bo"
                   method="post">
-                  <input type="hidden" name="num" value="${param.num}">
-
+                  <input type="hidden" name = "num" value="${param.num}" id = "BOARD_RE_REF">
+				  <input type="hidden" name = "BOARD_FILE" value = "${boarddata.BOARD_FILE}">
+				  
                   <div class="form-group">
                      <label for="pwd">비밀번호</label> 
                         <input type="password"

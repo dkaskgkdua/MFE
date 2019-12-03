@@ -12,7 +12,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import mvc.board.db.BoardBean;
+import com.google.gson.JsonObject;
 
 public class MemberDAO {
 	private DataSource ds; 
@@ -109,23 +109,26 @@ public class MemberDAO {
 	public int getListCount(int search_field, String search_word) {
 		int x = 0;
 		String field = "";
+		
 		switch(search_field) {
 		case 0:
 			field = " where member_id like ";
-			field += "'%"+search_word+"%'";
+			field += "'%"+search_word+"%' and member_id != 'admin@mfe.com' ";
 			break;
 		case 1:
 			field = " where member_name like ";
-			field += "'%"+search_word+"%'";
+			field += "'%"+search_word+"%'  and member_id != 'admin@mfe.com' ";
 			break;
 		case 2:
 			field = " where member_address like ";
-			field += "'%"+search_word+"%'";
+			field += "'%"+search_word+"%'  and member_id != 'admin@mfe.com' ";
 			break;
 		case 3:
 			field = " where member_gender like ";
-			field += "'%"+search_word+"%'";
+			field += "'%"+search_word+"%'  and member_id != 'admin@mfe.com' ";
 			break;
+		default:
+			field = " where member_id != 'admin@mfe.com'";
 		}
 		System.out.println(" getListCount field = " + field);
 		try { 
@@ -257,8 +260,8 @@ public class MemberDAO {
 		return result;
 	}
 	
-	public Member getDetail(String id) {
-		Member m = new Member();
+	public JsonObject getDetail(String id) {
+		JsonObject json = new JsonObject();
 		
 		try {
 		con = ds.getConnection();
@@ -269,13 +272,13 @@ public class MemberDAO {
 		rs = pstmt.executeQuery();
 		
 		if (rs.next()) {
-			m.setId(rs.getString(1));
-			m.setPassword(rs.getString(2));
-			m.setName(rs.getString(3));
-			m.setAddress(rs.getString(4));
-			m.setPhone_number(rs.getString(5));
-			m.setPreference(rs.getString(6));
-			m.setGender(rs.getString(7));
+			json.addProperty("id", rs.getString(1));
+			json.addProperty("password", rs.getString(2));
+			json.addProperty("name", rs.getString(3));
+			json.addProperty("address", rs.getString(4));
+			json.addProperty("phone_number", rs.getString(5));
+			json.addProperty("preference", rs.getString(6));
+			json.addProperty("gender", rs.getString(7));
 		}
 		
 		} catch(SQLException e) {
@@ -285,7 +288,7 @@ public class MemberDAO {
 			close();
 		}
 		
-		return m;
+		return json;
 		
 	}
 	

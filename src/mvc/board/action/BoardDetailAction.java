@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import mvc.board.db.BoardBean;
 import mvc.board.db.BoardDAO;
+import mvc.comment.db.CommentDAO;
 import mvc.member.action.Action;
 import mvc.member.action.ActionForward;
 
@@ -31,6 +32,10 @@ public class BoardDetailAction implements Action {
 			return forward;
 		}
 		System.out.println("상세보기 성공");
+		CommentDAO cdao = new CommentDAO();
+		int count = cdao.getListCount(num);
+		request.setAttribute("count", count);
+		
 		
 		//boarddata 객체를 Request 객체에 저장합니다.
 		request.setAttribute("boarddata", boarddata);
