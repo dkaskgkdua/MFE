@@ -13,6 +13,8 @@ import com.google.gson.JsonObject;
 
 import mvc.book.db.BookBean;
 import mvc.book.db.BookDAO;
+import mvc.chat.db.ChatBean;
+import mvc.chat.db.ChatDAO;
 import mvc.concert.db.ConcertBean;
 import mvc.concert.db.ConcertDAO;
 import mvc.member.db.Member;
@@ -50,7 +52,7 @@ public class MyListAction implements Action {
 			request.setAttribute("likelist", likelist);
 			
 			
-		//infoupdate
+		//info_update
 			
 			HttpSession session = request.getSession();
 			String id = (String)session.getAttribute("id");
@@ -64,8 +66,18 @@ public class MyListAction implements Action {
 				return forward;
 			}
 			
-		//counseling
+		//chatlist
 			
+			ChatDAO chatdao = new ChatDAO();
+			List<ChatBean> chatlist = new ArrayList<ChatBean>();
+		
+			int chatlistcount = chatdao.getListCount();
+			
+			chatlist = chatdao.getChatList();
+		
+			request.setAttribute("chatlistcount",chatlistcount); //총 글의 수
+			
+			request.setAttribute("chatlist", chatlist);
 			
 		
 		//경로
