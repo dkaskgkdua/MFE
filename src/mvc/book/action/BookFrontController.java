@@ -9,8 +9,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import mvc.board.action.BoardDeleteAction;
 import mvc.book.action.Action;
 import mvc.book.action.ActionForward;
+import mvc.member.action.ListAction;
 
 /**
  * Servlet implementation class BookFrontController
@@ -40,14 +42,21 @@ public class BookFrontController extends HttpServlet {
     	ActionForward forward = null;
     	Action action=null;
     	
-    	if(command.equals("/BookList.bk")) {
-    		action = new BookListAction();
+    	if(command.equals("/mypage.bk")) {
+    		action = new MyListAction();
     		try {
     			forward=action.execute(request, response);
     		} catch(Exception e) {
     			e.printStackTrace();
     		}
-    	}
+    	} else if(command.equals("/BookDeleteAction.bk")) {
+      	  action = new BookDeleteAction();
+      	  try {
+      		  forward = action.execute(request, response);
+      	  } catch(Exception e) {
+      		  e.printStackTrace();
+      	  }
+        }
     	
     	if(forward !=null) {
     		if(forward.isRedirect()) { //리다이렉트 된다.

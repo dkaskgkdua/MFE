@@ -59,7 +59,7 @@ public class ConcertFrontController extends HttpServlet {
     		} catch(Exception e) {
     			e.printStackTrace();
     		}
-    	}
+    	} 
     	
     	if(forward !=null) {
     		if(forward.isRedirect()) { //리다이렉트 된다.

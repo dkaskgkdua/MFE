@@ -2,7 +2,7 @@ drop table concert;
 drop sequence concert_seq;
 CREATE TABLE CONCERT(
    CONCERT_ID      NUMBER(10),
-   CONCERT_NAME   VARCHAR2(30)   NOT NULL,
+   CONCERT_NAME   VARCHAR2(3000)   NOT NULL,
    CONCERT_DAY      date NOT NULL,
    CONCERT_MUSICIAN   VARCHAR2(20)   NOT NULL,
    CONCERT_OPEN   VARCHAR2(20)   NOT NULL,
@@ -18,6 +18,8 @@ CREATE TABLE CONCERT(
 create sequence concert_seq increment by 1 start with 1;
 
 
+INSERT INTO CONCERT VALUES(concert_seq.nextval, '악동뮤지션 콘서트', '2020-01-01', '악동뮤지션', '19:00', '23:00', 'pic02.jpg', 1, 1, '80000');
+
+update CONCERT set CONCERT_IMAGE='pic02.jpg';
+
 SELECT * FROM CONCERT;
-delete * from concert;
-INSERT INTO CONCERT VALUES(concert_seq.nextval, '악동뮤지션 콘서트', '2019-12-25', '악동뮤지션', '19', '23','악동뮤지션.jpg', 1, 1, '80000');

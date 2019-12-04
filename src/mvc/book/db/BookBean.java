@@ -7,6 +7,20 @@ public class BookBean {
 	private int book_id, concert_id, book_amount, card_id;
 	private String book_eticket, member_id ;
 	private Date book_date;
+	private Date concert_day;
+	public Date getConcert_day() {
+		return concert_day;
+	}
+	public void setConcert_day(Date concert_day) {
+		this.concert_day = concert_day;
+	}
+	public String getConcert_name() {
+		return concert_name;
+	}
+	public void setConcert_name(String concert_name) {
+		this.concert_name = concert_name;
+	}
+	private String concert_name;
 	
 	public int getBook_id() {
 		return book_id;
