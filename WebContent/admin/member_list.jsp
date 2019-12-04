@@ -1,140 +1,24 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
     <%@ taglib prefix ="c"  uri = "http://java.sun.com/jsp/jstl/core" %>
-<style>
-	.center-block {
-		display : flex;
-		justify-content:center; /* 가운데 정렬 */
-	}
-	.table {
-		background-color : white !important;
-	}
-	th, td {
-		color : black !important;
-		text-align : center !important;
-	}
-	li .current {
-		background: #bfbebe !important;
-	}
-	.search_member {
-		margin-top : 5%;
-		margin-left : 20%;
-	}
-	.size {
-		width : 100%;
-	}
-	#viewcount {
-		float : left;
-		width : 15%;
-		height : 40px;
-	}
-	#search_word {
-		float : left;
-		width : 40%;
-		height : 40px;
-		margin-left : 1%;
-		
-	}
-	#search_btn {
-		float : left;
-		width : 15%;
-		height : 40px;
-		margin-left : 1%;
-		
-	}
-	table caption{
-		caption-side:top;
-		text-align:center;  
-		font-size : 30pt;
-		font-weight:bold;
-		color : white;
-	}
-	
-	.huWidth {
-		width : 100% !important;
-	}
-	.size {
-		width : 100%;
-	}
-	.memberDetail{
-		color : black !important;
-	}
-	.memberDetail:hover {
-		background-color : white !important;
-		color : #5426f3 !important;
-	}
-</style>
+
 
 <script>
-function getView(member_id) {
-	$.ajax({
-		type: "post",
-		url : 'member_info.net',
-		data : {"MEMBER_ID" : member_id},
-		dataType:"json",
-		success:function(rdata) {
-				$("#view_id").text(rdata.id);
-				$("#view_pass").text(rdata.password);
-				$("#view_name").text(rdata.name);
-				$("#view_address").text(rdata.address);
-				$("#view_phone_number").text(rdata.phone_number);
-				$("#view_preference").text(rdata.preference);
-				$("#view_gender").text(rdata.gender);
-		}
-	});
-};
-
 $(function() {
-	$(".del").click(function(event) {
-		var answer = confirm("정말 삭제하시겠습니까?");
-		if(!answer) {
-			event.preventDefault();
-		}
-	});
-	
 	var sel = "${search_field}";
 	$("#viewcount").val(sel).prop("selected", true);
-	
-	$('#search_btn').click(function() {
-		if($("#search_word").val() == '') {
-			alert("검색어를 입력하세요");
-			return false;
-		}
-	});
-	$("#viewcount").change(function() {
-		selectedValue = $(this).val();
-		$("#search_word").val('');
-		if(selectedValue=='3') {
-			$("#search_word").attr("placeholder", "여 또는 남을 입력하세요");
-		}
-	});
-	$(".memberDetail").click(function() {
-		var member_id = $(this).text();
-		getView(member_id);
-	});
-});
+})
 
-/*
-function delchk() {
-	if(confirm("삭제하시겠습니까?")) {
-		location.href = "member_delete.net";
-		return true;
-	} else {
-		return false;
-	}
-}
-*/
 </script>
 <div class = "container">
-<form class = "search_member" action = "adminPage.net">
-	<div class = "input-group size select-wrapper">
+<form class = "search_member size" action = "adminPage.net">
+	<div class = "input-group select-wrapper">
 		
 		<select id = "viewcount" name = "search_field">
-			<option value = "0" selected>아이디</option>
-			<option value = "1">이름</option>
+			<option value = "0">ID</option>
+			<option value = "1" selected>이름</option>
 			<option value = "2">주소</option>
 			<option value = "3">성별</option>
-			
 		</select>
 		<input id = "search_word" name = "search_word" type="text" class = "form-control"
 				placeholder = "Search" value="${search_word}">
@@ -208,7 +92,7 @@ function delchk() {
                   <c:forEach var="a" begin="${startpage }" end="${endpage }">
                      <c:if test="${a == page }">
                         <li class="page-item">
-                           <a class="page-link current" href="#">${a }</a>
+                           <a class="page-link current" href="adminPage.net?page=${a }&search_field=${search_field}&search_word=${search_word}">${a }</a>
                         </li>
                      </c:if>
                      <c:if test="${a != page }">
