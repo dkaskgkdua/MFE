@@ -6,6 +6,12 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import mvc.board.db.BoardBean;
+import mvc.board.db.BoardDAO;
 import mvc.member.db.Member;
 import mvc.member.db.MemberDAO;
 
@@ -16,7 +22,42 @@ public class ListAction implements Action {
 		ActionForward forward = new ActionForward();
 		MemberDAO mdao = new MemberDAO();
 		List<Member> list = new ArrayList<Member>();
+		//////////////////////////////////////////////////  board 구간
+		BoardDAO boarddao = new BoardDAO();
+		List<BoardBean> boardlist = new ArrayList<BoardBean>();
+		int page2=1;
+		int limit2=10;
 		
+		if(request.getParameter("page2")!=null) {
+			page2=Integer.parseInt(request.getParameter("page2"));
+		}
+		System.out.println("넘어온 페이지2 = " + page2);
+		
+		if(request.getParameter("limit2") != null) {
+			limit2 = Integer.parseInt(request.getParameter("limit2"));
+		}
+		System.out.println("넘어온 limit2 = " + limit2);
+		
+		//총 리스트 수를 받아온다.
+		int listcount2 = boarddao.getListCount();
+		
+		//리스트를 받아온다.
+		boardlist = boarddao.getBoardList(page2, limit2);
+	
+		int maxpage2 = (listcount2+limit2-1)/limit2;
+		System.out.println("총 페이지 수 = "+maxpage2); 
+		
+	
+		int startpage2 = ((page2-1) / 10) * 10 +1;
+		System.out.println("현제 페이지에 보여줄 시작 페이지 수 = " + startpage2);
+		
+		int endpage2 = startpage2 + 10 -1;
+		System.out.println("현제 페이지에 보여줄 마지막 페이지 수 = " + endpage2);
+		
+		if(endpage2 > maxpage2) endpage2 = maxpage2;
+		
+		String state = request.getParameter("state");
+		/////////////////////////////////////////////////// member 구간
 		int page = 1;
 		int limit = 3;
 		int search_field = -1; //널값 안나게 초기화해준것(case에 없어야함)
@@ -51,21 +92,64 @@ public class ListAction implements Action {
 		
 		if(endpage > maxpage) endpage = maxpage;
 		
-		request.setAttribute("page", page);
-		request.setAttribute("maxpage", maxpage);
-		request.setAttribute("startpage", startpage);
-		request.setAttribute("endpage", endpage);
-		request.setAttribute("listcount", listcount);
-		request.setAttribute("totallist", list);
-		request.setAttribute("search_word", search_word);
-		if(request.getParameter("search_field") == null) {
-			request.setAttribute("search_field", 0);
-		} else {
-			request.setAttribute("search_field", request.getParameter("search_field"));
-		}
+		////////////////////////////////////////////////////값 보내는 구간
+		if(state == null) {
+			request.setAttribute("page", page);
+			request.setAttribute("maxpage", maxpage);
+			request.setAttribute("startpage", startpage);
+			request.setAttribute("endpage", endpage);
+			request.setAttribute("listcount", listcount);
+			request.setAttribute("totallist", list);
+			request.setAttribute("search_word", search_word);
+			
+			if(request.getParameter("search_field") == null) {
+				request.setAttribute("search_field", 0);
+			} else {
+				request.setAttribute("search_field", request.getParameter("search_field"));
+			}
+			
+			System.out.println("state=null");
+			request.setAttribute("page2", page2); //현재 페이지 수
+			request.setAttribute("maxpage2", maxpage2); //최대 페이지 수
 		
-		forward.setRedirect(false);
-		forward.setPath("admin/adminPage.jsp");
-		return forward;
+			//현재 페이지에 표시할 첫 페이지 수
+			request.setAttribute("startpage2", startpage2);
+			//현재 페이지에 표시할 끝 페이지 수
+			request.setAttribute("endpage2", endpage2);
+
+			request.setAttribute("listcount2", listcount2); //총 글의 수
+		
+			//해당 페이지의 글 목록을 갖고 있는 리스트
+			request.setAttribute("boardlist", boardlist);
+			request.setAttribute("limit2", limit2);
+			forward.setRedirect(false);
+			forward.setPath("admin/adminPage.jsp");
+			return forward;
+		
+		} else {
+			System.out.println("state=ajax");
+			JsonObject object = new JsonObject();
+			object.addProperty("page2", page2);
+			object.addProperty("maxpage2",maxpage2);
+			object.addProperty("startpage2", startpage2);
+			object.addProperty("endpage2", endpage2);
+			object.addProperty("listcount2",listcount2);
+			object.addProperty("limit2", limit2);
+			// List => JsonArray
+			JsonArray je = new Gson().toJsonTree(boardlist).getAsJsonArray();
+			
+			// List => JsonElement
+			// JsonElement je = new Gson().toJsonTree(boardlist);
+			System.out.println("je = " + je);
+			object.add("boardlist", je);
+			
+			Gson gson = new Gson();
+			String json = gson.toJson(object);
+			response.setHeader("cache-control", "no-cache,no-store");
+			response.setContentType("text/html;charset=UTF-8");
+			response.getWriter().append(json);
+			System.out.println(json);
+			return null;
+		}
 	}
 }
