@@ -32,6 +32,8 @@ public class MyListAction implements Action {
 		HttpSession session = request.getSession();
 		String id = (String)session.getAttribute("id");
 		
+		
+		
 		//booklist
 		
 			BookDAO bookdao = new BookDAO();
@@ -53,7 +55,7 @@ public class MyListAction implements Action {
 			
 			
 			MemberDAO mdao = new MemberDAO();
-			Member m = mdao.member_info(id);
+			Member m = mdao.getDetail(id);
 			if(m==null) {
 				System.out.println("정보 가져오기 실패");
 				forward.setRedirect(false);
@@ -61,8 +63,10 @@ public class MyListAction implements Action {
 				forward.setPath("error/error.jsp");
 				return forward;
 			}
+			request.setAttribute("memberinfo", m);
 			
 		//-------------------------
+			
 			
 			//chatlist
 			

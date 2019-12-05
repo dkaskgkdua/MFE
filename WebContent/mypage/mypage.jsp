@@ -22,7 +22,7 @@
 									<li><a href="#" data-tab="tab-1" class="active">My Tickets</a></li>
 									<li><a href="#" data-tab="tab-2">My Favorites</a></li>
 									<li><a href="#" data-tab="tab-3">My Info</a></li>
-									<li><a href="#" data-tab="tab-4">Counseling</a></li>
+									<li><a href="#" data-tab="tab-4">My Chat List</a></li>
 									
 									
 
@@ -41,12 +41,12 @@
 
 									<!-- Tab 3 -->
 										<div class="tab tab-3 flex flex-3">
-											<jsp:include page ="../member/updateForm.jsp"/>
+											<jsp:include page ="updateForm.jsp"/>
 										</div>
 										
 									<!-- Tab 4 -->
 									<div class="tab tab-4 flex flex-3">
-										<jsp:include page ="counseling.jsp"/>
+										<jsp:include page ="chatlist.jsp"/>
 									</div>
 
 								</div>
