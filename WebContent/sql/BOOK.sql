@@ -16,6 +16,20 @@ CREATE TABLE BOOK(
 create sequence book_seq increment by 1 start with 1;
 SELECT * FROM BOOK;
 
-DELETE * FROM BOOK;
+DELETE * FROM BOOK where concert_id=1;
 
 INSERT INTO BOOK VALUES(book_seq.nextval, 1, 'abc123@mfe.com', 'e123456789', 1, 1, SYSDATE);
+INSERT INTO BOOK VALUES(book_seq.nextval, 2, 'abc123@mfe.com', 'e222222222', 2, 2, SYSDATE);
+INSERT INTO BOOK VALUES(book_seq.nextval, 3, 'abc123@mfe.com', 'e333333333', 3, 3, SYSDATE);
+INSERT INTO BOOK VALUES(book_seq.nextval, 4, 'abc123@mfe.com', 'e444444444', 4, 4, SYSDATE);
+INSERT INTO BOOK VALUES(book_seq.nextval, 5, 'abc123@mfe.com', 'e555555555', 5, 5, SYSDATE);
+INSERT INTO BOOK VALUES(book_seq.nextval, 6, 'abc123@mfe.com', 'e123456789', 1, 1, SYSDATE);
+INSERT INTO BOOK VALUES(book_seq.nextval, 7, 'abc123@mfe.com', 'e222222222', 2, 2, SYSDATE);
+INSERT INTO BOOK VALUES(book_seq.nextval, 8, 'abc123@mfe.com', 'e333333333', 3, 3, SYSDATE);
+INSERT INTO BOOK VALUES(book_seq.nextval, 9, 'abc123@mfe.com', 'e444444444', 4, 4, SYSDATE);
+INSERT INTO BOOK VALUES(book_seq.nextval, 10, 'abc123@mfe.com', 'e555555555', 5, 5, SYSDATE);
+INSERT INTO BOOK VALUES(book_seq.nextval, 11, 'abc123@mfe.com', 'e555555555', 5, 5, SYSDATE);
+
+
+INSERT INTO BOOK VALUES(book_seq.nextval, 2, 'admin@mfe.com', 'e222222222', 2, 2, SYSDATE);
+INSERT INTO BOOK VALUES(book_seq.nextval, 3, 'admin@mfe.com', 'e333333333', 3, 3, SYSDATE);
