@@ -36,14 +36,9 @@ public class BookDAO {
 		int x = 0;
 		try {
 			con = ds.getConnection();
-			
-			String sql = "select count(*) from BOOK";
-			pstmt = con.prepareStatement(sql);
-		
-			rs=pstmt.executeQuery();
-			
-			while(rs.next()) {
-				//총 count 갯수를 뽑아와서 넣어줌
+			pstmt = con.prepareStatement("select count(*) from book");
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
 				x = rs.getInt(1);
 			}
 			
@@ -69,14 +64,24 @@ public class BookDAO {
 		return x;
 	}
 
-	public List<BookBean> getBookList() {
+	public List<BookBean> getBookList(int page, int limit, String id) {
 
-		String sql = "select * from book inner join concert on book.concert_id = concert.concert_id";
+		String sql = "select * from (select rownum rnum, b.* "
+				+ "from (select * from book inner join concert "
+				+ "on concert.concert_id=book.concert_id "
+				+ "where book.member_id=? order by book.book_id desc) b ) "
+				+ "where rnum >= ? and rnum <= ?";
 		List<BookBean> list = new ArrayList<BookBean>();
+		
+		int startrow = (page-1) * limit +1;
+		int endrow = startrow + limit -1;
 		
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, endrow);
 			rs = pstmt.executeQuery();
 			// DB에서 가져온 데이터를 VO객체에 담습니다.
 			while(rs.next()) {
@@ -87,10 +92,12 @@ public class BookDAO {
 				book.setBook_eticket(rs.getString("BOOK_ETICKET"));
 				book.setMember_id(rs.getString("MEMBER_ID"));
 				book.setConcert_day(rs.getDate("CONCERT_DAY"));
+				book.setConcert_id(rs.getInt("CONCERT_ID"));
 				book.setConcert_name(rs.getString("CONCERT_NAME"));
 				list.add(book);
 				
 			}
+			System.out.println("id=" + id);
 			return list; // 값을 담은 객체를 저장한 리스틀 호출한 곳으로 가져갑니다.
 		}catch(Exception e) {
 			System.out.println("getBookList() 에러 : " + e);

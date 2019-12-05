@@ -20,42 +20,38 @@ import mvc.concert.db.ConcertDAO;
 import mvc.member.db.Member;
 import mvc.member.db.MemberDAO;
 
+
 public class MyListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("euc-kr");
 		
+		ActionForward forward = new ActionForward();
+		
+		HttpSession session = request.getSession();
+		String id = (String)session.getAttribute("id");
+		
 		//booklist
 		
 			BookDAO bookdao = new BookDAO();
 			List<BookBean> booklist = new ArrayList<BookBean>();
-		
-			int listcount = bookdao.getListCount();
-			
-			booklist = bookdao.getBookList();
-		
-			request.setAttribute("listcount",listcount); //총 글의 수
-			
-			request.setAttribute("booklist", booklist);
-			
-			ActionForward forward = new ActionForward();
-			
+						
 		//likelist
 			
 			ConcertDAO cdao = new ConcertDAO();
 			List<ConcertBean> likelist = new ArrayList<ConcertBean>();
-		
+			
 			likelist = cdao.getLikeList();
 			
 			
 			request.setAttribute("likelist", likelist);
 			
+		//------------------------------
 			
-		//info_update
+			//info_update
 			
-			HttpSession session = request.getSession();
-			String id = (String)session.getAttribute("id");
+			
 			MemberDAO mdao = new MemberDAO();
 			Member m = mdao.member_info(id);
 			if(m==null) {
@@ -66,7 +62,9 @@ public class MyListAction implements Action {
 				return forward;
 			}
 			
-		//chatlist
+		//-------------------------
+			
+			//chatlist
 			
 			ChatDAO chatdao = new ChatDAO();
 			List<ChatBean> chatlist = new ArrayList<ChatBean>();
@@ -79,16 +77,81 @@ public class MyListAction implements Action {
 			
 			request.setAttribute("chatlist", chatlist);
 			
+		//------------------------
 		
-		//경로
+			int page=1;
+			int limit=10;
 			
+			if(request.getParameter("page")!=null) {
+				page=Integer.parseInt(request.getParameter("page"));
+			}
+			System.out.println("넘어온 페이지 = " + page);
 			
-			forward.setPath("mypage/mypage.jsp");
-			forward.setRedirect(false);
-			request.setAttribute("memberinfo", m);
-			return forward;
-		
-		
+			if(request.getParameter("limit") != null) {
+				limit = Integer.parseInt(request.getParameter("limit"));
+			}
+			System.out.println("넘어온 limit = " + limit);
+			
+			int listcount = bookdao.getListCount();
+			
+			booklist = bookdao.getBookList(page, limit, id);
+			
+			int maxpage = (listcount+limit-1)/limit;
+			System.out.println("총 페이지 수 = "+maxpage); 
+			
+			int startpage = ((page-1) / 10) * 10 +1;
+			System.out.println("현재 페이지에 보여줄 시작 페이지 수 = " + startpage);
+			
+			int endpage = startpage + 10 -1;
+			System.out.println("현재 페이지에 보여줄 마지막 페이지 수 = " + endpage);
+			
+			if(endpage > maxpage) endpage = maxpage;
+			
+			String state = request.getParameter("state");
+			
+			if(state == null) {
+				System.out.println("state=null");
+				request.setAttribute("page", page); 
+				request.setAttribute("maxpage", maxpage); 
+				
+				request.setAttribute("startpage", startpage);
+			
+				request.setAttribute("endpage", endpage);
+
+				request.setAttribute("listcount", listcount); 
+				
+				request.setAttribute("booklist", booklist);
+				request.setAttribute("limit", limit);
+				
+				forward = new ActionForward();
+				forward.setRedirect(false);
+				
+				forward.setPath("mypage/mypage.jsp");
+			 	return forward; 
+			} else {
+				System.out.println("state=ajax");
+				JsonObject object = new JsonObject();
+				object.addProperty("page", page);
+				object.addProperty("maxpage",maxpage);
+				object.addProperty("startpage", startpage);
+				object.addProperty("endpage", endpage);
+				object.addProperty("listcount",listcount);
+				object.addProperty("limit", limit);
+				
+				JsonArray je = new Gson().toJsonTree(booklist).getAsJsonArray();
+				
+				System.out.println("je = " + je);
+				object.add("booklist", je);
+				
+				Gson gson = new Gson();
+				String json = gson.toJson(object);
+				
+				response.setContentType("text/html;charset=UTF-8");
+				response.getWriter().append(json);
+				System.out.println(json);
+				return null;
+			}
+
 		
 	}
 
