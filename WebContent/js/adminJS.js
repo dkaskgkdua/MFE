@@ -136,7 +136,7 @@ function ajax2(data) {
                     $("#viewcount3").val(data.limit);
                     $('#viewcount').val(data.search_field).prop("selected", true);
                     $('#search_word').val(data.search_word);
-                    $(".t1").find("font").text("회원 수 : " + data.listcount);
+                    $(".t1").find("font").text(data.listcount+"명");
                     
                     if(data.listcount>0) { //총갯수가 1개 이상인 경우
                     	$('.tb1').remove();

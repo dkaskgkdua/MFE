@@ -10,50 +10,51 @@ $(function() {
 })
 
 </script>
-<div class = "container">
-<form class = "search_member size" action = "adminPage.net">
+<c:if test ="${listcount > 0 }">
+      <div class="center-block">
+      <form class = "search_member size" action = "adminPage.net">
 	<div class = "input-group select-wrapper">
-		
+
 		<select id = "viewcount" name = "search_field">
 			<option value = "0">ID</option>
 			<option value = "1" selected>이름</option>
 			<option value = "2">주소</option>
 			<option value = "3">성별</option>
 		</select>
+		
 		<input id = "search_word" name = "search_word" type="text" class = "form-control"
 				placeholder = "Search" value="${search_word}">
 		<button id = "search_btn" class= "btn btn-primary small" type="submit">검색</button>
+	
 	</div>
 </form>
-
+</div>
 
 <%-- 회원이 있는 경우 --%>
-<c:if test ="${listcount > 0 }">
-
-<div class = "rows ">
-		<span class = "sp">목록 갯수</span>
-		<select class = "form-control"  id = "viewcount3">
-			<option value = "1">1</option>
-			<option value = "3">3</option>
-			<option value = "5">5</option>
-			<option value = "7">7</option>
-			<option value = "10" selected>10</option>
-		</select>
-	</div>
 <div class = "container container1">
+
 	<table class = "table t1">
 		<caption>회원 목록</caption>
 		<thead>
 		<tr>
-			<th colspan = "2">MVC 회원 목록 - list</th>
+			<th colspan = "2"><select class = "form-control"  id = "viewcount3">
+					<option value = "1">1</option>
+					<option value = "3">3</option>
+					<option value = "5">5</option>
+					<option value = "7">7</option>
+					<option value = "10" selected>10</option>
+				</select>
+			</th>
 			<th colspan = "1">
-				<font size=3>회원 수 : ${listcount }</font>
+			</th>
+			<th colspan = "1">
+				<font size=2>${listcount }명</font>
 			</th>
 		</tr>
 		<tr>
-			<th width = "10%">번호</th>
-			<th width = "40%">아이디</th>
-			<th width = "30%">이름</th>
+			<th width = "20%">번호</th>
+			<th width = "35%">아이디</th>
+			<th width = "25%">이름</th>
 			<th width = "20%">삭제</th>
 		</tr>
 		</thead>
@@ -88,7 +89,8 @@ $(function() {
 	</c:forEach>
 	</tbody>
 	</table>
-</div>
+	</div>
+
 	<div class="center-block block1">
          <div class="row">
             <div class="col huWidth">
@@ -134,12 +136,13 @@ $(function() {
             </div>
          </div>
       </div> 
+
 </c:if>
 <!--  회원이 없는 경우 -->
 <c:if test ="${listcount == 0 }">
 	<font size =5>등록된 회원이 없습니다.</font>
 </c:if><br>
-</div>
+
 <!--  회원 상세정보 -->
 <div class="modal" id="member_view_Modal" tabindex="-1" role = "dialog" aria-labelledby="viewLabel">
     		<div class="modal-dialog" role = "document">
@@ -188,4 +191,5 @@ $(function() {
     	    	</div>
     		  </div>
     		</div>
-  		</div>
+    		</div>
+

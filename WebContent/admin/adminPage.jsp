@@ -8,26 +8,27 @@
 <jsp:include page ="../mainActivity/navbar.jsp"/>
 <title>관리자 페이지</title>
 <style>
+	.style2 {
+		padding-top : 5%;
+	}
+	.container { 
+		width : 100% !important;
+		margin :0 !important;
+		padding : 0 !important;
+	}
 	.center-block {
 		display : flex;
 		justify-content:center; /* 가운데 정렬 */
-	}
-	.table {
-		background-color : white !important;
-	}
-	th, td {
-		color : black !important;
-		text-align : center !important;
 	}
 	li .current {
 		background: #bfbebe !important;
 	}
 	.search_member {
 		margin-top : 5%;
-		margin-left : 20%;
 	}
 	.size {
 		width : 100%;
+		margin :0;
 	}
 	#viewcount {
 		float : left;
@@ -56,15 +57,15 @@
 		font-weight:bold;
 		color : white;
 	}
-	
+	td, th {
+		text-align: center !important; 
+		line-height : 3em !important;
+	}
 	.huWidth {
 		width : 100% !important;
 	}
-	.memberDetail{
-		color : black !important;
-	}
 	.memberDetail:hover {
-		background-color : white !important;
+		background-color : transparent !important;
 		color : #5426f3 !important;
 	}
 	.rows {
@@ -75,14 +76,18 @@
 	}
 	#viewcount2 {
 		display : inline;
-		width : 30%;
+		width : 70px;
 		height : 28px;
 	}
 	.sp {
+		width : 70px;
 		display : inline;
 	}
 	.gray { 
 		background : gray;
+	}
+	#viewcount3 {
+		width : 80%;
 	}
 </style>
  <script src="js/adminJS.js"></script>
