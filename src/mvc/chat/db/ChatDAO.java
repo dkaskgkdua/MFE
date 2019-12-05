@@ -31,17 +31,17 @@ public class ChatDAO {
 			e.printStackTrace();
 		}
 	}
-	public int getListCount() {
+	public int getListCount(String id) {
 		int x = 0;
 		try {
 			con = ds.getConnection();
 			
-			String sql = "select count(*) from chat";
-			pstmt = con.prepareStatement(sql);
-		
+			pstmt = con.prepareStatement("select count(*) from chat where chat.member_id=?");
+			pstmt.setString(1, id);
 			rs=pstmt.executeQuery();
 			
-			while(rs.next()) {
+			
+			if(rs.next()) {
 				//총 count 갯수를 뽑아와서 넣어줌
 				x = rs.getInt(1);
 			}
@@ -68,14 +68,15 @@ public class ChatDAO {
 		return x;
 	}
 
-	public List<ChatBean> getChatList() {
+	public List<ChatBean> getChatList(String id) {
 
-		String sql = "select * from chat inner join member on chat.member_id=member.member_id";
+		String sql = "select * from chat where chat.member_id=?";
 		List<ChatBean> list = new ArrayList<ChatBean>();
 		
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
 			// DB에서 가져온 데이터를 VO객체에 담습니다.
 			while(rs.next()) {

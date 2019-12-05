@@ -32,12 +32,14 @@ public class BookDAO {
 		}
 	}
 
-	public int getListCount() {
+	public int getListCount(String id) {
 		int x = 0;
 		try {
 			con = ds.getConnection();
-			pstmt = con.prepareStatement("select count(*) from book");
+			pstmt = con.prepareStatement("select count(*) from book where book.member_id=?");
+			pstmt.setString(1, id);
 			rs = pstmt.executeQuery();
+			
 			if(rs.next()) {
 				x = rs.getInt(1);
 			}

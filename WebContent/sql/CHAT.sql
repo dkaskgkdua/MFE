@@ -13,3 +13,9 @@ SELECT * FROM CHAT;
 DELETE FROM CHAT;
 
 INSERT INTO CHAT VALUES(chat_seq.nextval, 'admin@mfe.com', 'answer', 'content', SYSDATE);
+INSERT INTO CHAT VALUES(chat_seq.nextval, 'admin@mfe.com', 'answer', 'content', SYSDATE);
+
+INSERT INTO CHAT VALUES(chat_seq.nextval, 'abc123@mfe.com', 'answerjkdslgvds', 'contentdgds', SYSDATE);
+INSERT INTO CHAT VALUES(chat_seq.nextval, 'abc123@mfe.com', 'answerdfas', 'contengfgt', SYSDATE);
+INSERT INTO CHAT VALUES(chat_seq.nextval, 'abc123@mfe.com', 'answerad', 'confgftent', SYSDATE);
+INSERT INTO CHAT VALUES(chat_seq.nextval, 'abc123@mfe.com', 'answerlhk', 'confdhftent', SYSDATE);

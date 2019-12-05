@@ -73,9 +73,9 @@ public class MyListAction implements Action {
 			ChatDAO chatdao = new ChatDAO();
 			List<ChatBean> chatlist = new ArrayList<ChatBean>();
 		
-			int chatlistcount = chatdao.getListCount();
+			int chatlistcount = chatdao.getListCount(id);
 			
-			chatlist = chatdao.getChatList();
+			chatlist = chatdao.getChatList(id);
 		
 			request.setAttribute("chatlistcount",chatlistcount); //총 글의 수
 			
@@ -96,7 +96,7 @@ public class MyListAction implements Action {
 			}
 			System.out.println("넘어온 limit = " + limit);
 			
-			int listcount = bookdao.getListCount();
+			int listcount = bookdao.getListCount(id);
 			
 			booklist = bookdao.getBookList(page, limit, id);
 			

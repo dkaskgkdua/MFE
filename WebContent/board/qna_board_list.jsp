@@ -112,6 +112,7 @@
 	</tbody>
 	</table>
 	</div>
+	
 	<div class="center-block">
          <div class="row">
             <div class="col">

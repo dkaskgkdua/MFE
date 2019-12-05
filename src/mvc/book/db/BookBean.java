@@ -8,6 +8,7 @@ public class BookBean {
 	private String book_eticket, member_id ;
 	private Date book_date;
 	private Date concert_day;
+	
 	public Date getConcert_day() {
 		return concert_day;
 	}
