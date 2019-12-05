@@ -42,7 +42,7 @@ public class MyListAction implements Action {
 			ConcertDAO cdao = new ConcertDAO();
 			List<ConcertBean> likelist = new ArrayList<ConcertBean>();
 			
-			likelist = cdao.getLikeList();
+			likelist = cdao.getLikeList(id);
 			
 			
 			request.setAttribute("likelist", likelist);
