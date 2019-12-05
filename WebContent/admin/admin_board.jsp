@@ -108,7 +108,7 @@
                   <c:if test="${page2 < maxpage2 }">
                      <li class="page-item">
                         <a href="adminPage.net?page2=${page2+1 }"
-                           class="page-link triPage">&nbsp;다음</a>
+                           class="page-link ">&nbsp;다음</a>
                      </li>
                   </c:if>
                </ul>

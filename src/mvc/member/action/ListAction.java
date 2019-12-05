@@ -58,8 +58,9 @@ public class ListAction implements Action {
 		
 		String state = request.getParameter("state");
 		/////////////////////////////////////////////////// member 구간
+		String state2 = request.getParameter("state2");
 		int page = 1;
-		int limit = 3;
+		int limit = 10;
 		int search_field = -1; //널값 안나게 초기화해준것(case에 없어야함)
 		String search_word ="";
 		
@@ -67,8 +68,10 @@ public class ListAction implements Action {
 			page =Integer.parseInt(request.getParameter("page"));
 		}
 		System.out.println("넘오온 페이지" + page);
-		
-		
+		if(request.getParameter("limit") != null) {
+			limit = Integer.parseInt(request.getParameter("limit"));
+		}
+		System.out.println("넘오온 페이지" + page);
 		if(request.getParameter("search_field") != null) {
 			search_field = Integer.parseInt(request.getParameter("search_field"));
 			System.out.println("검색 : " + search_field);
@@ -93,13 +96,13 @@ public class ListAction implements Action {
 		if(endpage > maxpage) endpage = maxpage;
 		
 		////////////////////////////////////////////////////값 보내는 구간
-		if(state == null) {
+		if(state == null && state2 == null) {
 			request.setAttribute("page", page);
 			request.setAttribute("maxpage", maxpage);
 			request.setAttribute("startpage", startpage);
 			request.setAttribute("endpage", endpage);
 			request.setAttribute("listcount", listcount);
-			request.setAttribute("totallist", list);
+			request.setAttribute("memberlist", list);
 			request.setAttribute("search_word", search_word);
 			
 			if(request.getParameter("search_field") == null) {
@@ -126,6 +129,32 @@ public class ListAction implements Action {
 			forward.setPath("admin/adminPage.jsp");
 			return forward;
 		
+		} else if(state == null && state2 != null){ // 회원 관리
+			System.out.println("state2=ajax2");
+			JsonObject object = new JsonObject();
+			object.addProperty("page", page);
+			object.addProperty("maxpage",maxpage);
+			object.addProperty("startpage", startpage);
+			object.addProperty("endpage", endpage);
+			object.addProperty("search_field", search_field);
+			object.addProperty("search_word", search_word);
+			object.addProperty("listcount",listcount);
+			object.addProperty("limit", limit);
+			// List => JsonArray
+			JsonArray je = new Gson().toJsonTree(list).getAsJsonArray();
+			
+			// List => JsonElement
+			// JsonElement je = new Gson().toJsonTree(boardlist);
+			System.out.println("je = " + je);
+			object.add("memberlist", je);
+			
+			Gson gson = new Gson();
+			String json = gson.toJson(object);
+			response.setHeader("cache-control", "no-cache,no-store");
+			response.setContentType("text/html;charset=UTF-8");
+			response.getWriter().append(json);
+			System.out.println(json);
+			return null;
 		} else {
 			System.out.println("state=ajax");
 			JsonObject object = new JsonObject();

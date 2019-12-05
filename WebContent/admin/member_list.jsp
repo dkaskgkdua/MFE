@@ -29,8 +29,21 @@ $(function() {
 
 <%-- 회원이 있는 경우 --%>
 <c:if test ="${listcount > 0 }">
-	<table class = "table">
+
+<div class = "rows ">
+		<span class = "sp">목록 갯수</span>
+		<select class = "form-control"  id = "viewcount3">
+			<option value = "1">1</option>
+			<option value = "3">3</option>
+			<option value = "5">5</option>
+			<option value = "7">7</option>
+			<option value = "10" selected>10</option>
+		</select>
+	</div>
+<div class = "container container1">
+	<table class = "table t1">
 		<caption>회원 목록</caption>
+		<thead>
 		<tr>
 			<th colspan = "2">MVC 회원 목록 - list</th>
 			<th colspan = "1">
@@ -43,8 +56,10 @@ $(function() {
 			<th width = "30%">이름</th>
 			<th width = "20%">삭제</th>
 		</tr>
-	<c:set var ="num" value = "${listcount-(page-1)*3}"/>  <%-- listAction에 limit 변경시 곱하는 값도 같이 변경해야함 --%>
-	<c:forEach var ="m" items="${totallist}">
+		</thead>
+		<tbody class = "tb1">
+	<c:set var ="num" value = "${listcount-(page-1)*10}"/>  <%-- listAction에 limit 변경시 곱하는 값도 같이 변경해야함 --%>
+	<c:forEach var ="m" items="${memberlist}">
 		<tr>
 			<td>
 			<c:out value="${num }"/><%-- num 출력 --%>
@@ -71,12 +86,13 @@ $(function() {
 			</td>
 		</tr>
 	</c:forEach>
+	</tbody>
 	</table>
-	
-	<div class="center-block">
+</div>
+	<div class="center-block block1">
          <div class="row">
             <div class="col huWidth">
-               <ul class="pagination huWidth">
+               <ul class="pagination pa1 huWidth">
                   <c:if test="${page <= 1 }">
                      <li class="page-item">
                      <a class="page-link" href="#">이전&nbsp;</a>
