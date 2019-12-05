@@ -28,23 +28,11 @@ public class SearchwordAction implements Action {
 		list = cdao.getSearchList(search_word);
 		System.out.println("list size = " + list.size());
 
-		// 검색 결과가 없는 경우
-		if (list.size() == 0) {
-			response.setContentType("text/html;charset=euc-kr");
-			PrintWriter out = response.getWriter();
-			out.println("<script>");
-			out.println("alert('검색 결과가 존재하지 않습니다.');");
-			out.println("history.back()");
-			out.close();
+		request.setAttribute("list", list);
+		request.setAttribute("search_word", search_word);
+		forward.setRedirect(false);
+		forward.setPath("search/search_result_form.jsp");
+		return forward;
 
-			return null;
-		} else {
-
-			request.setAttribute("list", list);
-			request.setAttribute("search_word", search_word);
-			forward.setRedirect(false);
-			forward.setPath("search/search_result_form.jsp");
-			return forward;
-		}
 	}
 }
