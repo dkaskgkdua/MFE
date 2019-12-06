@@ -1656,14 +1656,10 @@
 		margin: 0 0 2em 0;
 	}
 
-	h1, h3, h2, h5, h6 {
+	h1, h2, h3, h4, h5, h6 {
 		font-weight: 700;
 		line-height: 1.5;
 		margin: 0 0 1em 0;
-	}
-	h4 {
-		font-weight: 700;
-		line-height : 1.5;
 	}
 
 		h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
@@ -1791,7 +1787,7 @@
 		color: #ffffff;
 	}
 
-	a:not(.global) {
+	a {
 		color: #c1c7cd;
 	}
 
@@ -1948,7 +1944,7 @@
 	input[type="button"],
 	button,
 	.button {
-		background-color: transparent;
+		background-color: #041625;
 		color: #ffffff !important;
 	}
 
@@ -2210,7 +2206,7 @@
 	textarea {
 		padding: 0.75em 1em;
 	}
-	
+
 	input[type="checkbox"],
 	input[type="radio"] {
 		-moz-appearance: none;
@@ -2224,7 +2220,7 @@
 		width: 1em;
 		z-index: -1;
 	}
-		
+
 		input[type="checkbox"] + label,
 		input[type="radio"] + label {
 			text-decoration: none;
@@ -2261,7 +2257,7 @@
 				top: 0;
 				width: 1.65em;
 			}
-	
+
 		input[type="checkbox"]:checked + label:before,
 		input[type="radio"]:checked + label:before {
 			content: '\f00c';
@@ -2295,19 +2291,19 @@
 		opacity: 1.0;
 	}
 
-	label:not(.modalBlack) {
+	label {
 		color: #ffffff;
 	}
-	
+
 	input[type="text"],
 	input[type="password"],
 	input[type="email"],
 	select,
 	textarea {
 		background: rgba(255, 255, 255, 0.075);
-		border-color: #ada4a4;
+		border-color: rgba(255, 255, 255, 0.15);
 	}
-	
+
 		input[type="text"]:focus,
 		input[type="password"]:focus,
 		input[type="email"]:focus,
@@ -2320,18 +2316,18 @@
 	.select-wrapper:before {
 		color: rgba(255, 255, 255, 0.15);
 	}
-	
+
 	input[type="checkbox"] + label,
 	input[type="radio"] + label {
 		color: #c0c2c4;
 	}
-	/*
+
 		input[type="checkbox"] + label:before,
 		input[type="radio"] + label:before {
 			background: rgba(255, 255, 255, 0.075);
 			border-color: rgba(255, 255, 255, 0.15);
 		}
-*/
+
 	input[type="checkbox"]:checked + label:before,
 	input[type="radio"]:checked + label:before {
 		background-color: #062038;
@@ -2344,7 +2340,7 @@
 		border-color: #062038;
 		box-shadow: 0 0 0 1px #062038;
 	}
-	
+
 	::-webkit-input-placeholder {
 		color: #676d71 !important;
 	}
@@ -2672,7 +2668,7 @@
 		padding: 0;
 	}
 
-		ul.tab-list li a {
+		ul.tab-list li button {
 			background: rgba(255, 255, 255, 0.075);
 			border-radius: 4px;
 			color: rgba(255, 255, 255, 0.5) !important;
@@ -2682,12 +2678,12 @@
 			width: 100%;
 		}
 
-			ul.tab-list li a.active {
+			ul.tab-list li button.active {
 				background: #aa14cc;
 				color: #fff !important;
 			}
 
-			ul.tab-list li a:hover {
+			ul.tab-list li button:hover {
 				background: #693dcc;
 				color: #fff !important;
 			}
@@ -3089,7 +3085,11 @@
 			.wrapper.style2 input[type="submit"],
 			.wrapper.style2 input[type="reset"],
 			.wrapper.style2 input[type="button"],
-			
+			.wrapper.style2 button,
+			.wrapper.style2 .button {
+				background-color: #ffffff;
+				color: #041625 !important;
+			}
 
 				.wrapper.style2 input[type="submit"].alt,
 				.wrapper.style2 input[type="reset"].alt,
@@ -3638,13 +3638,13 @@
 		-webkit-justify-content: center;
 		-ms-justify-content: center;
 		justify-content: center;
-		background-image: url("../../images/back.jpg");
+		background-image: url("../../images/banner.jpg");
 		background-position: center;
 		background-size: cover;
 		background-repeat: no-repeat;
 		border-top: 0;
-		min-height: 40vh;
-		height: 40vh !important;
+		min-height: 100vh;
+		height: 100vh !important;
 		position: relative;
 		text-align: center;
 		overflow: hidden;
@@ -3701,7 +3701,7 @@
 			content: '';
 			display: block;
 			background-color: #041625;
-			height: 10%0%;
+			height: 100%;
 			left: 0;
 			opacity: 0.45;
 			position: absolute;
@@ -3769,108 +3769,8 @@
 		body.is-loading #banner:before {
 			opacity: 1;
 		}
-	/* 리스트 css*/
-	.listWrapper {
-		background-color: #041625;
-		color : #c0c5c9;
-		width : 100%;
-	}
-	/* modal 클래스 */
-	.modalBlack {
-		color : black;
-	}
-	.modalBoxColor {
-		background: rgba(8, 8, 8, 0.075);
-   		 border-color: rgba(10, 10, 10, 0.15);
-	}
-	.modal-dialog {
-		background-color : white;
-	}
-	.modal-title {
-		color : black;
-	}
-	
-	.modal.right.fade .modal-dialog {
-		right : -320px;
-		-webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
-		   -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
-		     -o-transition: opacity 0.3s linear, right 0.3s ease-out;
-		        transition: opacity 0.3s linear, right 0.3s ease-out;
-	}
-	.modal.right.fade.in .modal-dialog {
-		right: 0;
-	}
-	
-	.modal.right .modal-dialog {
-		position: absolute !important;
-		
-		margin-top : 5% !important;
-		margin-right : 5% !important;
-		width: 20% !important;
-		height: 30% !important;
-		-webkit-transform: translate3d(0%, 0, 0);
-		    -ms-transform: translate3d(0%, 0, 0);
-		     -o-transform: translate3d(0%, 0, 0);
-		        transform: translate3d(0%, 0, 0);
-	}
 
-	.modal.right .modal-content {
-		height: 100%;
-		overflow-y: auto;
-	}
-	.accountDiv {
-		background : #fbc65a;
-	}
-	/* 검색버튼 css */
-	.hidden {
-		visibility : hidden;
-	}
-	#search_Text {
-		display : inline;
-		width : 150px;
-	}
-	/* slick 클래스*/
-	.slick-slide img {
-		width : 150px;
-		height : 150px;
-	}
-	.item {
-	position : relative;
-	}
-	.slick-slide {
-		margin : 30px 15px;
-	}
-	.slick-arrow {
-		margin : 50px;
-		z-index : 2;
-	}
-	.slick-prev, .slick-next {
-		top :20%;
-	
-	}
-	.heart {
-		z-index : 3;
-		position : absolute;
-		bottom : 75%;
-		background-color : transparent;
-	}
-	.global {
-		color: white;
-		margin-right : 10px;
-	}
-	
-	/* 색 */
-	.background_white {
-		background-color : white;
-	}
-	.color_black {
-		color : black !important; 
-	}
 /* Main */
-	
-body, footer {
-	background-color : black;
-}
 
 /* Footer */
 
@@ -3918,4 +3818,3 @@ body, footer {
 			}
 
 		}
-	

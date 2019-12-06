@@ -1,6 +1,5 @@
 drop table genre;
 drop sequence genre_seq;
-
 CREATE TABLE GENRE(
    GENRE_ID   NUMBER,
    GENRE_NAME   VARCHAR2(300)   NOT NULL,

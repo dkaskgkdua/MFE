@@ -13,10 +13,6 @@ create table member(
 
 insert into member values('admin@mfe.com','1234','관리자','서울시','01012341234','rap','1');
 insert into member values('abc123@mfe.com','1234','abc','서울시','01011112222','balad,rock','1');
-insert into member values('aaa@mfe.com','1234','abc','서울시','01011112222','balad,rock','1');
-
 
 update member set member_preference = 'balad,rock' where member_id='abc123@mfe.com';
-
-delete from member where member_id = 'abc123@mfe.com';
 select * from member;

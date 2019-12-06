@@ -1,6 +1,4 @@
 drop table BOARD;
-drop sequence board_seq;
-
 CREATE TABLE BOARD(
 	BOARD_NUM          NUMBER(5),         --글 번호(기본키)
 	BOARD_NAME         VARCHAR2(30),   --작성자
@@ -16,10 +14,9 @@ CREATE TABLE BOARD(
 	BOARD_DATE DATE,                --글의 작성 날짜
 	PRIMARY KEY(BOARD_NUM)
 );
-
+drop sequence board_seq;
 create sequence board_seq increment by 1 start with 1;
 INSERT INTO board(board_num, board_name, board_pass, board_subject, board_content, board_re_ref, board_re_lev, board_re_seq, board_readcount, board_date) VALUES (board_seq.nextval, 'admin@mfe.com', '1234', 'df', 'dfdf',board_seq.nextval, 0, 0, 0 , sysdate);
 
 select * from board;
-
 delete from board;

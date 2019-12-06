@@ -1,10 +1,42 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE HTML>
 <html>
    <head>
       <title>Music For Everyone</title>
-
+<script>
+	$(function(){
+		// 추천버튼 클릭시(추천 추가 또는 추천 제거)
+		$("#rec_update").click(function(){
+			$.ajax({
+				url: "/expro/RecUpdate.do",
+                type: "POST",
+                data: {
+                    no: ${content.board_no},
+                    id: '${id}'
+                },
+                success: function () {
+			        recCount();
+                },
+			})
+		})
+		
+		// 게시글 추천수
+	    function recCount() {
+			$.ajax({
+				url: "/expro/RecCount.do",
+                type: "POST",
+                data: {
+                    no: ${content.board_no}
+                },
+                success: function (count) {
+                	$(".rec_count").html(count);
+                },
+			})
+	    };
+	    recCount(); // 처음 시작했을 때 실행되도록 해당 함수 호출
+</script>
    </head>
    <body>
       <!-- 헤더 -->
@@ -22,12 +54,25 @@
         <section class = "listWrapper">
            <h4>맞춤형 콘서트</h4>
           <div class="slider">
+     		<div class="item"><img src="http://picsum.photos/id/239/550/550">
+				<c:if test="${ id == null }">
+				<button type="button" class="btn btn-secondary heart" id="rec_update">
+					<span class="glyphicon glyphicon-heart-empty rec_count" aria-hidden="true"></span>
+				</button>				
+			</c:if>
+			<c:if test="${ id != null }">
+				<button type="button" class="btn btn-secondary heart" id="rec_update">
+					<span class="glyphicon glyphicon-heart-empty rec_count" aria-hidden="true"></span>
+				</button>
+			</c:if>
+			</div>
      		<div class="item"><img src="http://picsum.photos/id/240/550/550"><button type ="button" class = "btn btn-secondary heart"><span class = "glyphicon glyphicon-heart-empty" aria-hidden="true"></span></button></div>
      		<div class="item"><img src="http://picsum.photos/id/241/550/550"><button type ="button" class = "btn btn-secondary heart"><span class = "glyphicon glyphicon-heart-empty" aria-hidden="true"></span></button></div>
      		<div class="item"><img src="http://picsum.photos/id/242/550/550"><button type ="button" class = "btn btn-secondary heart"><span class = "glyphicon glyphicon-heart-empty" aria-hidden="true"></span></button></div>
      		<div class="item"><img src="http://picsum.photos/id/243/550/550"><button type ="button" class = "btn btn-secondary heart"><span class = "glyphicon glyphicon-heart-empty" aria-hidden="true"></span></button></div>
      		<div class="item"><img src="http://picsum.photos/id/244/550/550"><button type ="button" class = "btn btn-secondary heart"><span class = "glyphicon glyphicon-heart-empty" aria-hidden="true"></span></button></div>
      		<div class="item"><img src="http://picsum.photos/id/244/550/550"><button type ="button" class = "btn btn-secondary heart"><span class = "glyphicon glyphicon-heart-empty" aria-hidden="true"></span></button></div>
+     		<div class="item"><img src="http://picsum.photos/id/239/550/550"><button type ="button" class = "btn btn-secondary heart"><span class = "glyphicon glyphicon-heart-empty" aria-hidden="true"></span></button></div>
      		<div class="item"><img src="http://picsum.photos/id/249/550/550"><button type ="button" class = "btn btn-secondary heart"><span class = "glyphicon glyphicon-heart-empty" aria-hidden="true"></span></button></div>
      		<div class="item"><img src="http://picsum.photos/id/248/550/550"><button type ="button" class = "btn btn-secondary heart"><span class = "glyphicon glyphicon-heart-empty" aria-hidden="true"></span></button></div>
      		<div class="item"><img src="http://picsum.photos/id/248/550/550"><button type ="button" class = "btn btn-secondary heart"><span class = "glyphicon glyphicon-heart-empty" aria-hidden="true"></span></button></div>
@@ -39,12 +84,14 @@
 		<section class = "listWrapper">
 		 <h4>힙합 콘서트</h4>
           <div class="slider">
+     		<div class="item"><img src="http://picsum.photos/id/239/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/240/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/241/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/242/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/243/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/244/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/244/550/550"></div>
+     		<div class="item"><img src="http://picsum.photos/id/239/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/249/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/248/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/248/550/550"></div>
@@ -54,12 +101,14 @@
    	     </section>
    	     <section class = "listWrapper">
           <div class="slider">
+     		<div class="item"><img src="http://picsum.photos/id/239/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/240/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/241/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/242/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/243/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/244/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/244/550/550"></div>
+     		<div class="item"><img src="http://picsum.photos/id/239/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/249/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/248/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/248/550/550"></div>
@@ -69,12 +118,14 @@
    	     </section>
    	     <section class = "listWrapper">
           <div class="slider">
+     		<div class="item"><img src="http://picsum.photos/id/239/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/240/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/241/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/242/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/243/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/244/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/244/550/550"></div>
+     		<div class="item"><img src="http://picsum.photos/id/239/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/249/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/248/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/248/550/550"></div>
@@ -84,12 +135,14 @@
    	     </section>
    	     <section class = "listWrapper">
           <div class="slider">
+     		<div class="item"><img src="http://picsum.photos/id/239/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/240/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/241/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/242/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/243/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/244/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/244/550/550"></div>
+     		<div class="item"><img src="http://picsum.photos/id/239/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/249/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/248/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/248/550/550"></div>
@@ -99,12 +152,14 @@
    	     </section>
    	     <section class = "listWrapper">
           <div class="slider">
+     		<div class="item"><img src="http://picsum.photos/id/239/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/240/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/241/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/242/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/243/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/244/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/244/550/550"></div>
+     		<div class="item"><img src="http://picsum.photos/id/239/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/249/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/248/550/550"></div>
      		<div class="item"><img src="http://picsum.photos/id/248/550/550"></div>
