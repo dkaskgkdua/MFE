@@ -12,6 +12,8 @@ import com.google.gson.JsonObject;
 
 import mvc.board.db.BoardBean;
 import mvc.board.db.BoardDAO;
+import mvc.concert.db.ConcertBean;
+import mvc.concert.db.ConcertDAO;
 import mvc.member.db.Member;
 import mvc.member.db.MemberDAO;
 
@@ -20,9 +22,55 @@ public class ListAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 	 							throws Exception {
 		ActionForward forward = new ActionForward();
-		MemberDAO mdao = new MemberDAO();
-		List<Member> list = new ArrayList<Member>();
+		
+		//////////////////////////////////////////////////  concert 구간
+		
+		ConcertDAO concertdao = new ConcertDAO();
+		List<ConcertBean>concert_list = new ArrayList<ConcertBean>();
+		int concert_page = 1;
+		int concert_limit = 10;
+		int concert_search_field = -1; //널값 안나게 초기화해준것(case에 없어야함)
+		String concert_search_word ="";
+		
+		if(request.getParameter("concert_page") != null) {
+			concert_page = Integer.parseInt(request.getParameter("concert_page"));
+		}
+		System.out.println("콘서트 페이지 = " + concert_page);
+		
+		if(request.getParameter("concert_limit") != null) {
+			concert_limit = Integer.parseInt(request.getParameter("concert_limit"));
+		}
+		
+		if(request.getParameter("concert_search_field") != null) {
+			concert_search_field = Integer.parseInt(request.getParameter("concert_search_field"));
+			System.out.println("검색 : " + concert_search_field);
+		} 
+		if(request.getParameter("concert_search_word") != null) {
+			concert_search_word = request.getParameter("concert_search_word");
+			System.out.println("검색 내용 : " + concert_search_word);
+		}
+		
+		System.out.println("콘서트 limit = " + concert_limit);
+		
+		int concert_count = concertdao.getListCount(concert_search_field, concert_search_word);
+		
+		concert_list = concertdao.getConcertList(concert_search_field, concert_search_word, concert_page, concert_limit);
+		
+		int concert_maxpage = (concert_count + concert_limit-1)/concert_limit;
+		System.out.println("콘서트 총 페이지 수 = " + concert_maxpage);
+		
+		int concert_startpage = ((concert_page-1)/10)*10+1;
+		System.out.println("콘서트 시작 페이지 = " + concert_startpage);
+		
+		int concert_endpage = concert_startpage + 10 -1;
+		System.out.println("콘서트 페이지에 보여줄 마지막 페이지 수 = " + concert_endpage);
+		
+		if(concert_endpage > concert_maxpage) concert_endpage = concert_maxpage;
+		
+		String concert_state = request.getParameter("concert_state");
+		
 		//////////////////////////////////////////////////  board 구간
+		
 		BoardDAO boarddao = new BoardDAO();
 		List<BoardBean> boardlist = new ArrayList<BoardBean>();
 		int page2=1;
@@ -58,6 +106,8 @@ public class ListAction implements Action {
 		
 		String state = request.getParameter("state");
 		/////////////////////////////////////////////////// member 구간
+		MemberDAO mdao = new MemberDAO();
+		List<Member> list = new ArrayList<Member>();
 		String state2 = request.getParameter("state2");
 		int page = 1;
 		int limit = 10;
@@ -96,7 +146,9 @@ public class ListAction implements Action {
 		if(endpage > maxpage) endpage = maxpage;
 		
 		////////////////////////////////////////////////////값 보내는 구간
-		if(state == null && state2 == null) {
+		if(state == null && state2 == null && concert_state == null) { //첫 시작
+			System.out.println("state=null");
+			////////////////////////////////////////////////////회원 초기화
 			request.setAttribute("page", page);
 			request.setAttribute("maxpage", maxpage);
 			request.setAttribute("startpage", startpage);
@@ -110,8 +162,24 @@ public class ListAction implements Action {
 			} else {
 				request.setAttribute("search_field", request.getParameter("search_field"));
 			}
+			////////////////////////////////////////////////////// 콘서트 초기화
 			
-			System.out.println("state=null");
+			request.setAttribute("concert_page", concert_page);
+			request.setAttribute("concert_maxpage", concert_maxpage);
+			request.setAttribute("concert_startpage", concert_startpage);
+			request.setAttribute("concert_endpage", concert_endpage);
+			request.setAttribute("concert_count", concert_count);
+			request.setAttribute("concert_list", concert_list);
+			request.setAttribute("concert_search_word", concert_search_word);
+			
+			if(request.getParameter("concert_search_field") == null) {
+				request.setAttribute("concert_search_field", 0);
+			} else {
+				request.setAttribute("concert_search_field", request.getParameter("concert_search_field"));
+			}
+			
+			
+			///////////////////////////////////////////////////// 게시판 초기화
 			request.setAttribute("page2", page2); //현재 페이지 수
 			request.setAttribute("maxpage2", maxpage2); //최대 페이지 수
 		
@@ -129,7 +197,7 @@ public class ListAction implements Action {
 			forward.setPath("admin/adminPage.jsp");
 			return forward;
 		
-		} else if(state == null && state2 != null){ // 회원 관리
+		} else if(state2 != null){ // 회원 관리 ajax
 			System.out.println("state2=ajax2");
 			JsonObject object = new JsonObject();
 			object.addProperty("page", page);
@@ -155,7 +223,7 @@ public class ListAction implements Action {
 			response.getWriter().append(json);
 			System.out.println(json);
 			return null;
-		} else {
+		} else if(state != null){	// 자유게시판 관리 ajax
 			System.out.println("state=ajax");
 			JsonObject object = new JsonObject();
 			object.addProperty("page2", page2);
@@ -178,6 +246,35 @@ public class ListAction implements Action {
 			response.setContentType("text/html;charset=UTF-8");
 			response.getWriter().append(json);
 			System.out.println(json);
+			return null;
+		} else if(concert_state != null) { // 콘서트 관리 ajax
+			System.out.println("concert_state=ajax");
+			JsonObject object = new JsonObject();
+			object.addProperty("concert_page", concert_page);
+			object.addProperty("concert_maxpage",concert_maxpage);
+			object.addProperty("concert_startpage", concert_startpage);
+			object.addProperty("concert_endpage", concert_endpage);
+			object.addProperty("concert_count",concert_count);
+			object.addProperty("concert_limit", concert_limit);
+			object.addProperty("concert_search_field", concert_search_field);
+			object.addProperty("concert_search_word", concert_search_word);
+			// List => JsonArray
+			JsonArray je = new Gson().toJsonTree(concert_list).getAsJsonArray();
+			
+			// List => JsonElement
+			// JsonElement je = new Gson().toJsonTree(boardlist);
+			System.out.println("je = " + je);
+			object.add("concert_list", je);
+			
+			Gson gson = new Gson();
+			String json = gson.toJson(object);
+			response.setHeader("cache-control", "no-cache,no-store");
+			response.setContentType("text/html;charset=UTF-8");
+			response.getWriter().append(json);
+			System.out.println(json);
+			return null;
+		} else {
+			System.out.println("채팅 관리 들어갈 곳");
 			return null;
 		}
 	}

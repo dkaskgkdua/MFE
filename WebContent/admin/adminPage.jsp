@@ -23,27 +23,27 @@
 	li .current {
 		background: #bfbebe !important;
 	}
-	.search_member {
+	.search_member, .search_concert {
 		margin-top : 5%;
 	}
 	.size {
 		width : 100%;
 		margin :0;
 	}
-	#viewcount {
+	#viewcount, #concert_search_field {
 		float : left;
 		width : 100px;
 		height : 40px;
 		font-size : 10pt;
 	}
-	#search_word {
+	#search_word, #concert_search_word {
 		float : left;
 		width : 40%;
 		height : 40px;
 		margin-left : 1%;
 		
 	}
-	#search_btn {
+	#search_btn, #concert_search_btn {
 		float : left;
 		width : 50px;
 		height : 40px;
@@ -86,9 +86,32 @@
 	.gray { 
 		background : gray;
 	}
-	#viewcount3 {
+	#viewcount3{
 		width : 80%;
 	}
+	.modalTable {
+		color : black;
+	}
+	.modal-body {
+		color : black !important;
+	}
+	label, #concert_add_form select {
+		color: black !important;
+	}
+	#concert_add_form input,  #concert_add_form select {
+		border-color : gray !important;
+		color : black  !important;
+	}
+	
+	#upfile{display:none}
+	img{width:20px;}
+	.remove {
+		display : none;
+	}
+	#upfile_Label {
+		display : inline;
+	}
+	
 </style>
  <script src="js/adminJS.js"></script>
 </head>
@@ -108,7 +131,7 @@
 								</c:if>
 								
 									<li><a  id = "boardTab" href="#" data-tab="tab-2">자유게시판 관리</a></li>
-									<li><a href="#" data-tab="tab-3">콘서트 관리</a></li>
+									<li><a  id = "concertTab" href="#" data-tab="tab-3">콘서트 관리</a></li>
 									<li><a href="#" data-tab="tab-4">고객센터(상담)</a></li>
 								</ul>
 								<div class="tabs">
@@ -124,7 +147,7 @@
 										</div>
 									<!-- Tab 3 -->
 										<div class="tab tab-3 flex flex-3">
-											
+											<jsp:include page ="./admin_concert.jsp"/>
 										</div>
 									<!-- Tab 4 -->
 										<div class="tab tab-4 flex flex-3">

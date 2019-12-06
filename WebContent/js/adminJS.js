@@ -11,7 +11,16 @@ function go2(page){
 	   var limit = $('#viewcount3').val();
 	   var data = "limit=" + limit + "&state2=ajax&page=" + page+"&search_field="+search_field+"&search_word="+search_word;
 	   ajax2(data);
-	}
+}
+function concert_go(concert_page){
+	   var concert_search_field = $('#concert_search_field').val();
+	   alert("concert_go : "+concert_search_field);
+	   var concert_search_word = $('#concert_search_word').val();
+	   var concert_limit = $('#concert_viewcount').val();
+	   var concert_data = "concert_limit=" + concert_limit + "&concert_state=ajax&concert_page=" + concert_page+"&concert_search_field="+concert_search_field+"&concert_search_word="+concert_search_word;
+	   concert_ajax(concert_data);
+}
+
 /* setPaging 공동 기능*/
 function setPaging(href, digit){
    output += "<li class=page-item>";
@@ -194,6 +203,82 @@ function ajax2(data) {
 	}); //ajax end
 } //function ajax end
 
+/* 콘서트 목록 필터링 ajax */
+function concert_ajax(concert_data) {
+	console.log(concert_data)
+	output="";
+	$.ajax({
+            type:"POST",
+            data: concert_data,
+            url : "adminPage.net",
+            dataType:"json",
+            cache:false,
+            success:function(data){
+            		//viewcount가 검색, viewcount3가 필터링
+                    $("#concert_viewcount").val(data.concert_limit);
+                    
+                    $('#concert_search_field').val(data.concert_search_field).prop("selected", true);
+                    alert(data.concert_search_field);
+                    $('#concert_search_word').val(data.concert_search_word);
+                    $(".t3").find("font").text(data.concert_count+"명");
+                    
+                    if(data.concert_count>0) { //총갯수가 1개 이상인 경우
+                    	$('.tb3').remove();
+                    	var num = data.concert_count - (data.concert_page-1) * data.concert_limit;
+                    	console.log(num)
+                    	output = "<tbody class = 'tb3'>";
+                    	$(data.concert_list).each(   
+                    			function(index, item) {
+                    				output += '<tr><td>' + (num--) + '</td>';
+                    				output += '<td><div><a><button type="button" class="btn concertDetail"'
+                    					  + ' data-toggle="modal" data-target="#concert_view_Modal">' + item.concert_id +'</button></a></div></td>';
+                    				output += "<td><div>" + item.concert_name +"</td></div>";
+                    				
+                    				output += '<td><a href="concert_delete.co?id=' + item.concert_id +'">삭제</a></td>';
+                    				
+                    			}
+                    	);
+                    	output += '</tbody>'
+                    	$('.t3').append(output) //table 완성
+                    	$(".pa3").empty();  //페이징 처리
+                    	output= "";
+                    	digit = '이전&nbsp;'
+                    	href="";
+                    	if(data.concert_page >1) {
+                    		href = 'href=javascript:concert_go(' + (data.concert_page - 1) + ')';
+                    	}
+                    	setPaging(href, digit);
+
+                    	for (var i = data.concert_startpage; i<= data.concert_endpage; i++) {
+                    				digit = i;
+                    				href= "";
+                    				if(i != data.concert_page){
+                    					href='href=javascript:concert_go('+i+')';
+                    				}
+                    				setPaging(href, digit);
+                    			}
+                    			digit = '다음&nbsp;';
+                    			href="";
+                    			if(data.concert_page < data.concert_maxpage){
+                    				href='href=javascript:concert_go('+(data.concert_page+1)+')';
+                    			}
+                    			setPaging(href, digit);
+
+                    			$('.pa3').append(output)
+                    } //if(data.listcount) end
+                    else {
+                    	$(".t3").remove();
+                    	$(".block3").remove();
+                    	$(".container3").append("<font size=5>등록된 글이 없습니다.</font>");
+                    }
+            }, //success end
+            error : function() {
+            	console.log('에러')
+            }
+	}); //ajax end
+} //function ajax end
+
+
 /* 파라미터 값 가져오는 것 */
 $.urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -214,14 +299,24 @@ $(function(){
 	if(tab != null) {
 		$('#boardTab').trigger('click');
 	}
+	var concert_tab = ($.urlParam('concert_page'));
+	var concert_search = ($.urlParam('concert_search_field'));
+	if(concert_tab != null || concert_search != null) {
+		$('#concertTab').trigger('click');
+	}
 	/* 게시판 */
    $("#viewcount2").change(function(){
       go(1); //보여줄 페이지를 1페이지로 설정한다.
    }) //change end
    /* 회원 */
-    $("#viewcount3").change(function(){
-      go2(1); //보여줄 페이지를 1페이지로 설정한다.
+   $("#viewcount3").change(function(){
+      go2(1); 
    }) //change end
+   $("#concert_viewcount").change(function(){
+      concert_go(1); 
+   }) //change end
+   
+   
    
    $('#addBoard_Button').click(function() {
 		location.href ="BoardWrite.bo";
@@ -236,6 +331,12 @@ $(function(){
 	
 	$('#search_btn').click(function() {
 		if($("#search_word").val() == '') {
+			alert("검색어를 입력하세요");
+			return false;
+		}
+	});
+	$('#concert_search_btn').click(function() {
+		if($("#concert_search_word").val() == '') {
 			alert("검색어를 입력하세요");
 			return false;
 		}

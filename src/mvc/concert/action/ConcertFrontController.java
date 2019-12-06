@@ -66,7 +66,23 @@ public class ConcertFrontController extends HttpServlet {
     		} catch(Exception e) {
     			e.printStackTrace();
     		}
+    	} else if(command.equals("/concert_delete.co")) {
+    		action = new ConcertDeleteAction();
+    		try {
+    			forward=action.execute(request, response);
+    		} catch(Exception e) {
+    			e.printStackTrace();
+    		}
+    	} else if(command.equals("/ConcertAddAction.co")) {
+    		action = new ConcertAddAction();
+    		try {
+    			forward=action.execute(request, response);
+    		} catch(Exception e) {
+    			e.printStackTrace();
+    		}
     	}
+    	
+    	
     	
     	if(forward !=null) {
     		if(forward.isRedirect()) { //리다이렉트 된다.

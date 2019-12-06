@@ -16,3 +16,5 @@ insert into GENRE values(GENRE_SEQ.NEXTVAL, '인디음악');
 insert into GENRE values(GENRE_SEQ.NEXTVAL, '록/메탈');
 insert into GENRE values(GENRE_SEQ.NEXTVAL, '트로트');
 insert into GENRE values(GENRE_SEQ.NEXTVAL, 'EDM');
+
+select * from genre;

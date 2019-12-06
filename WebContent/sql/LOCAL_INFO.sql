@@ -27,3 +27,4 @@ insert into LOCAL values(LOCAL_SEQ.NEXTVAL, '전북');
 insert into LOCAL values(LOCAL_SEQ.NEXTVAL, '충북');
 insert into LOCAL values(LOCAL_SEQ.NEXTVAL, '강원');
 insert into LOCAL values(LOCAL_SEQ.NEXTVAL, '세종');
+select * from local;
