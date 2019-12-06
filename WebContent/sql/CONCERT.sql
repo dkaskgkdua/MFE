@@ -1,5 +1,6 @@
 drop table concert;
 drop sequence concert_seq;
+
 CREATE TABLE CONCERT(
    CONCERT_ID      NUMBER(10),
    CONCERT_NAME   VARCHAR2(3000)   NOT NULL,
@@ -12,8 +13,8 @@ CREATE TABLE CONCERT(
    LOCAL_ID      NUMBER(5)   NOT NULL,
    CONCERT_PRICE   VARCHAR2(20)   NOT NULL,
    PRIMARY KEY(CONCERT_ID),
-   FOREIGN KEY(GENRE_ID) REFERENCES GENRE,
-   FOREIGN KEY(LOCAL_ID) REFERENCES LOCAL
+   FOREIGN KEY(GENRE_ID) REFERENCES GENRE on delete cascade,
+   FOREIGN KEY(LOCAL_ID) REFERENCES LOCAL on delete cascade
 );
 create sequence concert_seq increment by 1 start with 1;
 

@@ -29,18 +29,18 @@ $.ajax({
 
 if(data.listcount>0) { //총갯수가 1개 이상인 경우
 $("tbody").remove();
-var num = 1;
+var num = data.listcount - (data.page -1) * data.limit;
 console.log(num)
 output = "<tbody>";
 $(data.booklist).each(   
 function(index, item) {
-output += '<tr><td>' + item.concert_id + '</td>'
+output += '<tr><td>' + (num--) + '</td>'
 output += '<td><div>' + item.book_date + '</div></td>'
 output += '<td><div>' + '<a href="./ConcertDetailAction.co?num=' + item.book_id + '&page=' + data.page + '">' + item.concert_name + '</a></div></td>'
 output += '<td><div>' + item.concert_day  + '</div></td>'
 output += '<td><div>' + item.book_amount + '</div></td>'
 output += '<td><div>' + item.book_eticket  + '</div></td>'
-output += '<td><div>' + '<a href="#"><button class="btn btn-danger" data-toggle="modal" data-target="#myModal">삭제</a>'  + '</div></td></tr>'
+output += '<td><div>' + '<a href="BookDeleteAction.bk?num='+num+'"'+ 'class="book-cancel">예매취소</a>'  + '</div></td></tr>'
 })
 output += '</tbody>'
    

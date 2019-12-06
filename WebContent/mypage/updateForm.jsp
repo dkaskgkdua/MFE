@@ -71,8 +71,23 @@ $(function() {
 		<label for="upfemale">여</label>
 		
 		<br>
+		<br>
 		<button type="submit">수정</button>
 		<button class = "cancelbtn" type="reset">취소</button>
+		<c:if test="${id != 'admin@mfe.com'}">
+			<a href="my_delete.net?id=${id}" class="deletebtn" style="float:right">회원탈퇴</a>
+		</c:if>
 	  </fieldset>
 	 </form>
-	</div>
+	</div>					
+				
+	<script>
+		$(function() {
+			$(".deletebtn").click(function(event) {
+				var answer = confirm("정말 탈퇴하시겠습니까?");
+				if(!answer) {
+					event.preventDefault();
+				}
+			});
+		})
+	</script>

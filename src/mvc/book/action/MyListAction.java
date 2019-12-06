@@ -73,13 +73,11 @@ public class MyListAction implements Action {
 			ChatDAO chatdao = new ChatDAO();
 			List<ChatBean> chatlist = new ArrayList<ChatBean>();
 		
-			int chatlistcount = chatdao.getListCount(id);
 			
-			chatlist = chatdao.getChatList(id);
+			
+			
 		
-			request.setAttribute("chatlistcount",chatlistcount); //총 글의 수
 			
-			request.setAttribute("chatlist", chatlist);
 			
 		//------------------------
 		
@@ -111,51 +109,96 @@ public class MyListAction implements Action {
 			
 			if(endpage > maxpage) endpage = maxpage;
 			
+			//chat
+			int page2=1;
+			int limit2=5;
+			
+			if(request.getParameter("page2")!=null) {
+				page2=Integer.parseInt(request.getParameter("page2"));
+			}
+			System.out.println("넘어온 페이지2 = " + page2);
+			
+			if(request.getParameter("limit2") != null) {
+				limit2 = Integer.parseInt(request.getParameter("limit2 "));
+			}
+			System.out.println("넘어온 limit2 = " + limit2);
+			
+			int chatlistcount = chatdao.getListCount(id);
+			
+			chatlist = chatdao.getChatList(page2, limit2, id);
+			
+			int maxpage2 = (chatlistcount+limit2-1)/limit2;
+			System.out.println("총 페이지 수 = "+maxpage2); 
+			
+			int startpage2 = ((page2-1) / 5) * 5 +1;
+			System.out.println("현재 페이지에 보여줄 시작 페이지2 수 = " + startpage2);
+			
+			int endpage2 = startpage2 + 5 -1;
+			System.out.println("현재 페이지에 보여줄 마지막 페이지 수2 = " + endpage2);
+			
+			if(endpage2 > maxpage2) endpage2 = maxpage2;
+	
 			String state = request.getParameter("state");
 			
 			if(state == null) {
 				System.out.println("state=null");
-				request.setAttribute("page", page); 
+				request.setAttribute("page", page);
 				request.setAttribute("maxpage", maxpage); 
-				
 				request.setAttribute("startpage", startpage);
-			
 				request.setAttribute("endpage", endpage);
-
+				request.setAttribute("limit", limit);
+				
 				request.setAttribute("listcount", listcount); 
 				
 				request.setAttribute("booklist", booklist);
-				request.setAttribute("limit", limit);
+			
+				request.setAttribute("page2", page2);
+				request.setAttribute("maxpage2", maxpage2);
+				request.setAttribute("startpage2", startpage2);
+				request.setAttribute("endpage2", endpage2);
+				request.setAttribute("limit", limit2);
 				
+				request.setAttribute("chatlistcount",chatlistcount); //총 글의 수
+				
+				request.setAttribute("chatlist", chatlist);
+				
+
+				System.out.println("state2=null");
 				forward = new ActionForward();
 				forward.setRedirect(false);
 				
 				forward.setPath("mypage/mypage.jsp");
 			 	return forward; 
+			 	
 			} else {
-				System.out.println("state=ajax");
-				JsonObject object = new JsonObject();
-				object.addProperty("page", page);
-				object.addProperty("maxpage",maxpage);
-				object.addProperty("startpage", startpage);
-				object.addProperty("endpage", endpage);
-				object.addProperty("listcount",listcount);
-				object.addProperty("limit", limit);
-				
-				JsonArray je = new Gson().toJsonTree(booklist).getAsJsonArray();
-				
-				System.out.println("je = " + je);
-				object.add("booklist", je);
-				
-				Gson gson = new Gson();
-				String json = gson.toJson(object);
-				
-				response.setContentType("text/html;charset=UTF-8");
-				response.getWriter().append(json);
-				System.out.println(json);
-				return null;
+					System.out.println("state=ajax");
+					JsonObject object = new JsonObject();
+					object.addProperty("page", page);
+					object.addProperty("maxpage",maxpage);
+					object.addProperty("startpage", startpage);
+					object.addProperty("endpage", endpage);
+					object.addProperty("listcount",listcount);
+					object.addProperty("limit", limit);
+					
+					
+					JsonArray je = new Gson().toJsonTree(booklist).getAsJsonArray();
+					
+					
+					System.out.println("je = " + je);
+					object.add("booklist", je);
+					
+					
+					Gson gson = new Gson();
+					String json = gson.toJson(object);
+					
+					
+					
+					response.setContentType("text/html;charset=UTF-8");
+					response.getWriter().append(json);
+					System.out.println(json);
+					
+					return null;
 			}
-
 		
 	}
 

@@ -68,23 +68,34 @@ public class ChatDAO {
 		return x;
 	}
 
-	public List<ChatBean> getChatList(String id) {
+	public List<ChatBean> getChatList(int page, int limit, String id) {
 
-		String sql = "select * from chat where chat.member_id=?";
+		String sql = "select * "
+				+   "from (select rownum rnum, b.* "
+				+          "from (select * from chat where chat.member_id=?) b "
+				+        ")"
+				+   " where rnum >= ? and rnum <= ?";
+		
 		List<ChatBean> list = new ArrayList<ChatBean>();
+		
+		int startrow = (page-1) * limit +1;
+		int endrow = startrow + limit -1;
 		
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, endrow);
+			
 			rs = pstmt.executeQuery();
 			// DB에서 가져온 데이터를 VO객체에 담습니다.
 			while(rs.next()) {
 				ChatBean chat = new ChatBean();
-				chat.setChat_log_id(rs.getString(1));
-				chat.setChat_log_answer(rs.getString(3));
-				chat.setChat_log_content(rs.getString(4));
-				chat.setChat_log_date(rs.getDate(5));
+				chat.setChat_log_id(rs.getString("CHAT_LOG_ID"));
+				chat.setChat_log_answer(rs.getString("CHAT_LOG_ANSWER"));
+				chat.setChat_log_content(rs.getString("CHAT_LOG_CONTENT"));
+				chat.setChat_log_date(rs.getDate("CHAT_LOG_DATE"));
 				list.add(chat);
 				
 			}
