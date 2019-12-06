@@ -245,9 +245,6 @@
 								<a href="mypage.bk">My page</a>
 							</div>
 							<div class="accountDiv">
-								<a href="member_update.net">정보 수정</a>
-							</div>
-							<div class="accountDiv">
 								<a href="logOut.net">Logout</a>
 							</div>
 						</fieldset>

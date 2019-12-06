@@ -7,24 +7,107 @@
 <meta charset="UTF-8">
 <jsp:include page ="../mainActivity/navbar.jsp"/>
 <title>마이 페이지</title>
-
+<style>
+	.style2 {
+		padding-top : 5%;
+	}
+	.container { 
+		width : 100% !important;
+		margin :0 !important;
+		padding : 0 !important;
+	}
+	.center-block {
+		display : flex;
+		justify-content:center; /* 가운데 정렬 */
+	}
+	li .current {
+		background: #bfbebe !important;
+	}
+	.search_member {
+		margin-top : 5%;
+	}
+	.size {
+		width : 100%;
+		margin :0;
+	}
+	#viewcount {
+		float : left;
+		width : 100px;
+		height : 40px;
+		font-size : 10pt;
+	}
+	#search_word {
+		float : left;
+		width : 40%;
+		height : 40px;
+		margin-left : 1%;
+		
+	}
+	#search_btn {
+		float : left;
+		width : 50px;
+		height : 40px;
+		margin-left : 1%;
+		
+	}
+	table caption{
+		caption-side:top;
+		text-align:center;  
+		font-size : 30pt;
+		font-weight:bold;
+		color : white;
+	}
+	td, th {
+		text-align: center !important; 
+		line-height : 3em !important;
+	}
+	.huWidth {
+		width : 100% !important;
+	}
+	.memberDetail:hover {
+		background-color : transparent !important;
+		color : #5426f3 !important;
+	}
+	.rows {
+		margin-top : 2%;
+		width : 24%;
+		float : right;
+		margin-bottom : 2%;
+	}
+	#viewcount {
+		display : inline;
+		width : 70px;
+		height : 28px;
+	}
+	.sp {
+		width : 70px;
+	
+	}
+	.gray { 
+		background : gray;
+	}
+	#viewcount3 {
+		width : 80%;
+	}
+</style>
+ <script src="js/mypage.js"></script>
 </head>
 <body>
 <div id="main">
 <section class="wrapper style2">
 					<div class="inner">
 						<header>
-							<h2>My Page</h2>
+							<h2>마이페이지</h2>
 						</header>
 						<!-- Tabbed Video Section -->
 							<div class="flex flex-tabs">
 								<ul class="tab-list">
-									<li><a href="#" data-tab="tab-1" class="active">My Tickets</a></li>
-									<li><a href="#" data-tab="tab-2">My Favorites</a></li>
-									<li><a href="#" data-tab="tab-3">My Info</a></li>
-									<li><a href="#" data-tab="tab-4">My Chat List</a></li>
-									
-									
+									<c:if test="${page != null}"> 
+									<li><a href="#" data-tab="tab-1" class="active">예매내역</a></li>
+								</c:if>
+									<li><a  href="#" data-tab="tab-2">찜목록</a></li>
+									<li><a href="#" data-tab="tab-3">정보수정</a></li>
+									<li><a id = "chatTab" href="#" data-tab="tab-4">상담내역</a></li>
 
 								</ul>
 								<div class="tabs">

@@ -71,7 +71,7 @@ public class BookDAO {
 		String sql = "select * from (select rownum rnum, b.* "
 				+ "from (select * from book inner join concert "
 				+ "on concert.concert_id=book.concert_id "
-				+ "where book.member_id=? order by book.book_id desc) b ) "
+				+ "where book.member_id=? order by book.book_date desc) b ) "
 				+ "where rnum >= ? and rnum <= ?";
 		List<BookBean> list = new ArrayList<BookBean>();
 		
@@ -164,21 +164,20 @@ public class BookDAO {
 		return false;
 	}
 
-	public boolean bookDelete(int num) {
-		String sql = "delete * from book where BOOK_ID = ?";
-	   	        
-	      try {
-	         con = ds.getConnection();
-	         pstmt = con.prepareStatement(sql);
-	         pstmt.setInt(1,  num);
-            int result = pstmt.executeUpdate();
-            System.out.println(result + "개 삭제되었습니다.");
-            if(result>=1)
-               return true;  
-         } catch (Exception e) {
-            System.out.println("boardDelete() 에러 : "+ e);
-            e.printStackTrace();
-         } finally {
+	public int bookdelete(String id, int book_id) {
+		result = 0;
+		try {
+			con=ds.getConnection();
+			System.out.println("getConnection");
+
+			pstmt = con.prepareStatement("delete from book where member_id=? and book_id=?");
+			pstmt.setString(1,  id);
+			pstmt.setInt(2,  book_id);
+			result = pstmt.executeUpdate();
+		} catch(SQLException e) {
+			System.out.println("bookdelete오류");
+			e.printStackTrace();
+		} finally {
 	         if(pstmt != null) {
 		            try {
 		               pstmt.close();
@@ -194,6 +193,6 @@ public class BookDAO {
 		            }
 		     }
 		}       
-	      return false; 
+	      return result; 
 	}
 }
