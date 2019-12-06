@@ -560,6 +560,12 @@ input[type="button"].local, input[type="button"].genre, #all_local,
 			if ($("#all_genre").css('opacity') == 1)
 				search_genre = $("#all_genre").val() + ",";
 
+			if(search_local == null || search_local == ""){
+				search_local = "전국,";
+			}
+			if(search_genre == null || search_genre == ""){
+				search_genre = "모든 장르,";
+			}
 			$("#search_local").val(search_local); // text에 넣음
 			$("#search_genre").val(search_genre);
 		});

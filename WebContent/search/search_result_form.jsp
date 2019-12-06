@@ -7,6 +7,13 @@
 <meta charset="utf-8">
 <title>Search Result</title>
 <style>
+#search_word{
+	font-size: 50px;
+	padding: 10px;
+	margin-top: 50px;
+	text-align : center;
+}
+
 .box {
 	width: 42%;
 	text-align: center;
@@ -27,10 +34,8 @@
 	<!-- 검색 결과 -->
 	<c:if test="${!empty list }">
 		<!-- Div -->
-		<div>
-			<header style="font-size: 30px; padding: 10px">
+		<div id = "search_word">
 				<strong>${search_word }</strong>의 검색 결과입니다
-			</header>
 		</div>
 
 		<c:forEach var="list" items="${list}">
@@ -65,8 +70,9 @@
 		</c:forEach>
 	</c:if>
 
-	<c:if test="${empty flist }">
-		<div style="margin: 100px; text-align: center; font-size : 50px">검색 결과가 없습니다.</div>
+	<c:if test="${empty list }">
+		<div style="margin: 100px; text-align: center; font-size: 50px">검색
+			결과가 없습니다.</div>
 	</c:if>
 
 </body>

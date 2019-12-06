@@ -25,6 +25,10 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
 	vertical-align: baseline;
 }
 
+#searchForm {
+	display: inline !important;
+}
+
 article, aside, details, figcaption, figure, footer, header, hgroup,
 	menu, nav, section {
 	display: block;
@@ -1482,25 +1486,37 @@ input, select, textarea {
 a
 
 
+
+
 :not
 
+
  
+
 
 (
 .global
 
+
  
+
 
 )
 {
 color
 
 
+
+
 :
+
 
  
 
+
 #c1c7cd
+
+
 
 
 ;
@@ -1927,25 +1943,37 @@ input[type="radio"]+label:before {
 label
 
 
+
+
 :not
 
+
  
+
 
 (
 .modalBlack
 
+
  
+
 
 )
 {
 color
 
 
+
+
 :
+
 
  
 
+
 #ffffff
+
+
 
 
 ;
@@ -3109,6 +3137,8 @@ body.subpage {
 ul
 
 
+
+
 .links
 >
 li
@@ -3116,42 +3146,62 @@ li
 a
 
 
+
+
 :not
 
+
  
+
 
 (
 .button
 
+
  
+
 
 )
 {
 border
 
 
+
+
 :
 
+
  
+
 
 0;
 border-top
 
 
+
+
 :
 
+
  
+
 
 solid
 
+
  
+
 
 1
 px
 
+
  
 
+
 rgba
+
+
 
 
 (255
@@ -3162,49 +3212,75 @@ rgba
 .15
 
 
+
+
 );
 color
 
 
+
+
 :
+
 
  
 
+
 inherit
+
+
 
 
 ;
 display
 
 
+
+
 :
+
 
  
 
+
 block
+
+
 
 
 ;
 line-height
 
 
+
+
 :
+
 
  
 
+
 3
 .5em
+
+
 
 
 ;
 text-decoration
 
 
+
+
 :
+
 
  
 
+
 none
+
+
 
 
 ;
@@ -3219,9 +3295,13 @@ none
 ul
 
 
+
+
 .links
 >
 li
+
+
 
 
 :first-child
@@ -3229,27 +3309,39 @@ li
 a
 
 
+
+
 :not
 
+
  
+
 
 (
 .button
 
+
  
+
 
 )
 {
 border-top
 
 
+
+
 :
 
+
  
+
 
 0
 !
 important
+
+
 
 
 ;

@@ -57,9 +57,12 @@ public class ConcertDAO {
 			con = ds.getConnection();
 			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
 					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
-					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " + "from CONCERT C "
-					+ "inner join GENRE G " + "on C.GENRE_ID = G.GENRE_ID " + "inner join LOCAL L "
-					+ "on C.LOCAL_ID = L.LOCAL_ID " + "where C.CONCERT_NAME like ? " + "or C.CONCERT_MUSICIAN like ? "
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
+					+ "from CONCERT C "
+					+ "inner join GENRE G " + "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join LOCAL L "
+					+ "on C.LOCAL_ID = L.LOCAL_ID " + "where C.CONCERT_NAME like ? " 
+					+ "or C.CONCERT_MUSICIAN like ? "
 					+ "order by C.CONCERT_DAY";
 
 			pstmt = con.prepareStatement(sql);
@@ -99,9 +102,13 @@ public class ConcertDAO {
 			con = ds.getConnection();
 			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
 					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
-					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " + "from CONCERT C "
-					+ "inner join GENRE G " + "on C.GENRE_ID = G.GENRE_ID " + "inner join LOCAL L "
-					+ "on C.LOCAL_ID = L.LOCAL_ID " + "where CONCERT_DAY = ?";
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
+					+ "from CONCERT C "
+					+ "inner join GENRE G " 
+					+ "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join LOCAL L "
+					+ "on C.LOCAL_ID = L.LOCAL_ID " 
+					+ "where CONCERT_DAY = ?";
 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setDate(1, (java.sql.Date) search_date);
@@ -141,9 +148,13 @@ public class ConcertDAO {
 			con = ds.getConnection();
 			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
 					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
-					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " + "from CONCERT C "
-					+ "inner join GENRE G " + "on C.GENRE_ID = G.GENRE_ID " + "inner join LOCAL L "
-					+ "on C.LOCAL_ID = L.LOCAL_ID " + "where L.LOCAL_NAME = ";
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
+					+ "from CONCERT C "
+					+ "inner join GENRE G " 
+					+ "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join LOCAL L "
+					+ "on C.LOCAL_ID = L.LOCAL_ID " 
+					+ "where L.LOCAL_NAME = ";
 
 			for (int i = 0; i < search_local.length; i++) {
 				if (i == search_local.length - 1)
@@ -192,9 +203,13 @@ public class ConcertDAO {
 			con = ds.getConnection();
 			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
 					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
-					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE  " + "from CONCERT C "
-					+ "inner join GENRE G " + "on C.GENRE_ID = G.GENRE_ID " + "inner join LOCAL L "
-					+ "on C.LOCAL_ID = L.LOCAL_ID " + "where G.GENRE_NAME = ";
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE  " 
+					+ "from CONCERT C "
+					+ "inner join GENRE G " 
+					+ "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join LOCAL L "
+					+ "on C.LOCAL_ID = L.LOCAL_ID " 
+					+ "where G.GENRE_NAME = ";
 
 			for (int i = 0; i < search_genre.length; i++) {
 				if (i == search_genre.length - 1)
@@ -244,9 +259,13 @@ public class ConcertDAO {
 
 			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
 					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
-					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " + "from CONCERT C "
-					+ "inner join GENRE G " + "on C.GENRE_ID = G.GENRE_ID " + "inner join LOCAL L "
-					+ "on C.LOCAL_ID = L.LOCAL_ID " + "where C.CONCERT_ID = ";
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
+					+ "from CONCERT C "
+					+ "inner join GENRE G " 
+					+ "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join LOCAL L "
+					+ "on C.LOCAL_ID = L.LOCAL_ID " 
+					+ "where C.CONCERT_ID = ";
 
 			for (int i = 0; i < list.size(); i++) {
 				if (i == list.size() - 1)
@@ -293,9 +312,13 @@ public class ConcertDAO {
 			con = ds.getConnection();
 			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
 					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
-					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " + "from CONCERT C "
-					+ "inner join GENRE G " + "on C.GENRE_ID = G.GENRE_ID " + "inner join LOCAL L "
-					+ "on C.LOCAL_ID = L.LOCAL_ID " + "where L.LOCAL_NAME = ";
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
+					+ "from CONCERT C "
+					+ "inner join GENRE G " 
+					+ "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join LOCAL L "
+					+ "on C.LOCAL_ID = L.LOCAL_ID " 
+					+ "where L.LOCAL_NAME = ";
 
 			for (int i = 0; i < search_local.length; i++) {
 				if (i == search_local.length - 1)
@@ -311,7 +334,7 @@ public class ConcertDAO {
 				else
 					sql += " ? or G.GENRE_NAME = ";
 			}
-			sql += "order by C.CONCERT_DAY";
+			sql += "order by L.LOCAL_ID, G.GENRE_ID";
 
 			pstmt = con.prepareStatement(sql);
 			for (int i = 0; i < search_local.length; i++) {
@@ -354,9 +377,13 @@ public class ConcertDAO {
 			con = ds.getConnection();
 			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
 					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
-					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " + "from CONCERT C "
-					+ "inner join GENRE G " + "on C.GENRE_ID = G.GENRE_ID " + "inner join LOCAL L "
-					+ "on C.LOCAL_ID = L.LOCAL_ID " + "where CONCERT_DAY = ? and G.GENRE_NAME = ";
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
+					+ "from CONCERT C "
+					+ "inner join GENRE G " 
+					+ "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join LOCAL L "
+					+ "on C.LOCAL_ID = L.LOCAL_ID " 
+					+ "where CONCERT_DAY = ? and G.GENRE_NAME = ";
 
 			for (int i = 0; i < search_genre.length; i++) {
 				if (i == search_genre.length - 1)
@@ -364,7 +391,7 @@ public class ConcertDAO {
 				else
 					sql += " ? or G.GENRE_NAME = ";
 			}
-			sql += "order by C.CONCERT_DAY";
+			sql += "order by C.CONCERT_DAY, G.GENRE_ID";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setDate(1, search_date);
 			for (int i = 0; i < search_genre.length; i++) {
@@ -403,9 +430,13 @@ public class ConcertDAO {
 			con = ds.getConnection();
 			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
 					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
-					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " + "from CONCERT C "
-					+ "inner join GENRE G " + "on C.GENRE_ID = G.GENRE_ID " + "inner join LOCAL L "
-					+ "on C.LOCAL_ID = L.LOCAL_ID " + "where CONCERT_DAY = ? and G.GENRE_NAME = ";
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
+					+ "from CONCERT C "
+					+ "inner join GENRE G " 
+					+ "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join LOCAL L "
+					+ "on C.LOCAL_ID = L.LOCAL_ID " 
+					+ "where CONCERT_DAY = ? and G.GENRE_NAME = ";
 
 			for (int i = 0; i < search_local.length; i++) {
 				if (i == search_local.length - 1)
@@ -413,7 +444,7 @@ public class ConcertDAO {
 				else
 					sql += " ? or G.GENRE_NAME = ";
 			}
-			sql += "order by C.CONCERT_DAY";
+			sql += "order by C.CONCERT_DAY, G.GENRE_ID";
 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setDate(1, search_date);
@@ -454,11 +485,13 @@ public class ConcertDAO {
 			con = ds.getConnection();
 			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
 					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
-					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " + "from CONCERT C "
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
+					+ "from CONCERT C "
 					+ "inner join GENRE G " 
 					+ "on C.GENRE_ID = G.GENRE_ID " 
 					+ "inner join LOCAL L "
-					+ "on C.LOCAL_ID = L.LOCAL_ID ";
+					+ "on C.LOCAL_ID = L.LOCAL_ID "
+					+ "order by C.CONCERT_DAY";
 
 			pstmt = con.prepareStatement(sql);
 
