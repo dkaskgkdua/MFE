@@ -65,7 +65,7 @@
 			</c:choose>
 		</c:if>
 		<c:if test="${empty id}">
-			<button type="button" class="btn btn-secondary" data-toggle="modal"
+			<button id = "nav_login_button" type="button" class="btn btn-secondary" data-toggle="modal"
 				data-target="#login_Modal">
 				<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 			</button>

@@ -47,9 +47,17 @@ public class FrontController extends HttpServlet {
     	ActionForward forward = null;
     	Action action=null;
     	if(command.equals("/main.net")) {
+    		action = new MainViewAction();
+    		try {
+    			forward=action.execute(request, response);
+    		} catch(Exception e) {
+    			e.printStackTrace();
+    		}
+    		/*
     		forward=new ActionForward();
     		forward.setRedirect(false);//주소 변경없이 jsp페이지의 내용을 보여줌
     		forward.setPath("mainActivity/main.jsp");
+    		*/
     	} else if(command.equals("/idcheck.net")) {
     		action = new IdCheckAction();
     		try {

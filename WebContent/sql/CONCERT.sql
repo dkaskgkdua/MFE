@@ -5,15 +5,15 @@ CREATE TABLE CONCERT(
 	CONCERT_NAME	VARCHAR2(30)	NOT NULL,
 	CONCERT_DAY		date NOT NULL,
 	CONCERT_MUSICIAN	VARCHAR2(20)	NOT NULL,
-	CONCERT_OPEN	VARCHAR2(20)	NOT NULL,
-	CONCERT_CLOSE	VARCHAR2(20)	NOT NULL,
-	CONCERT_IMAGE	VARCHAR2(20),
+	CONCERT_OPEN	VARCHAR2(5)	NOT NULL,
+	CONCERT_CLOSE	VARCHAR2(5)	NOT NULL,
+	CONCERT_IMAGE	VARCHAR2(30),
 	GENRE_ID		NUMBER(5)	NOT NULL,
 	LOCAL_ID		NUMBER(5)	NOT NULL,
 	CONCERT_PRICE	VARCHAR2(20)	NOT NULL,
 	PRIMARY KEY(CONCERT_ID),
-	FOREIGN KEY(GENRE_ID) REFERENCES GENRE,
-	FOREIGN KEY(LOCAL_ID) REFERENCES LOCAL
+	FOREIGN KEY(GENRE_ID) REFERENCES GENRE on delete cascade,
+	FOREIGN KEY(LOCAL_ID) REFERENCES LOCAL on delete cascade
 );
 create sequence concert_seq increment by 1 start with 1;
 
@@ -23,4 +23,7 @@ delete * from concert;
 INSERT INTO CONCERT VALUES(concert_seq.nextval, '악동뮤지션 콘서트', SYSDATE, '악동뮤지션', '19', '23','악동뮤지션.jpg', 1, 1, '80000');
 INSERT INTO CONCERT VALUES(concert_seq.nextval, '악동뮤지션 콘서트2', SYSDATE, '악동뮤지션', '19', '23','악동뮤지션.jpg', 1, 1, '80000');
 select concert_id, concert_name, concert_day, concert_musician, concert_open, concert_close, concert_image, genre_name, local_name, concert_price from concert inner join GENRE using(genre_id) inner join LOCAL using(local_id);
+select * from concert order by concert_day desc;
 
+select * from concert inner join genre using(genre_id) where genre_name = 'balad';
+select * from concert inner join genre using(genre_id) where  genre_name = 'rap'  or genre_name = 'balad'  order by concert_day desc
