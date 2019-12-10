@@ -93,6 +93,9 @@
  <script src="js/adminJS.js"></script>
 </head>
 <body>
+<script>
+
+</script>
 <div id="main">
 <section class="wrapper style2">
 					<div class="inner">
@@ -128,7 +131,7 @@
 										</div>
 									<!-- Tab 4 -->
 										<div class="tab tab-4 flex flex-3">
-											
+										  						<jsp:include page ="./customer_service.jsp"/>					
 										</div>
 
 								</div>

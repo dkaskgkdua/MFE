@@ -106,7 +106,8 @@ public class FrontController extends HttpServlet {
     		} catch(Exception e) {
     			e.printStackTrace();
     		}
-    	}  else if(command.equals("/member_delete.net")) {
+    		
+    	}     else if(command.equals("/member_delete.net")) {
     		action = new Member_deleteAction();
     		try {
     			forward= action.execute(request,  response);

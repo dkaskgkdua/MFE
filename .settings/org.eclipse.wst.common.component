@@ -2,7 +2,7 @@
     <wb-module deploy-name="te">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="te"/>
         <property name="java-output-path" value="/te/build/classes"/>
+        <property name="context-root" value="te"/>
     </wb-module>
 </project-modules>

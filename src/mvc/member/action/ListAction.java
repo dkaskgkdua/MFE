@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import WebSocket.websocketVO2;
 import mvc.board.db.BoardBean;
 import mvc.board.db.BoardDAO;
 import mvc.member.db.Member;
@@ -22,6 +23,7 @@ public class ListAction implements Action {
 		ActionForward forward = new ActionForward();
 		MemberDAO mdao = new MemberDAO();
 		List<Member> list = new ArrayList<Member>();
+
 		//////////////////////////////////////////////////  board 구간
 		BoardDAO boarddao = new BoardDAO();
 		List<BoardBean> boardlist = new ArrayList<BoardBean>();
@@ -40,6 +42,13 @@ public class ListAction implements Action {
 		
 		//총 리스트 수를 받아온다.
 		int listcount2 = boarddao.getListCount();
+		
+		
+		/////////////////////////////////////////////////////////
+		int listcount3 = mdao.getServiceCount();  //상담 요청 고객수를 카운트하기 위해
+		List<websocketVO2> volist = mdao.ServiceList(page2,limit2);  //상담 요청  고객을 띄우기 위해
+		////////////////////////////////////////////////////////////////////////////////
+		
 		
 		//리스트를 받아온다.
 		boardlist = boarddao.getBoardList(page2, limit2);
@@ -120,7 +129,18 @@ public class ListAction implements Action {
 			//현재 페이지에 표시할 끝 페이지 수
 			request.setAttribute("endpage2", endpage2);
 
+			
 			request.setAttribute("listcount2", listcount2); //총 글의 수
+			
+			
+			
+			//////////////////////////////////////////////////////////////////
+			request.setAttribute("listcount3", listcount3); //상담 요청한 고객 수 카운트
+			request.setAttribute("ServiceList", volist);    //상담 요청한 고객
+			////////////////////////////////////////////////////////////////////
+			
+			
+			
 		
 			//해당 페이지의 글 목록을 갖고 있는 리스트
 			request.setAttribute("boardlist", boardlist);
