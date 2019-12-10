@@ -14,6 +14,8 @@ import javax.sql.DataSource;
 
 import com.google.gson.JsonObject;
 
+import WebSocket.websocketVO2;
+
 public class MemberDAO {
 	private DataSource ds; 
 	private Connection con;
@@ -344,4 +346,99 @@ public class MemberDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
+	
+	
+	//상담을 요청한 고객들을 보여주는 ..
+	
+	public List<websocketVO2> ServiceList() {
+	      List<websocketVO2> list = new ArrayList<websocketVO2>();
+	      try {
+	    	  con = ds.getConnection();
+	    	  
+	    	  String sql = "select * from sessId where id != 'admin'";
+	    	  pstmt = con.prepareStatement(sql);
+	    	  rs = pstmt.executeQuery();
+	    	  
+	    	  while(rs.next()) {
+	    		  websocketVO2 vo = new websocketVO2();
+	    		  vo.setId(rs.getString("id"));
+	    		 
+	    		 
+	    		  list.add(vo);   //시험 출제 가능 (ex: add 가 없이 나옴)
+	    	  }
+	      }catch (SQLException e) {
+	    	  e.printStackTrace();
+	      } finally {
+	    	  close();
+	      }
+			return list;
+		} //getList() end
+		
+		
+		public List<websocketVO2> ServiceList(int page, int limit){
+			
+			String member_list_sql = "select * "
+					+ "               from   (select b.*, rownum rnum "
+					+ "                       from (select * from sessId where id != 'admin' order by id) b"
+					+ "                      ) "
+					               + "where rnum>=? and rnum<=?";
+		
+			List<websocketVO2> list = new ArrayList<websocketVO2>();
+			
+			int startrow = (page-1) * limit +1;
+	        //읽기 시작할 row번호 (1 11 21 31 ...)
+	         int endrow = startrow + limit -1;
+	        //읽을 마지막 row 번호 (10 20 30 40 ....)
+	         try {
+		         con = ds.getConnection();
+		         pstmt = con.prepareStatement(member_list_sql);
+		         pstmt.setInt(1, startrow);
+		         pstmt.setInt(2, endrow);
+		         rs = pstmt.executeQuery();
+		         
+		         //DB에서 가져온 데이터를 VO 객체에 담는다.
+		         while (rs.next()) {
+		        	 websocketVO2 vo = new websocketVO2();
+		        	 vo.setId(rs.getString("id"));
+
+
+		    		  list.add(vo);   //시험 출제 가능 (ex: add 가 없이 나옴)
+			           
+			         }
+			         
+			         return list;
+			      } catch(Exception ex) {
+			         System.out.println("에러 : " + ex);
+			         ex.printStackTrace();
+			      } finally {
+			         close();
+			      }
+			      return null;
+			   }
+
+		
+
+
+		
+		
+	   public int getServiceCount() {
+		   int x = 0;
+		   try {
+			   con = ds.getConnection();
+			   pstmt = con.prepareStatement("select count(*) from sessId where id != 'admin'");
+			   rs = pstmt.executeQuery();
+			   if(rs.next()) {
+				   x = rs.getInt(1);
+			   }
+		   } catch (Exception e) {
+			   e.printStackTrace();
+			   System.out.println("에러 : " + e);
+		   } finally {
+	           close();
+			   }
+		   return x;
+	   }
 }
