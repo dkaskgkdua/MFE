@@ -59,10 +59,13 @@ public class ConcertDAO {
 					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
 					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
 					+ "from CONCERT C "
-					+ "inner join GENRE G " + "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join GENRE G " 
+					+ "on C.GENRE_ID = G.GENRE_ID " 
 					+ "inner join LOCAL L "
-					+ "on C.LOCAL_ID = L.LOCAL_ID " + "where C.CONCERT_NAME like ? " 
+					+ "on C.LOCAL_ID = L.LOCAL_ID " 
+					+ "where C.CONCERT_NAME like ? " 
 					+ "or C.CONCERT_MUSICIAN like ? "
+					+ "and C.CONCERT_DAY >= sysdate "
 					+ "order by C.CONCERT_DAY";
 
 			pstmt = con.prepareStatement(sql);
@@ -265,7 +268,8 @@ public class ConcertDAO {
 					+ "on C.GENRE_ID = G.GENRE_ID " 
 					+ "inner join LOCAL L "
 					+ "on C.LOCAL_ID = L.LOCAL_ID " 
-					+ "where C.CONCERT_ID = ";
+					+ "where C.CONCERT_DAY >= sysdate " 
+					+ "and C.CONCERT_ID = ";
 
 			for (int i = 0; i < list.size(); i++) {
 				if (i == list.size() - 1)
@@ -279,7 +283,7 @@ public class ConcertDAO {
 			for (int i = 0; i < list.size(); i++) {
 				pstmt.setInt(i + 1, list.get(i));
 			}
-
+			
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
 				ConcertBean c = new ConcertBean();

@@ -7,6 +7,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page ="../mainActivity/navbar.jsp"/>
 <script src="js/writeform.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/ckeditor.js"></script>
+
 <style>
 tr.center-block{text-align:center}
 h1{font-size:1.5rem; text-align:center; color:#1a92b9}
@@ -14,6 +16,22 @@ h1{font-size:1.5rem; text-align:center; color:#1a92b9}
 label{font-weight:bold}
 #upfile{display:none}
 img{width:20px}
+
+#board_content {
+	border: 0;
+	overflow-y: hidden;
+	background: clear;
+}
+
+#board_content:focus {
+	outline: none;
+}
+
+#textarea {
+	border: 1px solid #ada4a4;
+	border-radius: 4px;
+}
+
 </style>
 
 
@@ -39,9 +57,13 @@ img{width:20px}
         <input name="BOARD_SUBJECT" id="board_subject" type="text" value="${boarddata.BOARD_SUBJECT}" class="form-control" readOnly>
     </div>
     <div class="form-group">
-      <label for="board_content">내용</label>
-       <textarea name="BOARD_CONTENT" id="board_content" class="form-control" cols="67" rows="15"></textarea>
-    </div>
+		<label for="board_content">내용</label>
+		<div id = "textarea">
+			<textarea name="BOARD_CONTENT" id="board_content"
+					  cols="67" rows="10" class="form-control" placeholder = "500자까지 입력 가능합니다."></textarea>
+			<span id = "counter"></span>
+		</div>	
+	</div>
     <div class="form-group">
     <label for="board_pass">비밀번호</label>
        <input name="BOARD_PASS" id="board_pass" type="password" class="form_control">

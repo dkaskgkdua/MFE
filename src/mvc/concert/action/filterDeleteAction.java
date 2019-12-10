@@ -21,6 +21,7 @@ public class filterDeleteAction implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ActionForward forward = new ActionForward();
+
 		request.setCharacterEncoding("utf-8");
 		ConcertDAO cdao = new ConcertDAO();
 
@@ -33,13 +34,14 @@ public class filterDeleteAction implements Action {
 		String[] search_local = null;
 		String[] search_genre = null;
 
+		List<Integer> list = new ArrayList<Integer>();
 		List<ConcertBean> list1 = null;
 		List<ConcertBean> list2 = null;
 		List<ConcertBean> list3 = null;
 		List<ConcertBean> flist = null;
 
 		// date, local, genre 모두 선택했을 경우
-		if (!(date.equals(null) || date.equals("")) && !local.equals("전국") && !genre.equals("모든 장르")) {
+		if (!(date.equals(null) || date.equals("")) && !local.equals("전국,") && !genre.equals("모든 장르,")) {
 			System.out.println("모두 선택");
 
 			search_date = Date.valueOf(date);
@@ -53,18 +55,18 @@ public class filterDeleteAction implements Action {
 			System.out.println("list2.size() = " + list2.size());
 			System.out.println("list3.size() = " + list3.size());
 
-			List<Integer> list = new ArrayList<Integer>();
+			List<Integer> temp = new ArrayList<Integer>();
 			for (int i = 0; i < list1.size(); i++) {
 				for (int j = 0; j < list2.size(); j++) {
 					if (list1.get(i).getConcert_id() == list2.get(j).getConcert_id()) {
-						list.add(list1.get(i).getConcert_id());
+						temp.add(list1.get(i).getConcert_id());
 					}
 				}
 			}
-			int size = list.size();
+
 			for (int i = 0; i < list3.size(); i++) {
-				for (int j = 0; j < size; j++) {
-					if (list3.get(i).getConcert_id() == list.get(j)) {
+				for (int j = 0; j < temp.size(); j++) {
+					if (list3.get(i).getConcert_id() == temp.get(j)) {
 						list.add(list3.get(i).getConcert_id());
 					}
 				}
@@ -79,7 +81,23 @@ public class filterDeleteAction implements Action {
 			System.out.println("date == null");
 			search_local = local.split(",");
 			search_genre = genre.split(",");
-			flist = cdao.getLGList(search_local, search_genre);
+			list1 = cdao.getLocalList(search_local);
+			list2 = cdao.getGenreList(search_genre);
+
+			for (int i = 0; i < list1.size(); i++) {
+				for (int j = 0; j < list2.size(); j++) {
+					if (list1.get(i).getConcert_id() == list2.get(j).getConcert_id()) {
+						list.add(list1.get(i).getConcert_id());
+					}
+				}
+			}
+			if (list.size() != 0) {
+				flist = cdao.getFilterList(list);
+			} else {
+				System.out.println("flist는 null");
+
+				flist = null;
+			}
 		}
 		// local = null일 때
 		else if (local.equals("전국,") && !(date.equals(null) || date.equals("")) && !genre.equals("모든 장르,")) {
@@ -88,7 +106,20 @@ public class filterDeleteAction implements Action {
 			search_date = Date.valueOf(date);
 			search_local = local.split(",");
 			search_genre = genre.split(",");
-			flist = cdao.getDGList(search_date, search_genre);
+
+			list1 = cdao.getDateList(search_date);
+			list2 = cdao.getGenreList(search_genre);
+
+			for (int i = 0; i < list1.size(); i++) {
+				for (int j = 0; j < list2.size(); j++) {
+					if (list1.get(i).getConcert_id() == list2.get(j).getConcert_id()) {
+						list.add(list1.get(i).getConcert_id());
+					}
+				}
+			}
+
+			if (list.size() != 0)
+				flist = cdao.getFilterList(list);
 		}
 		// genre = null일 때
 		else if (genre.equals("모든 장르,") && !(date.equals(null) || date.equals("")) && !local.equals("전국,")) {
@@ -97,7 +128,20 @@ public class filterDeleteAction implements Action {
 			search_date = Date.valueOf(date);
 			search_local = local.split(",");
 			search_genre = genre.split(",");
-			flist = cdao.getDLList(search_date, search_local);
+
+			list1 = cdao.getLocalList(search_local);
+			list2 = cdao.getDateList(search_date);
+
+			for (int i = 0; i < list1.size(); i++) {
+				for (int j = 0; j < list2.size(); j++) {
+					if (list1.get(i).getConcert_id() == list2.get(j).getConcert_id()) {
+						list.add(list1.get(i).getConcert_id());
+					}
+				}
+			}
+
+			if (list.size() != 0)
+				flist = cdao.getFilterList(list);
 		}
 		// local = null, genre = null일 때(date만 선택했을 때)
 		else if (local.equals("전국,") && genre.equals("모든 장르,") && !(date.equals(null) || date.equals(""))) {
@@ -132,21 +176,29 @@ public class filterDeleteAction implements Action {
 			search_genre = genre.split(",");
 			flist = cdao.getAllList();
 		}
-		System.out.println("flist.size() = " + flist.size());
 
-		JsonObject object = new JsonObject();
-		
-		//List => JsonArray
-		JsonArray je = new Gson().toJsonTree(flist).getAsJsonArray();
-		object.add("flist", je);
+		if (flist.size() != 0) {
+			System.out.println("flist.size() = " + flist.size());
+			JsonObject object = new JsonObject();
 
-		Gson gson = new Gson();
-		String json = gson.toJson(object);
-		response.setHeader("cache-control", "no-cache,no-store");
-		response.setContentType("text/html;charset=UTF-8");
-		response.getWriter().append(json);
-		System.out.println(json);
-		return null;
-		
+			// List => JsonArray
+			JsonArray je = new Gson().toJsonTree(flist).getAsJsonArray();
+			object.add("flist", je);
+			
+			Gson gson = new Gson();
+			String json = gson.toJson(object);
+			response.setHeader("cache-control", "no-cache,no-store");
+			response.setContentType("text/html;charset=UTF-8");
+			response.getWriter().append(json);
+			System.out.println(json);
+			return null;
+		} else {
+			forward.setRedirect(false);
+			request.setAttribute("message", "검색 결과가 존재하지 않습니다.");
+			// 글 목록 페이지로 이동하기 위해 경로를 설정합니다.
+			forward.setPath("error/no_result.jsp");
+			return forward;
+
+		}
 	}
 }

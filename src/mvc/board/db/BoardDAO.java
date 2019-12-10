@@ -298,9 +298,17 @@ public class BoardDAO {
 	public boolean boardInsert(BoardBean b) {
 		try {
 			con = ds.getConnection();
-			System.out.println("getConnection");
 			//원문의 경우 lev, seq 필드값은 0이다.
-			pstmt = con.prepareStatement("INSERT INTO board(board_num, board_name, board_pass, board_subject, board_content, board_file, board_re_ref, board_re_lev, board_re_seq, board_readcount, board_date) VALUES (board_seq.nextval, ?, ?, ?, ?, ?, board_seq.nextval, 0, 0, 0 , sysdate)");
+			String sql = "INSERT INTO board"
+					+ "(board_num, board_name, board_pass, "
+					+ "board_subject, board_content, board_file, "
+					+ "board_re_ref, board_re_lev, board_re_seq, "
+					+ "board_readcount, board_date)"
+					+ " VALUES (board_seq.nextval, ?, ?, "
+					+ "?, ?, ?, "
+					+ "board_seq.nextval, 0, 0, "
+					+ "0 , sysdate)";
+			pstmt = con.prepareStatement(sql);
 	
 			pstmt.setString(1, b.getBOARD_NAME());
 			pstmt.setString(2, b.getBOARD_PASS());

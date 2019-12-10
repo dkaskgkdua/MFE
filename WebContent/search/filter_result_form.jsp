@@ -9,6 +9,7 @@
 <style>
 .box {
 	width: 42%;
+	height : 700px;
 	text-align: center;
 	float: left;
 	margin: 0px;
@@ -28,7 +29,6 @@ div .button.special {
 	padding-right: 0px;
 }
 </style>
-
 </head>
 
 <body>
@@ -82,12 +82,17 @@ div .button.special {
 							<h4>${flist.concert_name }</h4>
 							<p>${flist.concert_musician }</p>
 							<table>
-								<tr>
-									<th>공연 일시</th>
-									<td>${flist.concert_day }&nbsp;&nbsp;&nbsp;${flist.concert_open }
-										- ${flist.concert_close }</td>
-								</tr>
-								<tr>
+							<tr>
+								<th>공연 일시</th>
+								<td id = "concert_day">
+									<div id="red"></div>
+									${flist.concert_day }</td>
+								<td>
+								${flist.concert_open }- ${flist.concert_close }
+									<div id="d_day"></div>
+								</td>
+							</tr>
+							<tr>
 									<th>공연 장소</th>
 									<td>${flist.local_name }</td>
 								</tr>
@@ -107,16 +112,17 @@ div .button.special {
 			</div>
 		</c:if>
 
-
-	<c:if test="${empty flist }">
-		<div id = "filter_none" style="margin: 100px; text-align: center; font-size: 50px">검색 결과가 없습니다.</div>
-	</c:if>
-	
 	<script>
 		$(function() {
 			$(".filter_btn").click(function() {
 				$(this).parent().css('display', 'none');
 
+				// date
+				var date = "";
+					if ($("div.button.special.date").css('display') != 'none') {
+							date += $("div.button.special.date").text();
+					}
+					
 				// local
 				var local = "";
 					$("div.button.special.local").each(function() {
@@ -163,6 +169,17 @@ div .button.special {
 							output += "<p>" + item.concert_musician + "</p>";
 							output += "<table>";
 							output += "<tr><th>공연 일시</th>";
+							
+							console.log(item.concert_day);
+							console.log(typeof item.concert_day);
+							
+							var year = item.concert_day.substr(7, 4);
+							var month = item.concert_day.substr(0, 1);
+							var date = item.concert_day.substr(3, 2);
+							console.log(year);
+							console.log(month);
+							console.log(date);
+							
 							output += "<td>" + item.concert_day + "&nbsp;&nbsp;&nbsp;" 
 							output += item.concert_open + " - " + item.concert_close + "</td></tr>";
 							output += "<tr><th>공연 장소</th>";
@@ -176,6 +193,8 @@ div .button.special {
 					} // success end
 				}); // ajax end
 			}); // $(".filter_btn").click end
+			
+			
 		});
 	</script>
 </body>

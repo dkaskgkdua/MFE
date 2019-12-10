@@ -115,7 +115,7 @@ public class BoardListAction implements Action{
 			object.addProperty("startpage", startpage);
 			object.addProperty("endpage", endpage);
 			object.addProperty("listcount",listcount);
-			object.addProperty("limit", limit);
+			object.addProperty("limit", limit);	// 한 페이지에 나타낼 글 수
 			// List => JsonArray
 			JsonArray je = new Gson().toJsonTree(boardlist).getAsJsonArray();
 			
