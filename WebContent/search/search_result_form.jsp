@@ -24,6 +24,33 @@
 	width: 95%;
 	height: 240px;
 }
+
+.deadline {
+	display: inline-block;
+	background: red;
+	font-size: 12px;
+	font-weight: bold;
+	color: black;
+	border-radius: 0.2em;
+	padding: 0.15em;
+}
+
+td {
+	text-align: left;
+}
+
+.d_day {
+	width: 14%
+}
+
+.concert_day {
+	padding-left: 0px;
+	width: 18%
+}
+
+.concert_time {
+	padding-left: 0px;
+}
 </style>
 </head>
 
@@ -48,27 +75,30 @@
 					<div class="table-wrapper">
 						<input type="hidden" name="concert_id" value="${list.concert_id}">
 						<img src="images/${list.concert_image }" alt="" />
-						<h4>${list.concert_name }</h4>
+
+						<div class="deadline"></div>
+						<h4 style="display: inline-block">${list.concert_name }</h4>
 						<p>${list.concert_musician }</p>
 
 						<table>
 							<tr>
 								<th>공연 일시</th>
-								<td id = "concert_day">${list.concert_day }</td>
-								<td>${list.concert_open } - ${list.concert_close }</td>
-								<td id = 'd_day'></td>
+								<td class='d_day'></td>
+								<td class="concert_day">${list.concert_day }</td>
+								<td class="concert_time">${list.concert_open }-
+									${list.concert_close }</td>
 							</tr>
 							<tr>
 								<th>공연 장소</th>
-								<td>${list.local_name }</td>
+								<td colspan=3>${list.local_name }</td>
 							</tr>
 							<tr>
 								<th>공연 가격</th>
-								<td>${list.concert_price }</td>
+								<td colspan=3>${list.concert_price }</td>
 							</tr>
 							<tr>
 								<th>장르</th>
-								<td>${list.genre_name }</td>
+								<td colspan=3>${list.genre_name }</td>
 							</tr>
 						</table>
 
@@ -85,12 +115,47 @@
 	</c:if>
 
 	<script>
+
 		$(function() {
-			var concert_day = $("#concert_day").text();
-			console.log(typeof concert_day);
-			var date = Date.parse(concert_day);
-			console.log(typeof date);
-		});
+				$(".concert_day").each(function(index, item){
+					// d-day 계산
+					var concert_day = $(this).text();
+					var arr = concert_day.split("-");
+					
+					var today = new Date();	// 오늘 날짜
+					var date = new Date(arr[0], arr[1]-1, arr[2]);	// 콘서트 날짜
+					
+					var diff = date - today;	// 콘서트 날짜 - 오늘 날짜 = d-day 계산
+					var currDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
+
+					var dd = parseInt(diff/currDay);	// 일수 차이
+					
+					$(this).prev().html("(D-" + dd + ")");
+					
+				});
+				
+				$(".deadline").each(function(index, item){
+					var concert_day = $(this).next().next().next().children().children().find(".concert_day").text();
+					console.log("날짜 : " + concert_day);
+					var arr = concert_day.split("-");
+					
+					var today = new Date();	// 오늘 날짜
+					var date = new Date(arr[0], arr[1]-1, arr[2]);	// 콘서트 날짜
+					console.log("오늘 날짜 = " + today);
+					console.log("콘서트 날짜 = " + date);
+					
+					var diff = date - today;	// 콘서트 날짜 - 오늘 날짜 = d-day 계산
+					var currDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
+
+					var dd = parseInt(diff/currDay);	// 일수 차이
+					
+					if(dd <= 5){
+						$(this).html("마감임박");
+					}else{
+						$(this).css('display', 'none');
+					}
+				});
+			});
 	</script>
 </body>
 </html>

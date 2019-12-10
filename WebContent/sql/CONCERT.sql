@@ -18,9 +18,9 @@ CREATE TABLE CONCERT(
 create sequence concert_seq increment by 1 start with 1;
 
 
-INSERT INTO CONCERT VALUES(concert_seq.nextval, '악동뮤지션 콘서트', TO_DATE('2020/01/01', 'yyyy/mm/dd'), '악동뮤지션', '19:00', '23:00', 'pic02.jpg', 1, 1, '80,000원');
+INSERT INTO CONCERT VALUES(concert_seq.nextval, '악동뮤지션 콘서트', TO_DATE('2019/12/13', 'yyyy/mm/dd'), '악동뮤지션', '19:00', '23:00', 'pic02.jpg', 1, 1, '80,000원');
 INSERT INTO CONCERT VALUES(concert_seq.nextval, 'DAY6 2019 Christmas Special Concert ‘The Present’', TO_DATE('2020/01/01', 'yyyy/mm/dd'), 'DAY6', '20:00', '23:00', 'pic02.jpg', 2, 1, '100,000원');
-INSERT INTO CONCERT VALUES(concert_seq.nextval, '박진영 콘서트 NO.1 X 50',TO_DATE('2020/01/02', 'yyyy/mm/dd'), '박진영', '19:00', '24:00', 'pic01.jpg', 3, 1, '110,000원');
+INSERT INTO CONCERT VALUES(concert_seq.nextval, '박진영 콘서트 NO.1 X 50',TO_DATE('2019/12/14', 'yyyy/mm/dd'), '박진영', '19:00', '24:00', 'pic01.jpg', 3, 1, '110,000원');
 INSERT INTO CONCERT VALUES(concert_seq.nextval, '소란 winter concert ‘live SORAN’', TO_DATE('2020/01/03', 'yyyy/mm/dd'), '소란', '14:00', '23:00', 'pic03.jpg', 4, 3, '84,000원');
 INSERT INTO CONCERT VALUES(concert_seq.nextval, '2019 JUNG YONG HWA LIVE ‘STILL 622’ IN SEOUL', TO_DATE('2020/01/02', 'yyyy/mm/dd'), '정용화', '19:00', '25:00', 'pic04.jpg', 2, 3, '150,000원');
 INSERT INTO CONCERT VALUES(concert_seq.nextval, '쏜애플 콘서트 <은하>', TO_DATE('2020/01/03', 'yyyy/mm/dd'), '은하', '17:00', '22:00', 'pic05.jpg', 3, 3, '90,000원');
