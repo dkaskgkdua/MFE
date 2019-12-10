@@ -180,8 +180,8 @@ public class SearchfilterAction implements Action {
 			return forward;
 		} else {
 			forward.setRedirect(false);
-			request.setAttribute("message", "검색 결과가 존재하지 않습니다.");
-			forward.setPath("error/no_result.jsp");
+			request.setAttribute("message", "에러입니다.");
+			forward.setPath("error/error.jsp");
 			return forward;
 		}
 	}

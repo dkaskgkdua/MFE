@@ -27,8 +27,10 @@ public class SearchwordAction implements Action {
 
 		list = cdao.getSearchList(search_word);
 		System.out.println("list size = " + list.size());
+		int count = cdao.getListCount(search_word);
 
 		request.setAttribute("list", list);
+		request.setAttribute("count", count);
 		request.setAttribute("search_word", search_word);
 		forward.setRedirect(false);
 		forward.setPath("search/search_result_form.jsp");

@@ -5,126 +5,149 @@
 <html>
 <head>
 <jsp:include page="../mainActivity/navbar.jsp" />
-<script src="js/boardlist.js">
-	
-</script>
+<style>
+.container {
+	padding-top: 50px;
+}
+</style>
+<script src="js/boardlist.js"></script>
+
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>게시판 목록</title>
 </head>
 <body>
-	<div class="rows ">
-		<span class="sp">목록 갯수</span> <select class="form-control"
-			id="viewcount">
-			<option value="1">1</option>
-			<option value="3">3</option>
-			<option value="5">5</option>
-			<option value="7">7</option>
-			<option value="10" selected>10</option>
-		</select>
-	</div>
+
 
 	<div class="container">
-		<font size=3>글 개수 : ${listcount }</font>
+		<div class="12u$">
+			<div class="select-wrapper">
+				<span>목록 갯수</span> 
+				<select class="form-control" id="viewcount">
+					<option value="1">1</option>
+					<option value="3">3</option>
+					<option value="5">5</option>
+					<option value="7">7</option>
+					<option value="10" selected>10</option>
+				</select>
+			</div>
+		</div>
+		
+		
+		
+		<table class="table">
+			<thead>
+				<tr>
+					<th colspan="3">자유게시판</th>
+					<th colspan="2"><font size=3>글 개수 : ${listcount }</font></th>
+				</tr>
+				<tr>
+					<th width="8%"><div>번호</div></th>
+					<th width="50%"><div>제목</div></th>
+					<th width="14%"><div>작성자</div></th>
+					<th width="17%"><div>날짜</div></th>
+					<th width="11%"><div>조회수</div></th>
+				</tr>
+			</thead>
+
+			<tbody>
+				<c:set var="num" value="${listcount-(page-1)*10}" />
+				<%-- 게시글이 있는 경우 --%>
+				<c:if test="${listcount > 0 }">
+					<c:forEach var="b" items="${boardlist}">
+						<tr>
+							<td><c:out value="${num }" /> <c:set var="num"
+									value="${num-1}" /></td>
+							<td>
+								<div>
+									<c:if test="${b.BOARD_RE_LEV != 0}">
+										<!-- 답글인 경우 -->
+										<c:forEach var="a" begin="0" end="${b.BOARD_RE_LEV*2}"
+											step="1">&nbsp;
+						 				</c:forEach>
+										<img src='images/AnswerLine.gif'>
+									</c:if>
+									<c:if test="${b.BOARD_RE_LEV ==0}">
+										<!-- 원문인 경우 -->
+						 				&nbsp;
+						 			</c:if>
+									<a href="BoardDetailAction.bo?num=${b.BOARD_NUM }">${b.BOARD_SUBJECT}
+									</a>
+								</div>
+							</td>
+							<td>
+								<div>${b.BOARD_NAME}</div>
+							</td>
+							<td>
+								<div>${b.BOARD_DATE}</div>
+							</td>
+							<td>
+								<div>${b.BOARD_READCOUNT}</div>
+							</td>
+						</tr>
+					</c:forEach>
 
 
-		<%-- 게시글이 있는 경우 --%>
-		<c:if test="${listcount > 0 }">
-			<c:forEach var="b" items="${boardlist}">
-				<!-- 답글인 경우 -->
-				<c:if test="${b.BOARD_RE_LEV != 0}">
+					<div class="center-block">
+						<div class="row">
+							<div class="col">
+								<ul class="pagination">
+									<c:if test="${page <= 1 }">
+										<li class="page-item"><a class="page-link" href="#">이전&nbsp;</a>
+										</li>
+									</c:if>
+									<c:if test="${page > 1 }">
+										<li class="page-item"><a
+											href="BoardList.bo?page=${page-1 }" class="page-link">이전</a>
+											&nbsp;</li>
+									</c:if>
+
+									<c:forEach var="a" begin="${startpage }" end="${endpage }">
+										<c:if test="${a == page }">
+											<li class="page-item"><a class="page-link" href="#">${a }</a>
+											</li>
+										</c:if>
+										<c:if test="${a != page }">
+											<li class="page-item"><a href="BoardList.bo?page=${a }"
+												class="page-link">${a }</a></li>
+										</c:if>
+									</c:forEach>
+
+									<c:if test="${page >= maxpage }">
+										<li class="page-item"><a class="page-link" href="#">&nbsp;다음</a>
+										</li>
+									</c:if>
+									<c:if test="${page < maxpage }">
+										<li class="page-item"><a
+											href="BoardList.bo?page=${page+1 }" class="page-link">&nbsp;다음</a>
+										</li>
+									</c:if>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</c:if>
+
+				<p>
+					<select name="search_select" size="1" id="search_select">
+						<option value="board_name" selected>작성자</option>
+						<option value="board_subject">제목</option>
+						<option value="board_content">내용</option>
+					</select> <input type="text" id="search_text" placeholder="검색할 내용을 입력하세요.">
+					<button type="submit" id="search_btn">검색</button>
+				</p>
+
+
+				<!--  게시글이 없는 경우 -->
+				<c:if test="${listcount == 0 }">
 					<tr>
-						<!-- 들여쓰기 -->
-						<c:forEach var="a" begin="0" end="${b.BOARD_RE_LEV*2}" step="1">
-								&nbsp;
-							</c:forEach>
-						<td rowspan=2><img src='images/AnswerLine.gif'></td>
-						<td><a href="BoardDetailAction.bo?num=${b.BOARD_NUM }"> <font
-								size=4>${b.BOARD_SUBJECT }</font>
-						</a></td>
-						<td><a href="BoardDetailAction.bo?num=${b.BOARD_NUM }"> <font
-								size=3>${b.BOARD_CONTENT }</font></a></td>
+						<td colspan="5" style="text-align: center">등록된 글이 없습니다.</td>
 					</tr>
 				</c:if>
-
-				<!-- 원문인 경우 -->
-				<c:if test="${b.BOARD_RE_LEV ==0}">
-					<c:set var="num" value="${listcount-(page-1)*10}" />
-					<div>
-						<font size=2> 글번호 &nbsp;<c:out value="${num }" />
-						</font>
-					</div>
-
-					<c:set var="num" value="${num-1}" />
-
-					<div>
-						<font size=3>${b.BOARD_NAME }</font> <font size=2>${b.BOARD_DATE}</font>
-					</div>
-					<div>
-						<a href="BoardDetailAction.bo?num=${b.BOARD_NUM }"> <strong><font
-								size=4>${b.BOARD_SUBJECT }</font></strong>
-						</a>
-					</div>
-					<div class="board_content">
-						<a href="BoardDetailAction.bo?num=${b.BOARD_NUM }"> <font
-							size=2>${b.BOARD_CONTENT }</font>
-						</a>
-					</div>
-				</c:if>
-			</c:forEach>
-		</c:if>
-
-		<!--  게시글이 없는 경우 -->
-		<c:if test="${listcount == 0 }">
-			<tr>
-				<td colspan="5"
-					style="text-align: center; height: 150px; line-height: 150px;">등록된
-					글이 없습니다.</td>
-			</tr>
-		</c:if>
+			</tbody>
+		</table>
 	</div>
 
 	<button id="addBoard_Button" type="button"
 		class="btn btn-info float-right">글쓰기</button>
-
-
-	<c:if test="${listcount != 0 }">
-		<div class="center-block">
-			<div class="row">
-				<div class="col">
-					<ul class="pagination">
-						<c:if test="${page <= 1 }">
-							<li class="page-item"><a class="page-link" href="#">이전&nbsp;</a>
-							</li>
-						</c:if>
-						<c:if test="${page > 1 }">
-							<li class="page-item"><a href="BoardList.bo?page=${page-1 }"
-								class="page-link">이전</a> &nbsp;</li>
-						</c:if>
-
-						<c:forEach var="a" begin="${startpage }" end="${endpage }">
-							<c:if test="${a == page }">
-								<li class="page-item"><a class="page-link" href="#">${a }</a>
-								</li>
-							</c:if>
-							<c:if test="${a != page }">
-								<li class="page-item"><a href="BoardList.bo?page=${a }"
-									class="page-link">${a }</a></li>
-							</c:if>
-						</c:forEach>
-
-						<c:if test="${page >= maxpage }">
-							<li class="page-item"><a class="page-link" href="#">&nbsp;다음</a>
-							</li>
-						</c:if>
-						<c:if test="${page < maxpage }">
-							<li class="page-item"><a href="BoardList.bo?page=${page+1 }"
-								class="page-link">&nbsp;다음</a></li>
-						</c:if>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</c:if>
-
 </body>
 </html>

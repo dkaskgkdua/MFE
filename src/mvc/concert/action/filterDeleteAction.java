@@ -194,9 +194,9 @@ public class filterDeleteAction implements Action {
 			return null;
 		} else {
 			forward.setRedirect(false);
-			request.setAttribute("message", "검색 결과가 존재하지 않습니다.");
+			request.setAttribute("message", "에러입니다.");
 			// 글 목록 페이지로 이동하기 위해 경로를 설정합니다.
-			forward.setPath("error/no_result.jsp");
+			forward.setPath("error/error.jsp");
 			return forward;
 
 		}

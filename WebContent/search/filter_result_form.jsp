@@ -9,10 +9,8 @@
 <style>
 .box {
 	width: 42%;
-	height : 700px;
 	text-align: center;
-	float: left;
-	margin: 0px;
+	margin: 100px;
 }
 
 .table-wrapper img {
@@ -81,15 +79,12 @@ div .button.special {
 							<img src="images/${flist.concert_image }" alt="" />
 							<h4>${flist.concert_name }</h4>
 							<p>${flist.concert_musician }</p>
+							
 							<table>
 							<tr>
 								<th>공연 일시</th>
 								<td id = "concert_day">
-									<div id="red"></div>
-									${flist.concert_day }</td>
-								<td>
-								${flist.concert_open }- ${flist.concert_close }
-									<div id="d_day"></div>
+									${flist.concert_day }&nbsp;&nbsp;&nbsp;${flist.concert_open }- ${flist.concert_close }
 								</td>
 							</tr>
 							<tr>
@@ -105,12 +100,17 @@ div .button.special {
 									<td>${flist.genre_name }</td>
 								</tr>
 							</table>
+							
 							<a href="#" class="button special icon fa-search fit">상세보기</a>
 						</div>
 					</div>
 				</c:forEach>
 			</div>
 		</c:if>
+		
+		<c:if test="${empty flist }">
+		<div style="margin: 100px; text-align: center; font-size: 50px">검색 결과가 없습니다.</div>
+	</c:if>
 
 	<script>
 		$(function() {
@@ -160,7 +160,6 @@ div .button.special {
 						output = "";
 						$(".box").remove();
 						$(data.flist).each(function(index, item){
-							console.log(index);
 							output += "<div class='box'>";
 							output += "<div class='table-wrapper'>";
 							output += "<input type='hidden' name='concert_id' value='" + item.concert_id + "'>";
@@ -170,17 +169,22 @@ div .button.special {
 							output += "<table>";
 							output += "<tr><th>공연 일시</th>";
 							
-							console.log(item.concert_day);
-							console.log(typeof item.concert_day);
+							var concert_day = item.concert_day;
 							
-							var year = item.concert_day.substr(7, 4);
-							var month = item.concert_day.substr(0, 1);
-							var date = item.concert_day.substr(3, 2);
-							console.log(year);
-							console.log(month);
-							console.log(date);
+							var month_index = concert_day.indexOf("월");
+							var month = concert_day.substr(0, month_index);
 							
-							output += "<td>" + item.concert_day + "&nbsp;&nbsp;&nbsp;" 
+							var date_index = concert_day.indexOf(",");
+							var date = concert_day.substr(month_index+2, date_index-3);
+							
+							var year = concert_day.substring(concert_day.length-4);
+							
+							month = month.length == 1 ? "0" + month : month;
+							date = date.length == 1? "0" + date : date;
+							
+							var d = year + "-" + month + "-" + date;
+							
+							output += "<td>" + d + "&nbsp;&nbsp;&nbsp;" 
 							output += item.concert_open + " - " + item.concert_close + "</td></tr>";
 							output += "<tr><th>공연 장소</th>";
 							output += "<td>" + item.local_name + "</td></tr>";
@@ -193,8 +197,6 @@ div .button.special {
 					} // success end
 				}); // ajax end
 			}); // $(".filter_btn").click end
-			
-			
 		});
 	</script>
 </body>

@@ -48,7 +48,35 @@ public class ConcertDAO {
 			e.printStackTrace();
 		}
 	}
-
+	
+	// 검색어 입력시 리스트 개수
+	public int getListCount(String search_word) {
+		int x = 0;
+		try {
+			con = ds.getConnection();
+			
+			String sql = "select count(*) from CONCERT "
+					+ "where (CONCERT_NAME like ? " 
+					+ "or CONCERT_MUSICIAN like ? ) "
+					+ "and CONCERT_DAY >= sysdate ";
+			
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, "%" + search_word + "%");
+			pstmt.setString(2, "%" + search_word + "%");
+			
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				x = rs.getInt(1);
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			System.out.println("getListCount() 에러 : " + ex);
+		} finally {
+			close();
+		}
+		return x;
+	}
+	
 	// 검색어 입력시 리스트
 	public List<ConcertBean> getSearchList(String search_word) {
 		List<ConcertBean> list = new ArrayList<ConcertBean>();
@@ -63,8 +91,8 @@ public class ConcertDAO {
 					+ "on C.GENRE_ID = G.GENRE_ID " 
 					+ "inner join LOCAL L "
 					+ "on C.LOCAL_ID = L.LOCAL_ID " 
-					+ "where C.CONCERT_NAME like ? " 
-					+ "or C.CONCERT_MUSICIAN like ? "
+					+ "where (C.CONCERT_NAME like ? " 
+					+ "or C.CONCERT_MUSICIAN like ? ) "
 					+ "and C.CONCERT_DAY >= sysdate "
 					+ "order by C.CONCERT_DAY";
 
@@ -111,7 +139,8 @@ public class ConcertDAO {
 					+ "on C.GENRE_ID = G.GENRE_ID " 
 					+ "inner join LOCAL L "
 					+ "on C.LOCAL_ID = L.LOCAL_ID " 
-					+ "where CONCERT_DAY = ?";
+					+ "where C.CONCERT_DAY = ?"
+					+ " and C.CONCERT_DAY >= sysdate";
 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setDate(1, (java.sql.Date) search_date);
@@ -165,6 +194,8 @@ public class ConcertDAO {
 				else
 					sql += " ? or L.LOCAL_NAME = ";
 			}
+			
+			sql += " and C.CONCERT_DAY >= sysdate";
 
 			pstmt = con.prepareStatement(sql);
 			for (int i = 0; i < search_local.length; i++) {
@@ -221,6 +252,8 @@ public class ConcertDAO {
 					sql += " ? or G.GENRE_NAME = ";
 			}
 
+			sql += " and C.CONCERT_DAY >= sysdate";
+			
 			pstmt = con.prepareStatement(sql);
 			for (int i = 0; i < search_genre.length; i++) {
 				pstmt.setString(i + 1, search_genre[i]);
@@ -268,14 +301,13 @@ public class ConcertDAO {
 					+ "on C.GENRE_ID = G.GENRE_ID " 
 					+ "inner join LOCAL L "
 					+ "on C.LOCAL_ID = L.LOCAL_ID " 
-					+ "where C.CONCERT_DAY >= sysdate " 
-					+ "and C.CONCERT_ID = ";
+					+ "where C.CONCERT_ID = ";
 
 			for (int i = 0; i < list.size(); i++) {
 				if (i == list.size() - 1)
 					sql += " ? ";
 				else
-					sql += " ? or CONCERT_ID = ";
+					sql += " ? or C.CONCERT_ID = ";
 			}
 			sql += "order by C.CONCERT_DAY";
 
@@ -310,178 +342,6 @@ public class ConcertDAO {
 		return null;
 	}
 
-	public List<ConcertBean> getLGList(String[] search_local, String[] search_genre) {
-		List<ConcertBean> flist = new ArrayList<ConcertBean>();
-		try {
-			con = ds.getConnection();
-			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
-					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
-					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
-					+ "from CONCERT C "
-					+ "inner join GENRE G " 
-					+ "on C.GENRE_ID = G.GENRE_ID " 
-					+ "inner join LOCAL L "
-					+ "on C.LOCAL_ID = L.LOCAL_ID " 
-					+ "where L.LOCAL_NAME = ";
-
-			for (int i = 0; i < search_local.length; i++) {
-				if (i == search_local.length - 1)
-					sql += " ? ";
-				else
-					sql += " ? or L.LOCAL_NAME = ";
-			}
-			sql += " and G.GENRE_NAME = ";
-
-			for (int i = 0; i < search_genre.length; i++) {
-				if (i == search_genre.length - 1)
-					sql += " ? ";
-				else
-					sql += " ? or G.GENRE_NAME = ";
-			}
-			sql += "order by L.LOCAL_ID, G.GENRE_ID";
-
-			pstmt = con.prepareStatement(sql);
-			for (int i = 0; i < search_local.length; i++) {
-				pstmt.setString(i + 1, search_local[i]);
-			}
-
-			for (int j = 0; j < search_genre.length; j++) {
-				pstmt.setString(j + search_local.length + 1, search_genre[j]);
-			}
-
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				ConcertBean c = new ConcertBean();
-				c.setConcert_id(rs.getInt(1));
-				c.setConcert_name(rs.getString(2));
-				c.setConcert_day(rs.getDate(3));
-				c.setConcert_musician(rs.getString(4));
-				c.setConcert_open(rs.getString(5));
-				c.setConcert_close(rs.getString(6));
-				c.setConcert_image(rs.getString(7));
-				c.setGenre_name(rs.getString(8));
-				c.setLocal_name(rs.getString(9));
-				c.setConcert_price(rs.getString(10));
-
-				flist.add(c);
-			}
-			return flist;
-		} catch (SQLException e) {
-			System.out.println("getLGList() 에러 : " + e);
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-		return null;
-	}
-
-	public List<ConcertBean> getDGList(java.sql.Date search_date, String[] search_genre) {
-		List<ConcertBean> flist = new ArrayList<ConcertBean>();
-		try {
-			con = ds.getConnection();
-			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
-					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
-					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
-					+ "from CONCERT C "
-					+ "inner join GENRE G " 
-					+ "on C.GENRE_ID = G.GENRE_ID " 
-					+ "inner join LOCAL L "
-					+ "on C.LOCAL_ID = L.LOCAL_ID " 
-					+ "where CONCERT_DAY = ? and G.GENRE_NAME = ";
-
-			for (int i = 0; i < search_genre.length; i++) {
-				if (i == search_genre.length - 1)
-					sql += " ? ";
-				else
-					sql += " ? or G.GENRE_NAME = ";
-			}
-			sql += "order by C.CONCERT_DAY, G.GENRE_ID";
-			pstmt = con.prepareStatement(sql);
-			pstmt.setDate(1, search_date);
-			for (int i = 0; i < search_genre.length; i++) {
-				pstmt.setString(i + 2, search_genre[i]);
-			}
-
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				ConcertBean c = new ConcertBean();
-				c.setConcert_id(rs.getInt(1));
-				c.setConcert_name(rs.getString(2));
-				c.setConcert_day(rs.getDate(3));
-				c.setConcert_musician(rs.getString(4));
-				c.setConcert_open(rs.getString(5));
-				c.setConcert_close(rs.getString(6));
-				c.setConcert_image(rs.getString(7));
-				c.setGenre_name(rs.getString(8));
-				c.setLocal_name(rs.getString(9));
-				c.setConcert_price(rs.getString(10));
-
-				flist.add(c);
-			}
-			return flist;
-		} catch (SQLException e) {
-			System.out.println("getDGList() 에러 : " + e);
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-		return null;
-	}
-
-	public List<ConcertBean> getDLList(java.sql.Date search_date, String[] search_local) {
-		List<ConcertBean> flist = new ArrayList<ConcertBean>();
-		try {
-			con = ds.getConnection();
-			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
-					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
-					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
-					+ "from CONCERT C "
-					+ "inner join GENRE G " 
-					+ "on C.GENRE_ID = G.GENRE_ID " 
-					+ "inner join LOCAL L "
-					+ "on C.LOCAL_ID = L.LOCAL_ID " 
-					+ "where CONCERT_DAY = ? and G.GENRE_NAME = ";
-
-			for (int i = 0; i < search_local.length; i++) {
-				if (i == search_local.length - 1)
-					sql += " ? ";
-				else
-					sql += " ? or G.GENRE_NAME = ";
-			}
-			sql += "order by C.CONCERT_DAY, G.GENRE_ID";
-
-			pstmt = con.prepareStatement(sql);
-			pstmt.setDate(1, search_date);
-			for (int i = 0; i < search_local.length; i++) {
-				pstmt.setString(i + 2, search_local[i]);
-			}
-
-			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				ConcertBean c = new ConcertBean();
-				c.setConcert_id(rs.getInt(1));
-				c.setConcert_name(rs.getString(2));
-				c.setConcert_day(rs.getDate(3));
-				c.setConcert_musician(rs.getString(4));
-				c.setConcert_open(rs.getString(5));
-				c.setConcert_close(rs.getString(6));
-				c.setConcert_image(rs.getString(7));
-				c.setGenre_name(rs.getString(8));
-				c.setLocal_name(rs.getString(9));
-				c.setConcert_price(rs.getString(10));
-
-				flist.add(c);
-			}
-			return flist;
-		} catch (SQLException e) {
-			System.out.println("getDLList() 에러 : " + e);
-			e.printStackTrace();
-		} finally {
-			close();
-		}
-		return null;
-	}
-	
 	// 모든 날짜, 전국, 전체 장르 선택시
 	public List<ConcertBean> getAllList(){
 		List<ConcertBean> flist = new ArrayList<ConcertBean>();
@@ -495,6 +355,7 @@ public class ConcertDAO {
 					+ "on C.GENRE_ID = G.GENRE_ID " 
 					+ "inner join LOCAL L "
 					+ "on C.LOCAL_ID = L.LOCAL_ID "
+					+ "where C.CONCERT_DAY >= sysdate "
 					+ "order by C.CONCERT_DAY";
 
 			pstmt = con.prepareStatement(sql);

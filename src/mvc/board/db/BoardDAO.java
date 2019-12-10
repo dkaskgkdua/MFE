@@ -28,11 +28,22 @@ public class BoardDAO {
 		}
 	}
 	
-	public int getListCount() {
+	public int getListCount(String search_select, String search_text) {
 		int x = 0;
 		try {
 			con = ds.getConnection();
-			pstmt = con.prepareStatement("select count(*) from board");
+			String diff = "";
+			if(search_select != null) {
+				diff = " where " + search_select + " = ? ";
+			}
+			String sql = "select count(*) from board" + diff;
+			System.out.println(sql);
+			
+		
+			pstmt = con.prepareStatement(sql);
+			if(!diff.equals("")) {
+				pstmt.setString(1, search_text);
+			}
 			rs = pstmt.executeQuery();
 			if(rs.next()) {
 				x = rs.getInt(1);
@@ -47,20 +58,35 @@ public class BoardDAO {
 	}
 	
 	
-	public List<BoardBean> getBoardList(int page, int limit) {
+	public List<BoardBean> getBoardList(int page, int limit, String search_select, String search_text) {
 		//page : 페이지
 		//limit : 페이지 당 목록의 수
 		// BOARD_RE_REF desc, BOARD_RE_SEQ asc에 의해 정렬한 것을
 		// 조건절에 맞는 rnum의 범위 만큼 가져오는 쿼리문이다.
-		
+		/*
+		 * String sql = "select * "
+				+ "from (select rownum rnum, b.* "
+				+ "from (select * from board "
+				+ " order by BOARD_RE_REF desc,"
+				+ " BOARD_RE_SEQ asc) b)"
+				+ " where " + search_select + " = ? "
+				+ "and rnum >= ? and rnum <= ? ";
+		 */
+		String diff = "";
+		if(search_select != null) {
+			diff = " where " + search_select + " = ? ";
+		}
 		String board_list_sql = 
 				"select * "
 			+   "from (select rownum rnum, b.* "
 			+          "from (select * from board "
+			+ diff
 			+          " order by BOARD_RE_REF desc,"
 			+          " BOARD_RE_SEQ asc) b "
 			+        ")"
 			+   " where rnum >= ? and rnum <= ? ";
+			
+			System.out.println(board_list_sql);
 		List<BoardBean> list = new ArrayList<BoardBean>();
 		// 한 페이지당 10개씩 목록인 경우 1페이지, 2페이지, 3페이지, 4페이지...
 		int startrow = (page-1) * limit +1;
@@ -70,8 +96,14 @@ public class BoardDAO {
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(board_list_sql);
+			if(diff.equals("")){
 			pstmt.setInt(1, startrow);
-			pstmt.setInt(2, endrow);
+			pstmt.setInt(2, endrow);}
+			else {
+				pstmt.setString(1, search_text);
+				pstmt.setInt(2, startrow);
+				pstmt.setInt(3, endrow);
+			}
 			rs = pstmt.executeQuery();
 			
 			//DB에서 가져온 데이터를 VO 객체에 담는다.
@@ -393,5 +425,63 @@ public class BoardDAO {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public List<BoardBean> getSearchList(int page, int limit, String search_select, String search_text) {
+		//page : 페이지
+		//limit : 페이지 당 목록의 수
+		// BOARD_RE_REF desc, BOARD_RE_SEQ asc에 의해 정렬한 것을
+		// 조건절에 맞는 rnum의 범위 만큼 가져오는 쿼리문이다.
+		
+		
+		String sql = "select * "
+				+ "from (select rownum rnum, b.* "
+				+ "from (select * from board "
+				+ " order by BOARD_RE_REF desc,"
+				+ " BOARD_RE_SEQ asc) b)"
+				+ " where "
+				+ search_select + " = ? "
+				+ "and rnum >= ? and rnum <= ? ";
+		
+		System.out.println(sql);
+				
+		List<BoardBean> list = new ArrayList<BoardBean>();
+		// 한 페이지당 10개씩 목록인 경우 1페이지, 2페이지, 3페이지, 4페이지...
+		int startrow = (page-1) * limit +1;
+				//읽기 시작할 row번호 (1 11 21 31 ...)
+		int endrow = startrow + limit -1;
+				//읽을 마지막 row 번호 (10 20 30 40 ....)
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, search_text);
+			pstmt.setInt(2, startrow);
+			pstmt.setInt(3, endrow);
+			rs = pstmt.executeQuery();
+			
+			//DB에서 가져온 데이터를 VO 객체에 담는다.
+			while (rs.next()) {
+				BoardBean board = new BoardBean();
+				board.setBOARD_NUM(rs.getInt("BOARD_NUM"));
+				board.setBOARD_NAME(rs.getString("BOARD_NAME"));
+				board.setBOARD_SUBJECT(rs.getString("BOARD_SUBJECT"));
+				board.setBOARD_CONTENT(rs.getString("BOARD_CONTENT"));
+				//board.setBOARD_FILE(rs.getString("BOARD_FILE"));
+				//board.setBOARD_RE_REF(rs.getInt("BOARD_RE_REF"));
+				board.setBOARD_RE_LEV(rs.getInt("BOARD_RE_LEV"));
+				//board.setBOARD_RE_SEQ(rs.getInt("BOARD_RE_SEQ"));
+				board.setBOARD_READCOUNT(rs.getInt("BOARD_READCOUNT"));
+				board.setBOARD_DATE(rs.getDate("BOARD_DATE"));
+				list.add(board);
+			}
+			
+			return list;
+		} catch(Exception ex) {
+			System.out.println("getSearchList() 에러 : " + ex);
+			ex.printStackTrace();
+		} finally {
+			close();
+		}
+		return null;
 	}
 }

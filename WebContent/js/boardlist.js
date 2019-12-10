@@ -1,6 +1,9 @@
 function go(page) {
 	var limit = $('#viewcount').val();
-	var data = "limit=" + limit + "&state=ajax&page=" + page;
+	var search_select = $("#search_select").val();
+	var search_text = $("#search_text").val();
+	var data = "limit=" + limit + "&state=ajax&page=" + page + "&search_select=" + search_select
+			+ "&search_text=" + search_text;
 	ajax(data);
 }
 
@@ -25,12 +28,14 @@ function ajax(data) {
 		dataType : "json",
 		cache : false,
 		success : function(data) {
-			$("#viewcount").val(data.limit);	// 한 페이지에 나타낼 글 수
-			$("table").find("font").text("글 개수 : " + data.listcount);	// 총 리스트 수
+			$("#viewcount").val(data.limit); // 한 페이지에 나타낼 글 수
+			$("table").find("font").text("글 개수 : " + data.listcount); // 총 리스트
+																		// 수
 
 			if (data.listcount > 0) { // 총갯수가 1개 이상인 경우
 				$("tbody").remove();
-				var num = data.listcount - (data.page - 1) * data.limit;	// page = 1
+				var num = data.listcount - (data.page - 1) * data.limit; // page
+																			// = 1
 				console.log(num)
 				output = "<tbody>";
 				$(data.boardlist).each(
@@ -103,6 +108,8 @@ function ajax(data) {
 	}); // ajax end
 }; // function ajax end
 
+
+
 $(function() {
 	$("#viewcount").change(function() {
 		go(1); // 보여줄 페이지를 1페이지로 설정한다.
@@ -111,14 +118,8 @@ $(function() {
 		location.href = "BoardWrite.bo";
 	});
 	
-	$(".board_content").each(function(index, item){
-		var content = $(this).children().children().text();
-		console.log(content);
-		if(content.length >= 30){
-			var cut = $(this).children().children().substr(0, 30);
-			$(this).children().children().html(cut + "...");
-		}
-	});
-		
-	
+	$("#search_btn").click(function(){
+		go(1);
+	})
+
 });
