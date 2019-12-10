@@ -1,9 +1,12 @@
 /* 게시판 관리 go*/
 function go(page2){
+   var board_search_field = $('#board_search_field').val();
+   var board_search_word = $('#board_search_word').val();
    var limit2 = $('#viewcount2').val();
-   var data2 = "limit2=" + limit2 + "&state=ajax&page2=" + page2;
+   var data2 = "limit2=" + limit2 + "&state=ajax&page2=" + page2+"&board_search_field="+board_search_field+"&board_search_word="+board_search_word;
    ajax(data2);
 }
+
 /* 회원 관리 go*/
 function go2(page){
 	   var search_field = $('#viewcount').val();
@@ -12,9 +15,9 @@ function go2(page){
 	   var data = "limit=" + limit + "&state2=ajax&page=" + page+"&search_field="+search_field+"&search_word="+search_word;
 	   ajax2(data);
 }
+
 function concert_go(concert_page){
 	   var concert_search_field = $('#concert_search_field').val();
-	   alert("concert_go : "+concert_search_field);
 	   var concert_search_word = $('#concert_search_word').val();
 	   var concert_limit = $('#concert_viewcount').val();
 	   var concert_data = "concert_limit=" + concert_limit + "&concert_state=ajax&concert_page=" + concert_page+"&concert_search_field="+concert_search_field+"&concert_search_word="+concert_search_word;
@@ -61,8 +64,10 @@ function ajax(data) {
             dataType:"json",
             cache:false,
             success:function(data){
+            		$('#board_search_field').val(data.board_search_field).prop("selected", true);
+            		$('#board_search_word').val(data.board_search_word);
                     $("#viewcount2").val(data.limit2);
-                    $(".t2").find("font").text("글 개수 : " + data.listcount2);
+                    $(".t2").find("font").text(data.listcount2+"개");
                     
                     if(data.listcount2>0) { //총갯수가 1개 이상인 경우
                     	$('.tb2').remove();
@@ -87,8 +92,7 @@ function ajax(data) {
 
                     				output += item.BOARD_SUBJECT + '</a></div></td>'
                     				output += '<td><div>' + item.BOARD_NAME + '</div></td>'
-                    				output += '<td><div>' + item.BOARD_DATE  + '</div></td>'
-                    				output += '<td><div>' + item.BOARD_READCOUNT + '</div></td></tr>'
+                    				output += '<td><div><a href="./AdminBoardDelete.bo?num='+ item.BOARD_NUM + '"style="color:red" >삭제</a></div></td></tr>'
                     				
                     			});
                     			output += '</tbody>'
@@ -159,7 +163,7 @@ function ajax2(data) {
                     					  + ' data-toggle="modal" data-target="#member_view_Modal">' + item.id +'</button></a></div></td>';
                     				output += "<td><div>" + item.name +"</td></div>";
                     				if(item.id != 'admin@mfe.com') {
-                    					output += '<td><a href="member_delete.net?id=' + item.id +'">삭제</a></td>';
+                    					output += '<td><a href="member_delete.net?id=' + item.id +'" style="color:red" >삭제</a></td>';
                     				}
                     			}
                     	);
@@ -218,7 +222,6 @@ function concert_ajax(concert_data) {
                     $("#concert_viewcount").val(data.concert_limit);
                     
                     $('#concert_search_field').val(data.concert_search_field).prop("selected", true);
-                    alert(data.concert_search_field);
                     $('#concert_search_word').val(data.concert_search_word);
                     $(".t3").find("font").text(data.concert_count+"명");
                     
@@ -234,7 +237,7 @@ function concert_ajax(concert_data) {
                     					  + ' data-toggle="modal" data-target="#concert_view_Modal">' + item.concert_id +'</button></a></div></td>';
                     				output += "<td><div>" + item.concert_name +"</td></div>";
                     				
-                    				output += '<td><a href="concert_delete.co?id=' + item.concert_id +'">삭제</a></td>';
+                    				output += '<td><a href="concert_delete.co?id=' + item.concert_id +'" style="color:red" >삭제</a></td>';
                     				
                     			}
                     	);
@@ -279,6 +282,7 @@ function concert_ajax(concert_data) {
 } //function ajax end
 
 
+
 /* 파라미터 값 가져오는 것 */
 $.urlParam = function(name){
     var results = new RegExp('[\?&]' + name + '=([^&#]*)').exec(window.location.href);
@@ -292,11 +296,11 @@ $.urlParam = function(name){
 
 
 
-
 $(function(){
 	/* 페이지에 따라 탭 강제 선택 */
 	var tab = ($.urlParam('page2'));
-	if(tab != null) {
+	var board_search = ($.urlParam('board_search_field'));
+	if(tab != null || board_search != null) {
 		$('#boardTab').trigger('click');
 	}
 	var concert_tab = ($.urlParam('concert_page'));
@@ -304,6 +308,8 @@ $(function(){
 	if(concert_tab != null || concert_search != null) {
 		$('#concertTab').trigger('click');
 	}
+	
+	
 	/* 게시판 */
    $("#viewcount2").change(function(){
       go(1); //보여줄 페이지를 1페이지로 설정한다.
@@ -335,6 +341,12 @@ $(function(){
 			return false;
 		}
 	});
+	$('#board_search_btn').click(function() {
+		if($("#board_search_word").val() == '') {
+			alert("검색어를 입력하세요");
+			return false;
+		}
+	});
 	$('#concert_search_btn').click(function() {
 		if($("#concert_search_word").val() == '') {
 			alert("검색어를 입력하세요");
@@ -351,6 +363,13 @@ $(function(){
 	$(".memberDetail").click(function() {
 		var member_id = $(this).text();
 		getView(member_id);
+	});
+	$("#textMessage").keydown(function(key) {
+		if (key.keyCode == 13) {
+			sendMessage();
+			return false;
+
+		}
 	});
 	
 });

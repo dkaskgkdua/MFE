@@ -28,6 +28,115 @@ public class BoardDAO {
 		}
 	}
 	
+	public int getListCount(int board_search_field, String board_search_word) {
+		int x = 0;
+		String field ="";
+		
+		switch(board_search_field) {
+		case 0:  //작성자
+			field = " where BOARD_NAME like ";
+			field += "'%"+board_search_word+"%' ";
+			break;
+		case 1:  //제목
+			field = " where BOARD_SUBJECT like ";
+			field += "'%"+board_search_word+"%' ";
+			break;
+		case 2:   //내용
+			field = " where BOARD_CONTENT like ";
+			field += "'%"+board_search_word+"%' ";
+			break;
+		case 3:   //제목+내용
+			field = " where BOARD_SUBJECT like "
+					+ "'%"+board_search_word+"%' or "
+					+ " BOARD_CONTENT like "
+					+ "'%"+board_search_word+"%' ";
+			break;
+		}
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement("select count(*) from board " + field);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				x = rs.getInt(1);
+			}
+		} catch(Exception ex) {
+			ex.printStackTrace();
+			System.out.println("getListCount() 에러 : " + ex);
+		} finally {
+			close();
+		}
+		return x;
+	}
+	public List<BoardBean> getBoardList(int board_search_field, String board_search_word, int page, int limit) {
+		String field ="";
+		
+		switch(board_search_field) {
+		case 0:  //작성자
+			field = " where BOARD_NAME like ";
+			field += "'%"+board_search_word+"%' ";
+			break;
+		case 1:  //제목
+			field = " where BOARD_SUBJECT like ";
+			field += "'%"+board_search_word+"%' ";
+			break;
+		case 2:   //내용
+			field = " where BOARD_CONTENT like ";
+			field += "'%"+board_search_word+"%' ";
+			break;
+		case 3:   //제목+내용
+			field = " where BOARD_SUBJECT like "
+					+ "'%"+board_search_word+"%' or "
+					+ " BOARD_CONTENT like "
+					+ "'%"+board_search_word+"%' ";
+			break;
+		}
+		
+		System.out.println("Board field = " + field);
+		
+		String board_list_sql = 
+				"select * "
+			+   "from (select rownum rnum, b.* "
+			+          "from (select * from board " + field
+			+          " order by BOARD_RE_REF desc,"
+			+          " BOARD_RE_SEQ asc) b "
+			+        ")"
+			+   " where rnum >= ? and rnum <= ? ";
+		List<BoardBean> list = new ArrayList<BoardBean>();
+		int startrow = (page-1) * limit +1;
+		int endrow = startrow + limit -1;
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(board_list_sql);
+			pstmt.setInt(1, startrow);
+			pstmt.setInt(2, endrow);
+			rs = pstmt.executeQuery();
+			
+			//DB에서 가져온 데이터를 VO 객체에 담는다.
+			while (rs.next()) {
+				BoardBean board = new BoardBean();
+				board.setBOARD_NUM(rs.getInt("BOARD_NUM"));
+				board.setBOARD_NAME(rs.getString("BOARD_NAME"));
+				board.setBOARD_SUBJECT(rs.getString("BOARD_SUBJECT"));
+				board.setBOARD_CONTENT(rs.getString("BOARD_CONTENT"));
+				//board.setBOARD_FILE(rs.getString("BOARD_FILE"));
+				//board.setBOARD_RE_REF(rs.getInt("BOARD_RE_REF"));
+				board.setBOARD_RE_LEV(rs.getInt("BOARD_RE_LEV"));
+				//board.setBOARD_RE_SEQ(rs.getInt("BOARD_RE_SEQ"));
+				board.setBOARD_READCOUNT(rs.getInt("BOARD_READCOUNT"));
+				board.setBOARD_DATE(rs.getDate("BOARD_DATE"));
+				list.add(board);
+			}
+			
+			return list;
+		} catch(Exception ex) {
+			System.out.println("getBoardList() 에러 : " + ex);
+			ex.printStackTrace();
+		} finally {
+			close();
+		}
+		return null;
+	}
+	
 	public int getListCount() {
 		int x = 0;
 		try {

@@ -74,7 +74,7 @@
 							<div>${m.name}</div>
 						</td>
 						<td><c:if test="${m.id != 'admin@mfe.com'}">
-								<a href="member_delete.net?id=${m.id}">삭제</a>
+								<a href="member_delete.net?id=${m.id}" style="color:red">삭제</a>
 								<%-- onclick = "delchk(); 붙여도 가능 --%>
 							</c:if></td>
 					</tr>

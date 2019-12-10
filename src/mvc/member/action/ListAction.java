@@ -25,9 +25,6 @@ public class ListAction implements Action {
 		ActionForward forward = new ActionForward();
 
 		
-
-
-		
 		//////////////////////////////////////////////////  concert 구간
 		
 		ConcertDAO concertdao = new ConcertDAO();
@@ -81,6 +78,9 @@ public class ListAction implements Action {
 		List<BoardBean> boardlist = new ArrayList<BoardBean>();
 		int page2=1;
 		int limit2=10;
+		int board_search_field = -1; //널값 안나게 초기화해준것(case에 없어야함)
+		String board_search_word ="";
+		
 		
 		if(request.getParameter("page2")!=null) {
 			page2=Integer.parseInt(request.getParameter("page2"));
@@ -92,18 +92,20 @@ public class ListAction implements Action {
 		}
 		System.out.println("넘어온 limit2 = " + limit2);
 		
+		if(request.getParameter("board_search_field") != null) {
+			board_search_field = Integer.parseInt(request.getParameter("board_search_field"));
+			System.out.println("검색 : " + concert_search_field);
+		} 
+		if(request.getParameter("board_search_word") != null) {
+			board_search_word = request.getParameter("board_search_word");
+			System.out.println("검색 내용 : " + board_search_word);
+		}
+		
 		//총 리스트 수를 받아온다.
-		int listcount2 = boarddao.getListCount();
-		
-		
-		/////////////////////////////////////////////////////////
-		int listcount3 = mdao.getServiceCount();  //상담 요청 고객수를 카운트하기 위해
-		List<websocketVO2> volist = mdao.ServiceList(page2,limit2);  //상담 요청  고객을 띄우기 위해
-		////////////////////////////////////////////////////////////////////////////////
-		
+		int listcount2 = boarddao.getListCount(board_search_field, board_search_word);
 		
 		//리스트를 받아온다.
-		boardlist = boarddao.getBoardList(page2, limit2);
+		boardlist = boarddao.getBoardList(board_search_field, board_search_word,page2, limit2);
 	
 		int maxpage2 = (listcount2+limit2-1)/limit2;
 		System.out.println("총 페이지 수 = "+maxpage2); 
@@ -158,6 +160,13 @@ public class ListAction implements Action {
 		
 		if(endpage > maxpage) endpage = maxpage;
 		
+		///////////////////////////////////////////////////////// 채팅 구간 
+		//int listcount3 = mdao.getServiceCount();  
+		//상담 요청 고객수를 카운트하기 위해
+		//List<websocketVO2> volist = mdao.ServiceList(page2,limit2);  
+		//상담 요청  고객을 띄우기 위해
+		
+		
 		////////////////////////////////////////////////////값 보내는 구간
 		if(state == null && state2 == null && concert_state == null) { //첫 시작
 			System.out.println("state=null");
@@ -169,7 +178,7 @@ public class ListAction implements Action {
 			request.setAttribute("listcount", listcount);
 			request.setAttribute("memberlist", list);
 			request.setAttribute("search_word", search_word);
-			
+			request.setAttribute("limit", limit);
 			if(request.getParameter("search_field") == null) {
 				request.setAttribute("search_field", 0);
 			} else {
@@ -184,7 +193,7 @@ public class ListAction implements Action {
 			request.setAttribute("concert_count", concert_count);
 			request.setAttribute("concert_list", concert_list);
 			request.setAttribute("concert_search_word", concert_search_word);
-			
+			request.setAttribute("concert_limit", concert_limit);
 			if(request.getParameter("concert_search_field") == null) {
 				request.setAttribute("concert_search_field", 0);
 			} else {
@@ -195,28 +204,19 @@ public class ListAction implements Action {
 			///////////////////////////////////////////////////// 게시판 초기화
 			request.setAttribute("page2", page2); //현재 페이지 수
 			request.setAttribute("maxpage2", maxpage2); //최대 페이지 수
-		
-			//현재 페이지에 표시할 첫 페이지 수
 			request.setAttribute("startpage2", startpage2);
-			//현재 페이지에 표시할 끝 페이지 수
 			request.setAttribute("endpage2", endpage2);
-
-			
 			request.setAttribute("listcount2", listcount2); //총 글의 수
-			
-			
-			
-			//////////////////////////////////////////////////////////////////
-			request.setAttribute("listcount3", listcount3); //상담 요청한 고객 수 카운트
-			request.setAttribute("ServiceList", volist);    //상담 요청한 고객
-			////////////////////////////////////////////////////////////////////
-			
-			
-			
-		
-			//해당 페이지의 글 목록을 갖고 있는 리스트
 			request.setAttribute("boardlist", boardlist);
+			request.setAttribute("board_search_word", board_search_word);
 			request.setAttribute("limit2", limit2);
+			if(request.getParameter("board_search_field") == null) {
+				request.setAttribute("board_search_field", 0);
+			} else {
+				request.setAttribute("board_search_field", request.getParameter("board_search_field"));
+			}
+			
+			
 			forward.setRedirect(false);
 			forward.setPath("admin/adminPage.jsp");
 			return forward;
@@ -254,6 +254,8 @@ public class ListAction implements Action {
 			object.addProperty("maxpage2",maxpage2);
 			object.addProperty("startpage2", startpage2);
 			object.addProperty("endpage2", endpage2);
+			object.addProperty("board_search_field", board_search_field);
+			object.addProperty("board_search_word", board_search_word);
 			object.addProperty("listcount2",listcount2);
 			object.addProperty("limit2", limit2);
 			// List => JsonArray
@@ -298,6 +300,10 @@ public class ListAction implements Action {
 			System.out.println(json);
 			return null;
 		} else {
+			//////////////////////////////////////////////////////////////////
+			//request.setAttribute("listcount3", listcount3); //상담 요청한 고객 수 카운트
+			//request.setAttribute("ServiceList", volist);    //상담 요청한 고객
+			////////////////////////////////////////////////////////////////////
 			System.out.println("채팅 관리 들어갈 곳");
 			return null;
 		}

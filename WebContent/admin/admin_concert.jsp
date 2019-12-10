@@ -94,7 +94,7 @@
 							<div>${concert.concert_name}</div>
 						</td>
 						<td><a class="del"
-							href="concert_delete.co?id=${concert.concert_id}">삭제</a></td>
+							href="concert_delete.co?id=${concert.concert_id}" style="color:red">삭제</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
@@ -215,12 +215,12 @@
 								<label>장르</label> <select name="concert_add_genre_id"
 									id="concert_add_genre_id">
 									<option value="1">발라드</option>
-									<option value="2">댄스</option>
+									<option value="2">록/메탈</option>
 									<option value="3">랩/힙합</option>
 									<option value="4">R&amp;B/Soul</option>
-									<option value="5">인디음악</option>
-									<option value="6">록/메탈</option>
-									<option value="7">트로트</option>
+									<option value="5">jazz</option>
+									<option value="6">classic</option>
+									<option value="7">pop</option>
 									<option value="8">EDM</option>
 								</select>
 							</div>

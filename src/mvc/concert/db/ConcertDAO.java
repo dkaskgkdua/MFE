@@ -69,11 +69,9 @@ public class ConcertDAO {
 	}
 	public List<ConcertBean> getCustomConcertList(String prefers) {
 		List<ConcertBean> custom_concert_list = new ArrayList<ConcertBean>();
+		System.out.println(prefers);
 		String[] prefersArray = prefers.split(",");
 		String add =" where ";
-		if(prefersArray.length == 1) {
-			add += " genre_name = '" + prefersArray[0]+"'";
-		}
 		for(int i =0; i < prefersArray.length; i++) {
 			if(i == 0) {
 				add += " genre_name = '" + prefersArray[i]+"' "; 

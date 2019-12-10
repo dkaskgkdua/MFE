@@ -23,27 +23,27 @@
 	li .current {
 		background: #bfbebe !important;
 	}
-	.search_member, .search_concert {
+	.search_member, .search_concert, .search_board {
 		margin-top : 5%;
 	}
 	.size {
 		width : 100%;
 		margin :0;
 	}
-	#viewcount, #concert_search_field {
+	#viewcount, #concert_search_field, #board_search_field {
 		float : left;
 		width : 100px;
 		height : 40px;
 		font-size : 10pt;
 	}
-	#search_word, #concert_search_word {
+	#search_word, #concert_search_word, #board_search_word {
 		float : left;
 		width : 40%;
 		height : 40px;
 		margin-left : 1%;
 		
 	}
-	#search_btn, #concert_search_btn {
+	#search_btn, #concert_search_btn, #board_search_btn {
 		float : left;
 		width : 50px;
 		height : 40px;

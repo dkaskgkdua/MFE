@@ -69,7 +69,7 @@ private Connection conn;
 	try {
 		conn = ds.getConnection();
 		System.out.println("getConnection");
-		pstmt = conn.prepareStatement("insert into chat (id, chatContent, chatTime)  values(?,?,sysdate)");
+		pstmt = conn.prepareStatement("insert into chat (CHAT_LOG_ID, MEMBER_ID, CHAT_LOG_CONTENT, CHAT_LOG_DATE)  values(chat_seq.nextval,?,?,sysdate)");
 		pstmt.setString(1, vo.getId());
 		pstmt.setString(2, vo.getChatContent());
 		result = pstmt.executeUpdate();	
@@ -199,7 +199,7 @@ private Connection conn;
 
 
 }
-		
+		/*
 	public int idDelete(String id) {
 		   result = 0;
 			try {
@@ -217,7 +217,7 @@ private Connection conn;
 			}
 			 return result;
 		}
-	
+	*/
 	
 	public websocketVO2  sessionId(String id) {
         websocketVO2 v = null;

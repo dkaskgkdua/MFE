@@ -1802,9 +1802,10 @@
 		color: #c1c7cd;
 	}
 
-		a:hover {
-			color: rgba(193, 199, 205, 0.5);
-		}
+	a:hover {
+		color: rgba(193, 199, 205, 0.5);
+		text-decoration: none !important;
+	}
 
 	strong, b {
 		color: #ffffff;
@@ -3877,6 +3878,7 @@
 	option {
 		color : black;
 	}
+	
 /* Main */
 	
 body, footer {

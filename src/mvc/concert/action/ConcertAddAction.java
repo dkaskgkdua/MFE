@@ -21,21 +21,21 @@ public class ConcertAddAction implements Action {
 		ConcertBean cdata = new ConcertBean();
 		ActionForward forward = new ActionForward();
 		
-		//String realFolder="";
+		String realFolder="";
 		//WebContent 아래 저장될 폴더 이름
 		String saveFolder="concertupload";
 	
 		int fileSize = 10*1024*1024;
 		
-		//ServletContext sc = request.getServletContext();
-		//realFolder = sc.getRealPath(saveFolder);
-		String myFolder = "D:\\Java\\te\\WebContent\\concertupload";
-		System.out.println("realFolder = " + myFolder);
+		ServletContext sc = request.getServletContext();
+		realFolder = sc.getRealPath(saveFolder);
+		String myFolder = "D:\\MJ\\te\\WebContent\\concertupload";
+		System.out.println("realFolder = " + realFolder);
 		boolean result = false;
 		
 		try {
 			MultipartRequest multi = null;
-			multi = new MultipartRequest(request, myFolder,
+			multi = new MultipartRequest(request, realFolder,
 								fileSize,
 								"UTF-8",
 								new DefaultFileRenamePolicy());

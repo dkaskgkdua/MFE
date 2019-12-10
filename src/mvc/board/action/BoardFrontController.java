@@ -122,7 +122,14 @@ public class BoardFrontController extends HttpServlet {
         	  forward = new ActionForward();
         	  forward.setRedirect(false);//포워딩 방식으로 주소가 바뀌지 않음.
         	  forward.setPath("board/qna_board_delete.jsp");
-          } else if(command.equals("/BoardDeleteAction.bo")) {
+          } else if(command.equals("/AdminBoardDelete.bo")) {
+        	  action = new BoardDeleteAction();
+              try {
+                 forward=action.execute(request, response);
+              } catch (Exception e) {
+                 e.printStackTrace();
+              }
+          } else if(command.equals("/AdminBoardDelete.bo")) {
         	  action = new BoardDeleteAction();
         	  try {
         		  forward = action.execute(request, response);

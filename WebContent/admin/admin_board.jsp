@@ -2,34 +2,54 @@
     pageEncoding="UTF-8"%>
     <%@ taglib prefix ="c"  uri = "http://java.sun.com/jsp/jstl/core" %>
 
-<c:if test ="${listcount2 > 0 }">
-	<div class = "rows ">
-		<span class = "sp">목록 갯수</span>
-		<select class = "form-control"  id = "viewcount2">
-			<option value = "1">1</option>
-			<option value = "3">3</option>
-			<option value = "5">5</option>
-			<option value = "7">7</option>
-			<option value = "10" selected>10</option>
-		</select>
-	</div>
+<script>
+	$(function() {
+		var board_sel = "${board_search_field}";
+		$("#board_search_field").val(board_sel).prop("selected", true);
+	})
+</script>
 
+<c:if test ="${listcount2 > 0 }">
+<div class="center-block">
+		<form class="search_board size" action="adminPage.net">
+			<div class="input-group select-wrapper">
+				<select id="board_search_field" name="board_search_field">
+					<option value="0">작성자</option>
+					<option value="1"selected>제목</option>
+					<option value="2">내용</option>
+					<option value="3">제목+내용</option>
+				</select> <input id="board_search_word" name="board_search_word" type="text"
+					class="form-control" placeholder="Search" value="${board_search_word}">
+				<button id="board_search_btn" class="btn btn-primary small" type="submit">검색</button>
+
+			</div>
+		</form>
+	</div>
 <div class = "container container2">
 <%-- 게시글이 있는 경우 --%>
 	<table class = "table t2">
+	<caption>게시판 목록</caption>
 	<thead>
 		<tr>
-			<th colspan = "3">MVC 게시판 - list</th>
 			<th colspan = "2">
-				<font size=3>글 개수 : ${listcount2 }</font>
+				<select class = "form-control"  id = "viewcount2">
+					<option value = "1">1</option>
+					<option value = "3">3</option>
+					<option value = "5">5</option>
+					<option value = "7">7</option>
+					<option value = "10" selected>10</option>
+				</select>
+			</th>
+			<th colspan="1"></th>
+			<th colspan = "1">
+				<font size=3>${listcount2 }개</font>
 			</th>
 		</tr>
 		<tr>
-			<th width = "8%"><div>번호</div></th>
-			<th width = "50%"><div>제목</div></th>
-			<th width = "14%"><div>작성자</div></th>
-			<th width = "17%"><div>날짜</div></th>
-			<th width = "11%"><div>조회수</div></th>
+			<th width = "20%"><div>번호</div></th>
+			<th width = "30%"><div>제목</div></th>
+			<th width = "30%"><div>작성자</div></th>
+			<th width = "20%"><div>삭제</div></th>
 		</tr>
 	</thead>
 	<tbody class = "tb2">
@@ -60,10 +80,9 @@
 				<div>${b.BOARD_NAME}</div>
 			</td>
 			<td>
-				<div>${b.BOARD_DATE}</div>
-			</td>
-			<td>
-				<div>${b.BOARD_READCOUNT}</div>
+				<div>
+					<a href="AdminBoardDelete.bo?id=${b.BOARD_NUM}" style="color:red">삭제</a>
+				</div>
 			</td>
 		</tr>
 	</c:forEach>
