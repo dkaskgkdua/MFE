@@ -242,7 +242,26 @@ public class MemberDAO {
 		}
 		return m;
 	}
-	
+	/* 선호장르 null 일 경우 호출한 곳에서 처리해줘야함*/
+	public String Member_prefer(String id) {
+		String prefer = "";
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement("select member_preference from member where member_id = ? ");
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				prefer = rs.getString(1);
+			}
+		} catch(SQLException e) {
+			System.out.println("member_info에서 에러");
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		
+		return prefer;
+	}
 	public int delete(String id) {
 		result = 0;
 		try {

@@ -1,13 +1,15 @@
+drop table likey;
+drop sequence likey_seq;
 CREATE TABLE LIKEY(
 	LIKEY_ID	NUMBER,
-	CONCERT_ID	NUMBER	NOT NULL,
-	MEMBER_ID	NUMBER	NOT NULL,
-	CONSTRAINT PRIMARY KEY(LIKEY_ID)
+	CONCERT_ID	NUMBER(10)	NOT NULL,
+	MEMBER_ID	varchar2(30)	NOT NULL,
+	PRIMARY KEY(LIKEY_ID),
+	FOREIGN KEY(concert_id) REFERENCES concert(concert_id) on delete cascade,
+	FOREIGN KEY(member_id) REFERENCES member(member_id) on delete cascade
 );
 
-SELECT * FROM LIKEY;
+create sequence likey_seq; 
 DELETE FROM LIKEY;
-
-INSERT(LIKEY_ID, CONCERT_ID, MEMBER_ID) 
-INTO LIKEY 
-VALUES(1, 1, 1);
+SELECT * FROM LIKEY;
+select * from likey where member_id = 'admin@mfe.com';

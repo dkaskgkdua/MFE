@@ -8,11 +8,14 @@ CREATE TABLE GENRE(
 
 create sequence GENRE_SEQ;
 
-insert into GENRE values(GENRE_SEQ.NEXTVAL, '발라드');
-insert into GENRE values(GENRE_SEQ.NEXTVAL, '댄스');
-insert into GENRE values(GENRE_SEQ.NEXTVAL, '랩/힙합');
+insert into GENRE values(GENRE_SEQ.NEXTVAL, 'balad');
+insert into GENRE values(GENRE_SEQ.NEXTVAL, 'rock');
+insert into GENRE values(GENRE_SEQ.NEXTVAL, 'rap');
 insert into GENRE values(GENRE_SEQ.NEXTVAL, 'R&B/Soul');
-insert into GENRE values(GENRE_SEQ.NEXTVAL, '인디음악');
-insert into GENRE values(GENRE_SEQ.NEXTVAL, '록/메탈');
-insert into GENRE values(GENRE_SEQ.NEXTVAL, '트로트');
+insert into GENRE values(GENRE_SEQ.NEXTVAL, 'jazz');
+insert into GENRE values(GENRE_SEQ.NEXTVAL, 'classic');
+insert into GENRE values(GENRE_SEQ.NEXTVAL, 'pop');
 insert into GENRE values(GENRE_SEQ.NEXTVAL, 'EDM');
+
+update genre set genre_name ='EDM' where genre_id = 8;
+select * from genre;

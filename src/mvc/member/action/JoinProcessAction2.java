@@ -20,12 +20,14 @@ public class JoinProcessAction2  implements Action {
 		String phone_number = request.getParameter("addMember_phone_number");
 		String[] preferences = request.getParameterValues("addMember_preference");
 		String preference ="";
-		for(int i = 0; i < preferences.length; i++) {
-			preference += preferences[i];
-			if(i == preferences.length-1) {
-				break;
+		if(preferences != null) {
+			for(int i = 0; i < preferences.length; i++) {
+				preference += preferences[i];
+				if(i == preferences.length-1) {
+					break;
+				}
+				preference += ",";
 			}
-			preference += ",";
 		}
 		System.out.println(id);
 		System.out.println(pass);
