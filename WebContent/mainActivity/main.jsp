@@ -369,10 +369,18 @@
 				})
 		$('.slider').slick({
 			centerMode : true,
-			slidesToShow : 9,
+			slidesToShow : 10,
 			infinite : true,
-			slidesToscroll : 8,
+			slidesToscroll : 9,
 			responsive : [ {
+				breakpoint : 1800,
+				settings : {
+					centerMode : true,
+					infinite : true,
+					slidesToShow : 9,
+					slidesToscroll : 8
+				}
+			}, {
 				breakpoint : 1600,
 				settings : {
 					centerMode : true,
@@ -380,7 +388,7 @@
 					slidesToShow : 8,
 					slidesToscroll : 7
 				}
-			}, {
+			},{
 				breakpoint : 1400,
 				settings : {
 					centerMode : true,
