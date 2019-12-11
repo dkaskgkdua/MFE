@@ -12,6 +12,9 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import mvc.book.db.BookBean;
 
 public class ChatDAO {
@@ -36,7 +39,7 @@ public class ChatDAO {
 		try {
 			con = ds.getConnection();
 			
-			pstmt = con.prepareStatement("select count(*) from chat where chat.member_id=?");
+			pstmt = con.prepareStatement("select count(count(*)) from chat where member_id=? group by chat_log_id2");
 			pstmt.setString(1, id);
 			rs=pstmt.executeQuery();
 			
@@ -67,37 +70,86 @@ public class ChatDAO {
 		}
 		return x;
 	}
+	
+	public ArrayList<ChatBean> chatLog(String id){
+		
+		String sql = "select chat_log_id2 " + 
+				"from chat " + 
+				"where chat.member_id=? " + 
+				"or chat.member_id='admin@mfe.com' " + 
+				"group by chat_log_id2 " + 
+				"order by chat_log_id2 desc";
+		
+		
 
-	public List<ChatBean> getChatList(int page, int limit, String id) {
-
-		String sql = "select * "
-				+   "from (select rownum rnum, b.* "
-				+          "from (select * from chat where chat.member_id=?) b "
-				+        ")"
-				+   " where rnum >= ? and rnum <= ?";
-
-		List<ChatBean> list = new ArrayList<ChatBean>();
-		int startrow = (page-1) * limit +1;
-		int endrow = startrow + limit -1;
+		ArrayList<ChatBean> list = new ArrayList<ChatBean>();
+		
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, id);
-			pstmt.setInt(2, startrow);
-			pstmt.setInt(3, endrow);
 
 			rs = pstmt.executeQuery();
-			// DB에서 가져온 데이터를 VO객체에 담습니다.
+		
+			
 			while(rs.next()) {
 				ChatBean chat = new ChatBean();
-				chat.setChat_log_id(rs.getString("CHAT_LOG_ID"));
-				chat.setChat_log_answer(rs.getString("CHAT_LOG_ANSWER"));
-				chat.setChat_log_content(rs.getString("CHAT_LOG_CONTENT"));
-				chat.setChat_log_date(rs.getDate("CHAT_LOG_DATE"));
+				chat.setChat_log_id2(rs.getInt("CHAT_LOG_ID2"));
+				
 				list.add(chat);
 				
 			}
-			return list; // 값을 담은 객체를 저장한 리스틀 호출한 곳으로 가져갑니다.
+			return list; 
+		}catch(Exception e) {
+			System.out.println("chatLog() 에러 : " + e);
+			e.printStackTrace();
+		}finally {
+	         if(pstmt != null) {
+		            try {
+		               pstmt.close();
+		            } catch(SQLException ex) {
+		               ex.printStackTrace();
+		            }
+		      }
+		     if(con!=null) {
+		            try {
+		               con.close();
+		            }catch(SQLException ex) {
+		               ex.printStackTrace();
+		            }
+		     }
+		}
+		return list;
+	}
+
+	public List<ChatBean> getChatList(String id) {
+
+		String sql = "select * "
+				+   "from chat where member_id=? or member_id='admin@mfe.com'";
+		
+		
+
+		List<ChatBean> list = new ArrayList<ChatBean>();
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+
+			rs = pstmt.executeQuery();
+		
+			
+			while(rs.next()) {
+				ChatBean chat = new ChatBean();
+				chat.setChat_log_id(rs.getInt("CHAT_LOG_ID"));
+				chat.setChat_log_id2(rs.getInt("CHAT_LOG_ID2"));
+				chat.setChat_log_content(rs.getString("CHAT_LOG_CONTENT"));
+				chat.setChat_log_date(rs.getDate("CHAT_LOG_DATE"));
+				chat.setMember_id(rs.getString("MEMBER_ID"));
+				
+				list.add(chat);
+				
+			}
+			return list; 
 		}catch(Exception e) {
 			System.out.println("getChatList() 에러 : " + e);
 			e.printStackTrace();
@@ -120,4 +172,50 @@ public class ChatDAO {
 		return null;
 	}
 
+	
+	public JsonArray Chatlist2(int log_id2, String id) {
+		JsonArray chatlist2 = new JsonArray();
+		
+		try {
+			String sql = "select chat_log_content, chat_log_date, member_id from chat where (member_id='admin@mfe.com' or member_id=?) and chat_log_id2=?";
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			pstmt.setInt(2, log_id2);
+			
+		
+
+			rs = pstmt.executeQuery();
+		
+			
+			while(rs.next()) {
+				JsonObject object = new JsonObject();
+				object.addProperty("chat_log_content", rs.getString(1));
+				object.addProperty("chat_log_date", rs.getString(2));
+				object.addProperty("member_id", rs.getString(3));
+				chatlist2.add(object);
+			}
+			return chatlist2; 
+		}catch(Exception e) {
+			System.out.println("Chatlist2() 에러 : " + e);
+			e.printStackTrace();
+		}finally {
+	         if(pstmt != null) {
+		            try {
+		               pstmt.close();
+		            } catch(SQLException ex) {
+		               ex.printStackTrace();
+		            }
+		      }
+		     if(con!=null) {
+		            try {
+		               con.close();
+		            }catch(SQLException ex) {
+		               ex.printStackTrace();
+		            }
+		     }
+		}
+		return chatlist2;
+	}
+		
 }

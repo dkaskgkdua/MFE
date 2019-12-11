@@ -1,5 +1,6 @@
 package mvc.book.action;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class MyListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("euc-kr");
+		request.setCharacterEncoding("utf-8");
 		
 		ActionForward forward = new ActionForward();
 		
@@ -68,10 +69,20 @@ public class MyListAction implements Action {
 		//-------------------------
 			
 			
-			//chatlist
-			
 			ChatDAO chatdao = new ChatDAO();
 			List<ChatBean> chatlist = new ArrayList<ChatBean>();
+			ArrayList<ChatBean> chatloglist = new ArrayList<ChatBean>();
+			
+			
+
+			int chatlistcount = chatdao.getListCount(id);
+			request.setAttribute("chatlistcount", chatlistcount); 
+			
+			chatloglist = chatdao.chatLog(id);
+			request.setAttribute("chatloglist", chatloglist);
+			
+			chatlist = chatdao.getChatList(id);
+			request.setAttribute("chatlist", chatlist);
 		
 			
 		//------------------------
@@ -104,34 +115,7 @@ public class MyListAction implements Action {
 			
 			if(endpage > maxpage) endpage = maxpage;
 			
-			//chat
-			int page2=1;
-			int limit2=5;
-
-			if(request.getParameter("page2")!=null) {
-				page2=Integer.parseInt(request.getParameter("page2"));
-			}
-			System.out.println("넘어온 페이지2 = " + page2);
-
-			if(request.getParameter("limit2") != null) {
-				limit2 = Integer.parseInt(request.getParameter("limit2 "));
-			}
-			System.out.println("넘어온 limit2 = " + limit2);
-
-			int chatlistcount = chatdao.getListCount(id);
-
-			chatlist = chatdao.getChatList(page2, limit2, id);
-
-			int maxpage2 = (chatlistcount+limit2-1)/limit2;
-			System.out.println("총 페이지 수 = "+maxpage2); 
-
-			int startpage2 = ((page2-1) / 5) * 5 +1;
-			System.out.println("현재 페이지에 보여줄 시작 페이지2 수 = " + startpage2);
-
-			int endpage2 = startpage2 + 5 -1;
-			System.out.println("현재 페이지에 보여줄 마지막 페이지 수2 = " + endpage2);
-
-			if(endpage2 > maxpage2) endpage2 = maxpage2;
+			
 			
 			String state = request.getParameter("state");
 			
@@ -148,21 +132,15 @@ public class MyListAction implements Action {
 				
 				request.setAttribute("booklist", booklist);
 				request.setAttribute("limit", limit);
-				request.setAttribute("page2", page2);
-				request.setAttribute("maxpage2", maxpage2);
-				request.setAttribute("startpage2", startpage2);
-				request.setAttribute("endpage2", endpage2);
-				request.setAttribute("limit", limit2);
-
-				request.setAttribute("chatlistcount",chatlistcount); //총 글의 수
-
-				request.setAttribute("chatlist", chatlist);
+				
+				
+		
 				forward = new ActionForward();
 				forward.setRedirect(false);
 				
 				forward.setPath("mypage/mypage.jsp");
 			 	return forward; 
-			} else {
+			} else if(state.equals("ajax")){
 				System.out.println("state=ajax");
 				JsonObject object = new JsonObject();
 				object.addProperty("page", page);
@@ -188,11 +166,10 @@ public class MyListAction implements Action {
 				response.setContentType("text/html;charset=UTF-8");
 				response.getWriter().append(json);
 				System.out.println(json);
-
+	
 				return null;
 			}
-
-		
+			return null;
 	}
 
 }

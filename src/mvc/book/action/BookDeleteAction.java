@@ -14,7 +14,6 @@ public class BookDeleteAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		request.setCharacterEncoding("UTF-8");
 		BookDAO dao = new BookDAO();
-		request.setCharacterEncoding("UTF-8");
 
 		HttpSession session = request.getSession();
 		String id = (String)session.getAttribute("id");

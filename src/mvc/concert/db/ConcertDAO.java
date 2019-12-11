@@ -97,6 +97,7 @@ public class ConcertDAO {
 	public List<ConcertBean> getLikeList(String id) {
 
 		String sql = "select * from concert inner join likey on concert.concert_id = likey.concert_id "
+				+ " and sysdate<concert.concert_day "
 				+ "where likey.member_id=? order by likey.likey_id desc";
 		List<ConcertBean> list = new ArrayList<ConcertBean>();
 		

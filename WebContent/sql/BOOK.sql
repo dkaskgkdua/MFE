@@ -31,9 +31,11 @@ INSERT INTO BOOK VALUES(book_seq.nextval, 10, 'abc123@mfe.com', 'e555555555', 5,
 INSERT INTO BOOK VALUES(book_seq.nextval, 11, 'abc123@mfe.com', 'e555555555', 5, '5555555555555555', SYSDATE);
 
 
+INSERT INTO BOOK VALUES(book_seq.nextval, 21, 'abc123@mfe.com', 'e555555555', 5, '5555555555555555', SYSDATE);
+
 INSERT INTO BOOK VALUES(book_seq.nextval, 2, 'admin@mfe.com', 'e222222222', 2, '1111111111111111', SYSDATE);
 INSERT INTO BOOK VALUES(book_seq.nextval, 3, 'admin@mfe.com', 'e333333333', 3, '1111111111111111', SYSDATE);
 
 
 
-select * from (select rownum rnum, b.* from (select * from book inner join concert on concert.concert_id=book.concert_id where book.member_id='abc123@mfe.com' order by book.book_id desc) b ) where rnum >= 1 and rnum <= 10;
+select * from (select rownum rnum, b.* from (select * from book inner join concert on concert.concert_id=book.concert_id and sysdate<concert.concert_day where book.member_id='abc123@mfe.com' order by book.book_id desc) b ) where rnum >= 1 and rnum <= 10;

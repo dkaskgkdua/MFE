@@ -16,7 +16,7 @@ CREATE TABLE CONCERT(
    FOREIGN KEY(LOCAL_ID) REFERENCES LOCAL on delete cascade
 );
 create sequence concert_seq increment by 1 start with 1;
-
+select * from concert;
 
 INSERT INTO CONCERT VALUES(concert_seq.nextval, '악동뮤지션 콘서트', '2020-01-01', '악동뮤지션', '19:00', '23:00', 'pic02.jpg', 1, 1, '80000');
 INSERT INTO CONCERT VALUES(concert_seq.nextval, 'DAY6 2019 Christmas Special Concert ‘The Present’', '2019-12-25', 'DAY6', '20:00', '23:00', 'pic02.jpg', 2, 1, '100000');
@@ -30,6 +30,7 @@ INSERT INTO CONCERT VALUES(concert_seq.nextval, '2019 김종국 콘서트 <진�
 INSERT INTO CONCERT VALUES(concert_seq.nextval, '2019－20 백지영 전국투어 콘서트 ＜BAEK STAGE＞', '2020-01-30', '백지영', '14:00', '20:00', 'pic02.jpg', 3, 3, '120000');
 INSERT INTO CONCERT VALUES(concert_seq.nextval, '2019 부활 라이브 투어 콘서트', '2020-02-23', '부활', '19:00', '23:00', 'pic02.jpg', 1, 4, '170000');
 
+INSERT INTO CONCERT VALUES(concert_seq.nextval, '12321323', '2019-02-23', '부활', '19:00', '23:00', 'pic02.jpg', 1, 4, '170000');
 
 update CONCERT set CONCERT_IMAGE='pic02.jpg';
 

@@ -6,13 +6,13 @@ public class BookBean {
 
 	private int book_id, concert_id, book_amount, card_id;
 	private String book_eticket, member_id ;
-	private Date book_date;
-	private Date concert_day;
+	private String book_date;
+	private String concert_day;
 	
-	public Date getConcert_day() {
+	public String getConcert_day() {
 		return concert_day;
 	}
-	public void setConcert_day(Date concert_day) {
+	public void setConcert_day(String concert_day) {
 		this.concert_day = concert_day;
 	}
 	public String getConcert_name() {
@@ -59,10 +59,10 @@ public class BookBean {
 	public void setBook_eticket(String book_eticket) {
 		this.book_eticket = book_eticket;
 	}
-	public Date getBook_date() {
+	public String getBook_date() {
 		return book_date;
 	}
-	public void setBook_date(Date book_date) {
+	public void setBook_date(String book_date) {
 		this.book_date = book_date;
 	}
 	

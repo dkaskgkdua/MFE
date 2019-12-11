@@ -28,7 +28,7 @@
 
 <header id="header">
 	<h1>
-		<a href="main.net">MFE <span>by</span></a>
+		<a href="main.net">MFE</a>
 	</h1>
 	<div>
 		<button type="button" class="btn btn-secondary" data-toggle="modal"
@@ -79,7 +79,7 @@
 	<ul class="links">
 		<li><a href="BoardList.bo" class="dropdown-toggle"
 			data-toggle="dropdown" role="button" aria-expanded="false">자유게시판</a></li>
-		<li><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+		<li><a href="ReviewList.rv" class="dropdown-toggle" data-toggle="dropdown"
 			role="button" aria-expanded="false">리뷰게시판</a></li>
 		<li><a href="#" class="dropdown-toggle" data-toggle="dropdown"
 			role="button" aria-expanded="false">고객센터 </a></li>
@@ -251,6 +251,9 @@
 					</form>
 				</div>
 			</div>
+			
+
+			
 		</div>
 	</div>
 </div>
