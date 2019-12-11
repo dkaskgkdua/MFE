@@ -161,9 +161,9 @@ public class ListAction implements Action {
 		if(endpage > maxpage) endpage = maxpage;
 		
 		///////////////////////////////////////////////////////// 채팅 구간 
-		//int listcount3 = mdao.getServiceCount();  
+		int listcount5 = mdao.getServiceCount();  
 		//상담 요청 고객수를 카운트하기 위해
-		//List<websocketVO2> volist = mdao.ServiceList(page2,limit2);  
+		List<websocketVO2> volist = mdao.ServiceList(page2,limit2);  
 		//상담 요청  고객을 띄우기 위해
 		
 		
@@ -215,7 +215,8 @@ public class ListAction implements Action {
 			} else {
 				request.setAttribute("board_search_field", request.getParameter("board_search_field"));
 			}
-			
+			request.setAttribute("listcount5", listcount5); //상담 요청한 고객 수 카운트
+			request.setAttribute("ServiceList", volist);    //상담 요청한 고객
 			
 			forward.setRedirect(false);
 			forward.setPath("admin/adminPage.jsp");
@@ -301,8 +302,7 @@ public class ListAction implements Action {
 			return null;
 		} else {
 			//////////////////////////////////////////////////////////////////
-			//request.setAttribute("listcount3", listcount3); //상담 요청한 고객 수 카운트
-			//request.setAttribute("ServiceList", volist);    //상담 요청한 고객
+			
 			////////////////////////////////////////////////////////////////////
 			System.out.println("채팅 관리 들어갈 곳");
 			return null;

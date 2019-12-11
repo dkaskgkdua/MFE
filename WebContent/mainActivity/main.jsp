@@ -19,7 +19,7 @@
 	border-radius: 7px;
 }
 
-#chat {
+#_chatbox {
 	position: fixed;
 	right: 0;
 	bottom: 8em;
@@ -270,33 +270,30 @@
 	</div>
 
 
-	<c:choose>
-		<c:when test="${id!=null && !id.equals('admin@mfe.com')}">
-			<section>
-				<!-- 채팅 부분 -->
-				<div id="chat">
+	  <c:choose>
+   <c:when test="${id!=null && !id.equals('admin@mfe.com')}">
+   <section>
+      <!-- 채팅 부분 -->     
+     
+  
+   <div id="_chatbox" style="visibility:hidden;" >
+         <!-- 결과 메시지 보여주는 창 -->
+         <div id="chatbar">고객 상담</div>
+         <textarea id="messageTextArea" class="idc" rows="10" cols="50" ></textarea>                  
+         <div><input id="textMessage" type="text" disabled ></div>         
+         <div id="sendbox">
+      
+            <input onclick="sendMessage()" id="send" value="보내기" type="button" disabled >
+            
+            </div>
+      </div>
 
-					<div id="_chatbox" style="visibility: hidden;">
-						<!-- 결과 메시지 보여주는 창 -->
-						<div id="chatbar">고객 상담</div>
-						<textarea id="messageTextArea" class="idc" rows="10" cols="50"></textarea>
-						<div>
-							<input id="textMessage" type="text">
-						</div>
-						<div id="sendbox">
-
-							<input onclick="sendMessage()" id="send" value="보내기"
-								type="button">
-
-						</div>
-					</div>
-
-
-				</div>
-				<img class="chat" src="images/open1.png" />
-			</section>
-		</c:when>
-	</c:choose>
+   
+  
+   <img class="chat"  src="images/open1.png" />
+   </section>   
+   </c:when>
+   </c:choose>
 
 
 
@@ -469,47 +466,63 @@
 			var elem = document.getElementById('messageTextArea');
 			elem.scrollTop = elem.scrollHeight;
 		}, 0);--%>
-		$(".chat").on(
-				{
-					"click" : function() {
-						if ($(this).attr("src") == "images/open1.png") {
-							$(".chat").attr("src", "images/cancel.png");
-							$("#_chatbox").css("visibility", "visible");
+		$(".chat").on({
+            "click" : function() {
+                if ($(this).attr("src") == "images/open1.png") {
+                    $(".chat").attr("src", "images/cancel.png");
+                    $("#_chatbox").css("visibility", "visible");
+                    
+                 webSocket = new WebSocket("ws://localhost:8088/te/websocket?"+'${id}');
+               
+               messageTextArea = document.getElementById("messageTextArea");
+             
+             //웹 소켓이 연결되었을 때 호출되는 이벤트
+             webSocket.onopen = function(message) {
+                
+                messageTextArea.value += "다른 고객님과의 상담이 진행 중 입니다.\n";
+                messageTextArea.value += "잠시만 기다려주세요.\n";
+             };
+             //웹 소켓이 닫혔을 때 호출되는 이벤트
+             webSocket.onclose = function(message) {
+                 $("#textMessage").prop("disabled",true);
+                 $("#send").prop("disabled",true);
+                messageTextArea.value += "상담이 종료되었습니다.\n";                     
+             };
+             //웹 소켓이 에러가 났을 때 호출되는 이벤트
+             webSocket.onerror = function(message) {
+                messageTextArea.value += "error...\n";
+             };
+             //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
+             webSocket.onmessage = function(message) {
+                   //message.data값에서 처음부터6개 "start=" 를 잘라서 그 값이 ex)start= 이면 isConnected를 true 로 준다.
+                   //사용자가 aaaa@mfe.com인경우 false->true
+                   console.log(message.data.substring(6))
+                   customer = message.data.substring(6);
+                   if(message.data.substring(0,6)!="start="){
+                messageTextArea.value +=  message.data + "\n";
+                   } else  {
+                      //1.customer 구하기
+                      //2.customer와 ${id} 비교하기
+                      if(customer=='${id}'){
+                         console.log("들어왔습니다.");
+                         $("#textMessage").prop("disabled",false);
+                         $("#send").prop("disabled",false);
+                      }
+                      //3. 같으면 disabled 활성화해주기
+                   }
 
-							webSocket = new WebSocket(
-									"ws://localhost:8088/te/websocket?"
-											+ '${id}');
-
-							messageTextArea = document
-									.getElementById("messageTextArea");
-
-							//웹 소켓이 연결되었을 때 호출되는 이벤트
-							webSocket.onopen = function(message) {
-
-								messageTextArea.value += "상담이 시작됩니다..\n";
-							};
-							//웹 소켓이 닫혔을 때 호출되는 이벤트
-							webSocket.onclose = function(message) {
-								messageTextArea.value += "상담이 종료되었습니다.\n";
-							};
-							//웹 소켓이 에러가 났을 때 호출되는 이벤트
-							webSocket.onerror = function(message) {
-								messageTextArea.value += "error...\n";
-							};
-							//웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
-							webSocket.onmessage = function(message) {
-
-								messageTextArea.value += message.data + "\n";
-
-							};
-
-						} else if ($(this).attr("src") == "images/cancel.png") {
-							$(".chat").attr("src", "images/open1.png");
-							$("#_chatbox").css("visibility", "hidden");
-							disconnect();
-						}
-					}
-				});
+             };
+                   
+                  
+                    
+                    
+                } else if ($(this).attr("src") == "images/cancel.png") {
+                    $(".chat").attr("src", "images/open1.png");
+                    $("#_chatbox").css("visibility", "hidden");
+                    disconnect();
+                }
+            }
+        });
 		/* 찜하기 클릭*/
 		$(".heart").click(
 				function() {

@@ -1,24 +1,23 @@
 drop table chat;
-
+drop sequence chat_seq;
+drop sequence chat_seq2;
 
 CREATE TABLE CHAT(
-   CHAT_LOG_ID         number,
-   MEMBER_ID         VARCHAR2(20)   NOT NULL,
-   CHAT_LOG_CONTENT   VARCHAR2(100)   NOT NULL,
-   CHAT_LOG_DATE      DATE   NOT NULL,
-   PRIMARY KEY(CHAT_LOG_ID),
+   CHAT_LOG_ID number(30) PRIMARY KEY,
+   CHAT_LOG_ID2	number(30),
+   MEMBER_ID VARCHAR2(50) NOT NULL,
+   CHAT_LOG_CONTENT VARCHAR2(100) NOT NULL,
+   CHAT_LOG_DATE DATE NOT NULL,
    FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER on delete cascade
 );
 
+alter table chat modify(member_id varchar2(50));
 create sequence chat_seq increment by 1 start with 1;
-
+create sequence chat_seq2 increment by 1 start with 1;
 
 
 create table sessId (id varchar(100));
 SELECT * FROM CHAT;
 DELETE FROM CHAT;
-
-INSERT(CHAH_LOG_ID, MEMBER_ID, CHAR_LOG_ANSWER, CHAH_LOG_CONTENT, 
-		CHAT_LOG_DATE) 
-INTO CHAT 
-VALUES(1, 1, 'TEST_CHAR_LOG_ANSWER', 'TEST_CHAH_LOG_CONTENT', SYSDATE);
+select * from sessId;
+delete from sessId;

@@ -15,283 +15,211 @@ import javax.sql.DataSource;
 
 
 public class websocketDAO {
-	
+   
 private Connection conn;
-	
-	private DataSource ds; 
+   
+   private DataSource ds; 
 
-	private PreparedStatement pstmt;
+   private PreparedStatement pstmt;
 
-	private ResultSet rs;
-	
-	int result;
-	
-	public websocketDAO() {
-		try {
+   private ResultSet rs;
+   
+   int result;
+   
+   public websocketDAO() {
+      try {
 
-			Context initContext = new InitialContext();
+         Context initContext = new InitialContext();
 
-			Context envContext = (Context) initContext.lookup("java:comp/env/");
+         Context envContext = (Context) initContext.lookup("java:comp/env/");
 
-			ds = (DataSource) envContext.lookup("jdbc/OracleDB");
+         ds = (DataSource) envContext.lookup("jdbc/OracleDB");
 
-		} catch (NamingException e) {
+      } catch (NamingException e) {
 
-			e.printStackTrace();
+         e.printStackTrace();
 
-		}
+      }
 
-	}
-	
-	private void close() {
+   }
+   
+   private void close() {
 
-		try {
+      try {
 
-		if(rs != null) {rs.close(); rs=null;}
+      if(rs != null) {rs.close(); rs=null;}
 
-		if(pstmt != null) {pstmt.close(); pstmt=null;}
+      if(pstmt != null) {pstmt.close(); pstmt=null;}
 
-		if(conn != null) {conn.close(); conn=null;}
+      if(conn != null) {conn.close(); conn=null;}
 
-		} catch(SQLException e) {
+      } catch(SQLException e) {
 
-		e.printStackTrace();
+      e.printStackTrace();
 
-		}
+      }
 
-		}
-	
+      }
 
-	public int submit(websocketVO vo) {
-		System.out.print("채팅내용 삽입");
-	
-	int result = 0;
-	try {
-		conn = ds.getConnection();
-		System.out.println("getConnection");
-		pstmt = conn.prepareStatement("insert into chat (CHAT_LOG_ID, MEMBER_ID, CHAT_LOG_CONTENT, CHAT_LOG_DATE)  values(chat_seq.nextval,?,?,sysdate)");
-		pstmt.setString(1, vo.getId());
-		pstmt.setString(2, vo.getChatContent());
-		result = pstmt.executeUpdate();	
-										
-	} catch (SQLException e) {
-		e.printStackTrace();
-	}
-	finally {
-		if (pstmt != null) {
-			try {
-				pstmt.close();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
+   public int submit(websocketVO vo) {
+      System.out.print("채팅내용 삽입");
+   
+   int result = 0;
+   try {
+      conn = ds.getConnection();
+      System.out.println("getConnection");
+      pstmt = conn.prepareStatement("insert into chat (CHAT_LOG_ID, CHAT_LOG_ID2, MEMBER_ID, CHAT_LOG_CONTENT, CHAT_LOG_DATE)  "
+            + "values(chat_seq.nextval, ?,?,?,sysdate)");
+      pstmt.setInt(1, vo.getChat_log_id2());
+      pstmt.setString(2, vo.getMEMBER_ID());
+      pstmt.setString(3, vo.getCHAT_LOG_CONTENT());
+      result = pstmt.executeUpdate();   
+                              
+   } catch (SQLException e) {
+      e.printStackTrace();
+   }
+   finally {
+      if (pstmt != null) {
+         try {
+            pstmt.close();
+         } catch (SQLException ex) {
+            ex.printStackTrace();
 
-			}
-		}
-		if (conn != null) {
-			try {
-				conn.close();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
-		}
-	}
-	return result;
-
-
-}
-	
-	public int sessId(websocketVO2 vo) {
-		System.out.print("세션 아이디 및 아이디 삽입");
-	
-	int result = 0;
-	try {
-		conn = ds.getConnection();
-		System.out.println("getConnection");
-		pstmt = conn.prepareStatement("insert into sessId (id)  values(?)");
-		pstmt.setString(1, vo.getId());
-
-		result = pstmt.executeUpdate();	
-										
-	} catch (SQLException e) {
-		e.printStackTrace();
-	}
-	finally {
-		if (pstmt != null) {
-			try {
-				pstmt.close();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-
-			}
-		}
-		if (conn != null) {
-			try {
-				conn.close();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
-		}
-	}
-	return result;
+         }
+      }
+      if (conn != null) {
+         try {
+            conn.close();
+         } catch (SQLException ex) {
+            ex.printStackTrace();
+         }
+      }
+   }
+   return result;
 
 
 }
-	
-	
-	public int sessIdDelete(String id) {
-		   result = 0;
-			try {
-				conn = ds.getConnection();
-				System.out.println("getConnection");
-				
-				String sql = "delete from sessId where id = ?";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, id);
-				result = pstmt.executeUpdate();
-				System.out.println("seddId 삭제 완료");
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				close();            				
-			}
-			 return result;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	public int idInsert(String id) {
-		System.out.print("아이디 인서트");
-	
-	int result = 0;
-	try {
-		conn = ds.getConnection();
-		System.out.println("getConnection");
-		pstmt = conn.prepareStatement("insert into chatmem (id)  values(?)");
-		pstmt.setString(1, id);
-		result = pstmt.executeUpdate();	
-										
-	} catch (SQLException e) {
-		e.printStackTrace();
-		System.out.println("아이디 입력 실패");
-	}
-	finally {
-		if (pstmt != null) {
-			try {
-				pstmt.close();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
+   
+   public int sessId(websocketVO2 vo) {
+      System.out.print("세션 아이디 및 아이디 삽입");
+   
+   int result = 0;
+   try {
+      conn = ds.getConnection();
+      System.out.println("getConnection");
+      pstmt = conn.prepareStatement("insert into sessId (id)  values(?)");
+      pstmt.setString(1, vo.getId());
 
-			}
-		}
-		if (conn != null) {
-			try {
-				conn.close();
-			} catch (SQLException ex) {
-				ex.printStackTrace();
-			}
-		}
-	}
-	return result;
+      result = pstmt.executeUpdate();   
+                              
+   } catch (SQLException e) {
+      e.printStackTrace();
+   }
+   finally {
+      if (pstmt != null) {
+         try {
+            pstmt.close();
+         } catch (SQLException ex) {
+            ex.printStackTrace();
+
+         }
+      }
+      if (conn != null) {
+         try {
+            conn.close();
+         } catch (SQLException ex) {
+            ex.printStackTrace();
+         }
+      }
+   }
+   return result;
 
 
 }
-		/*
-	public int idDelete(String id) {
-		   result = 0;
-			try {
-				conn = ds.getConnection();
-				System.out.println("getConnection");
-				
-				String sql = "delete from chatmem where id = ?";
-				pstmt = conn.prepareStatement(sql);
-				pstmt.setString(1, id);	
-				result = pstmt.executeUpdate();
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				close();            				
-			}
-			 return result;
-		}
-	*/
-	
-	public websocketVO2  sessionId(String id) {
+   
+   
+   public int sessIdDelete(String id) {
+         result = 0;
+         try {
+            conn = ds.getConnection();
+            System.out.println("getConnection");
+            
+            String sql = "delete from sessId where id = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, id);
+            result = pstmt.executeUpdate();
+            System.out.println("seddId 삭제 완료");
+         } catch (Exception e) {
+            e.printStackTrace();
+         } finally {
+            close();                        
+         }
+          return result;
+   }
+   
+   
+
+   public websocketVO2  sessionId(String id) {
         websocketVO2 v = null;
        try {
-     	  conn = ds.getConnection();
-     	  String sql = "select * from sessId where id = ?";
-     	  pstmt = conn.prepareStatement(sql);
-     	  pstmt.setString(1, id);
-     	  rs = pstmt.executeQuery();
-     	  if(rs.next()) {
-     		  v=new websocketVO2();
-     		  v.setId(rs.getString(1));
+          conn = ds.getConnection();
+          String sql = "select * from sessId where id = ?";
+          pstmt = conn.prepareStatement(sql);
+          pstmt.setString(1, id);
+          rs = pstmt.executeQuery();
+          if(rs.next()) {
+             v=new websocketVO2();
+             v.setId(rs.getString(1));
      
-     	  } 
+          } 
          } catch (SQLException e) {
-     		  System.out.println("info() 실패 :" + e);
-     		  e.printStackTrace();
-     	  } finally {
-     		  close();
-     	  }
-     	  return v;
+             System.out.println("info() 실패 :" + e);
+             e.printStackTrace();
+          } finally {
+             close();
+          }
+          return v;
        }
-	
-
-	
    
-	
-	public List<websocketVO> VOList()  {
-		 List<websocketVO> VOList = null;
-			try {
-				conn = ds.getConnection();
-						
-				String sql = "select * from chat";
-				pstmt = conn.prepareStatement(sql);
-				rs = pstmt.executeQuery();																	
-				
-				int cnt = 0;
-				while(rs.next()) {
-					cnt++;
-					if(cnt==1)
-						VOList  = new ArrayList<websocketVO>();
-					
-					String chatContent = rs.getString("1");
-					Date chatTime = rs.getDate("2");
-					
-					websocketVO VO = new websocketVO();
-					VO.setChatContent(chatContent);
-					VO.setChatTime(chatTime);
-					
-					VOList.add(VO);
-					
-					
-				}
+   public int increaseSEQ() {
+      System.out.print("chat_log_id2 시퀀스 증가 성공!");
+   
+   int result = 0;
+   try {
+      conn = ds.getConnection();
+      System.out.println("getConnection");
+      pstmt = conn.prepareStatement("select chat_seq2.nextval from dual");
 
-				
-			} catch (Exception e) {
-				e.printStackTrace();
-			} finally {
-				if (rs != null) {
-					try {
-						rs.close();
-					} catch (SQLException ex) {
-						ex.printStackTrace();
-					}
-				}
+      rs = pstmt.executeQuery();   
+      if(rs.next()) {
+         result = rs.getInt(1);
+      }
+                              
+   } catch (SQLException e) {
+      e.printStackTrace();
+   }
+   finally {
+      if (pstmt != null) {
+         try {
+            pstmt.close();
+         } catch (SQLException ex) {
+            ex.printStackTrace();
 
-			}
-			return VOList;
+         }
+      }
+      if (conn != null) {
+         try {
+            conn.close();
+         } catch (SQLException ex) {
+            ex.printStackTrace();
+         }
+      }
+   }
+   return result;
 
-	}
 
-	public void select(String string) {
-		
-		
-	}
-	
+}
+   
+   
+   
 }

@@ -358,7 +358,7 @@ public class MemberDAO {
 	      try {
 	    	  con = ds.getConnection();
 	    	  
-	    	  String sql = "select * from sessId where id != 'admin'";
+	    	  String sql = "select * from sessId where id != 'admin@mfe.com'";
 	    	  pstmt = con.prepareStatement(sql);
 	    	  rs = pstmt.executeQuery();
 	    	  

@@ -8,7 +8,7 @@
 font-family :'나눔고딕', 'Malgun Gothic', sans-serif;
 border-radius: 7px;
 }
-#chat { position:fixed; right:0 ; bottom:3em ; z-index:999 !important;
+#_chatbox { position:fixed; right:0 ; bottom:3em ; z-index:999 !important;
 width:300px;
     height:400px;
 }
@@ -25,7 +25,7 @@ font-family :'나눔고딕', 'Malgun Gothic', sans-serif; }
 #send:hover {background:#4fc3f7}
 #dis{background:red; color:white; }
 </style>
-<c:if test="${listcount > 0 }">
+<c:if test="${listcount5 > 0 }">
 	
 
 	<%-- 회원이 있는 경우 --%>
@@ -55,7 +55,7 @@ font-family :'나눔고딕', 'Malgun Gothic', sans-serif; }
 							</c:if></td>
 						<td></td>
 						<td>
-							<button id="chat_btn" class="btn btn-primary small" value="${c.id}" onclick="">상담하기</button>
+							<button class="chat_btn btn-primary small" value="${c.id}" onclick="">상담하기</button>
 						</td>
 					</tr>
 				</c:forEach>
@@ -63,8 +63,8 @@ font-family :'나눔고딕', 'Malgun Gothic', sans-serif; }
 		</table>
 	</div>
 
-	<div id="chat">
-		<div id="_chatbox" style="visibility: visibility">
+	
+		<div id="_chatbox" style="visibility: hidden">
 			<!-- 결과 메시지 보여주는 창 -->
 			<div id="chatbar">고객 상담</div>
 			<textarea id="messageTextArea" class="idc" rows="10" cols="50"></textarea>						
@@ -75,29 +75,58 @@ font-family :'나눔고딕', 'Malgun Gothic', sans-serif; }
 
 		</div>
 
-	</div>
+	
 </c:if>
 <script>
-	webSocket = new WebSocket("ws://localhost:8088/te/websocket?" + '${id}');
-	messageTextArea = document.getElementById("messageTextArea");
+$("#textMessage").keydown(function(key) {
+    if (key.keyCode == 13) {
+       sendMessage();
+       return false;
 
-	//웹 소켓이 연결되었을 때 호출되는 이벤트
-	webSocket.onopen = function(message) {
-		messageTextArea.value += "상담이 시작됩니다..\n";
-	};
-	//웹 소켓이 닫혔을 때 호출되는 이벤트
-	webSocket.onclose = function(message) {
-		messageTextArea.value += "상담이 종료되었습니다..\n";
-	};
-	//웹 소켓이 에러가 났을 때 호출되는 이벤트
-	webSocket.onerror = function(message) {
-		messageTextArea.value += "error...\n";
-	};
-	//웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
-	webSocket.onmessage = function(message) {
+    }
+ });
+$(".chat_btn").on({
+    "click" : function() {
+        if ($("#_chatbox").css("visibility") == "hidden") {
+            $("#_chatbox").css("visibility", "visible");
+          sendid= $(this).val();
+          console.log(sendid);
+         webSocket = new WebSocket("ws://localhost:8088/te/websocket?"+ '${id}' +"&"+sendid );  //sendid 달아주기
+         // 이 id 는 admin
+       
+          
+         
+       messageTextArea = document.getElementById("messageTextArea");
+     
+     //웹 소켓이 연결되었을 때 호출되는 이벤트
+     webSocket.onopen = function(message) {
+        
+        messageTextArea.value += "상담이 시작됩니다..\n";
+     };
+     //웹 소켓이 닫혔을 때 호출되는 이벤트
+     webSocket.onclose = function(message) {
+        messageTextArea.value += "상담이 종료되었습니다.\n";                     
+     };
+     //웹 소켓이 에러가 났을 때 호출되는 이벤트
+     webSocket.onerror = function(message) {
+        messageTextArea.value += "error...\n";
+     };
+     //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
+     webSocket.onmessage = function(message) {
+         if(message.data!="start=")
+        messageTextArea.value +=  message.data + "\n";
 
-		messageTextArea.value += message.data + "\n";
-	};
+     };
+           
+          
+            
+            
+        } else if ($("#_chatbox").css("visibility") == "visible") {
+            $("#_chatbox").css("visibility", "hidden");
+            disconnect();
+        }
+    }
+});
 
 	function sendMessage() {
 		
