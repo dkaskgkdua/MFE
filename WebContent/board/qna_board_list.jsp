@@ -16,13 +16,10 @@
 <title>게시판 목록</title>
 </head>
 <body>
-
-
 	<div class="container">
 		<div class="12u$">
 			<div class="select-wrapper">
-				<span>목록 갯수</span> 
-				<select class="form-control" id="viewcount">
+				<span>목록 갯수</span> <select class="form-control" id="viewcount">
 					<option value="1">1</option>
 					<option value="3">3</option>
 					<option value="5">5</option>
@@ -31,9 +28,9 @@
 				</select>
 			</div>
 		</div>
-		
-		
-		
+
+
+
 		<table class="table">
 			<thead>
 				<tr>
@@ -51,6 +48,14 @@
 
 			<tbody>
 				<c:set var="num" value="${listcount-(page-1)*10}" />
+
+				<!--  게시글이 없는 경우 -->
+				<c:if test="${listcount == 0 }">
+					<tr>
+						<td colspan="5" style="text-align: center">등록된 글이 없습니다.</td>
+					</tr>
+				</c:if>
+
 				<%-- 게시글이 있는 경우 --%>
 				<c:if test="${listcount > 0 }">
 					<c:forEach var="b" items="${boardlist}">
@@ -129,20 +134,16 @@
 
 				<p>
 					<select name="search_select" size="1" id="search_select">
-						<option value="board_name" selected>작성자</option>
+						<option value="board_name">작성자</option>
 						<option value="board_subject">제목</option>
 						<option value="board_content">내용</option>
-					</select> <input type="text" id="search_text" placeholder="검색할 내용을 입력하세요.">
+					</select> 
+					<input type="text" id="search_text" name = "search_text" placeholder="검색할 내용을 입력하세요.">
 					<button type="submit" id="search_btn">검색</button>
 				</p>
 
 
-				<!--  게시글이 없는 경우 -->
-				<c:if test="${listcount == 0 }">
-					<tr>
-						<td colspan="5" style="text-align: center">등록된 글이 없습니다.</td>
-					</tr>
-				</c:if>
+
 			</tbody>
 		</table>
 	</div>

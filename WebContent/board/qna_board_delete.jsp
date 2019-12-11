@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <html>
 <head>
-<title>MVC 게시판</title>
+<title>자유 게시판</title>
 
 <jsp:include page="../mainActivity/navbar.jsp" />
 <script src="js/delete.js" charset="UTF-8"></script>

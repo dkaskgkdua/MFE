@@ -22,7 +22,7 @@ span{width:20px;}
 	
 	<table class= "table table-bordered">
 		<tr>
-			<th colspan="2">MVC 게시판-view페이지</th>
+			<th colspan="2">자유게시판 - view 페이지</th>
 		</tr>
 		<tr>
 			<td><div>글쓴이</div></td>

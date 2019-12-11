@@ -30,17 +30,21 @@ public class BoardDAO {
 	
 	public int getListCount(String search_select, String search_text) {
 		int x = 0;
+		String diff = "";
+		
 		try {
 			con = ds.getConnection();
-			String diff = "";
-			if(search_select != null) {
+			
+			if(search_text != null && !search_text.equals("")) {
 				diff = " where " + search_select + " = ? ";
 			}
-			String sql = "select count(*) from board" + diff;
-			System.out.println(sql);
 			
-		
+			String sql = "select count(*) from board" + diff;
+			
+			System.out.println("getListCount sql = " + sql);
+			
 			pstmt = con.prepareStatement(sql);
+			
 			if(!diff.equals("")) {
 				pstmt.setString(1, search_text);
 			}
@@ -73,7 +77,7 @@ public class BoardDAO {
 				+ "and rnum >= ? and rnum <= ? ";
 		 */
 		String diff = "";
-		if(search_select != null) {
+		if(search_text != null && !search_text.equals("")) {
 			diff = " where " + search_select + " = ? ";
 		}
 		String board_list_sql = 

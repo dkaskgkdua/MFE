@@ -25,7 +25,8 @@ public class filterDeleteAction implements Action {
 		request.setCharacterEncoding("utf-8");
 		ConcertDAO cdao = new ConcertDAO();
 
-		String date = request.getParameter("search_date");
+		String date = request.getParameter("search_date").trim();
+		System.out.println(date);
 		String local = request.getParameter("search_local");
 		String genre = request.getParameter("search_genre");
 		System.out.println("date = " + date + "local = " + local + "genre = " + genre);
@@ -176,29 +177,32 @@ public class filterDeleteAction implements Action {
 			search_genre = genre.split(",");
 			flist = cdao.getAllList();
 		}
-
-		if (flist.size() != 0) {
+		response.setHeader("cache-control", "no-cache,no-store");
+		response.setContentType("text/html;charset=UTF-8");
+		String json = "";
+		if (flist != null && flist.size() != 0) {
 			System.out.println("flist.size() = " + flist.size());
 			JsonObject object = new JsonObject();
 
 			// List => JsonArray
 			JsonArray je = new Gson().toJsonTree(flist).getAsJsonArray();
 			object.add("flist", je);
-			
-			Gson gson = new Gson();
-			String json = gson.toJson(object);
-			response.setHeader("cache-control", "no-cache,no-store");
-			response.setContentType("text/html;charset=UTF-8");
-			response.getWriter().append(json);
-			System.out.println(json);
-			return null;
-		} else {
-			forward.setRedirect(false);
-			request.setAttribute("message", "에러입니다.");
-			// 글 목록 페이지로 이동하기 위해 경로를 설정합니다.
-			forward.setPath("error/error.jsp");
-			return forward;
+			object.addProperty("flistsize", flist.size());
 
+			Gson gson = new Gson();
+			json = gson.toJson(object);
+
+			response.getWriter().append(json);
+
+		} else {
+			JsonObject object = new JsonObject();
+			object.addProperty("flistsize", 0);
+			Gson gson = new Gson();
+			json = gson.toJson(object);
+			response.getWriter().append(json);
 		}
+
+		System.out.println(json);
+		return null;
 	}
 }

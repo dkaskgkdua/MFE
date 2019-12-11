@@ -25,6 +25,8 @@
 <script src="assets/js/main.js"></script>
 <link rel="stylesheet" href="assets/css/main.css?ver=5" />
 
+<script src = "js/searchlist.js"></script>
+<script src = "js/filterlist.js"></script>
 <style>
 #datepicker {
 	color: black;
@@ -32,9 +34,22 @@
 
 input[type="button"].local, input[type="button"].genre, #all_local,
 	#all_genre {
-	background-color: #9e9e9e52;
+	background-color: #1d171752;
 	color: #607d8bbd;
+	outline: none;
 }
+
+table td {
+	padding: 0px;
+}
+
+input[type="button"].local, input[type="button"]#all_local {
+	width: 90px
+}
+
+#genre {width : 60%}
+input[type="button"].genre, input[type="button"]#all_genre{
+width : 110px}
 </style>
 
 <header id="header">
@@ -289,8 +304,8 @@ input[type="button"].local, input[type="button"].genre, #all_local,
 									id="addMember_id_message"></span>
 							</div>
 							<div class="form-group">
-								<label for="addMember_pass" class="modalBlack">비밀번호</label> <input
-									type="password" class="form-control" id="addMember_pass"
+								<label for="addMember_pass" class="modalBlack">비밀번호</label> 
+								<input type="password" class="form-control" id="addMember_pass"
 									placeholder="Enter password" name="addMember_pass" required
 									maxLength="12">
 							</div>

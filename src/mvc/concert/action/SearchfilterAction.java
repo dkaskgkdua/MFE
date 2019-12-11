@@ -172,6 +172,7 @@ public class SearchfilterAction implements Action {
 		System.out.println("flist.size() = " + flist.size());
 		if (flist.size() != 0) {
 			request.setAttribute("flist", flist);
+			request.setAttribute("flistsize", flist.size());
 			request.setAttribute("search_date", date);
 			request.setAttribute("search_local", search_local);
 			request.setAttribute("search_genre", search_genre);
@@ -180,8 +181,8 @@ public class SearchfilterAction implements Action {
 			return forward;
 		} else {
 			forward.setRedirect(false);
-			request.setAttribute("message", "에러입니다.");
-			forward.setPath("error/error.jsp");
+			request.setAttribute("none", "검색 결과가 존재하지 않습니다.");
+			forward.setPath("search/filter_result_form.jsp");
 			return forward;
 		}
 	}

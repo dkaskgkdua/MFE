@@ -16,7 +16,7 @@
 
 <meta charset="UTF-8">
 <script src="js/writeform.js" charset="UTF-8"></script>
-<title>Insert title here</title>
+<title>게시판 수정</title>
 <style>
 .container {
 	margin: 0 auto;
@@ -38,6 +38,16 @@ h1 {
 #upfile {
 	display: none
 }
+
+#counter {
+	float: right;
+	position: relative;
+	left: -10px;
+	top: 30px;
+	background: rgba(255, 0, 0, 0.5);
+	border-radius: 0.5em;
+	padding: 0 .5em 0 .5em;
+}
 </style>
 </head>
 <body>
@@ -45,7 +55,7 @@ h1 {
 		<form action="BoardModifyAction.bo" method="post" name="modifyform"
 			enctype="multipart/form-data">
 			<input type="hidden" name="BOARD_NUM" value="${boarddata.BOARD_NUM}">
-			<h1>MVC게시판-수정</h1>
+			<h1>자유게시판 - 수정 페이지</h1>
 			<div class="form-group">
 				<label for="board_name">글쓴이</label> <input type="text"
 					class="form-control" value="${boarddata.BOARD_NAME}" readOnly>
@@ -61,7 +71,7 @@ h1 {
 					class="form_control" value="${boarddata.BOARD_SUBJECT}">
 			</div>
 			<div class="form-group">
-				<label for="board_content">내용</label>
+				<label for="board_content">내용</label><span id="counter">###</span>
 				<textarea name="BOARD_CONTENT" id="board_content"
 					class="form-control" rows="15">${boarddata.BOARD_CONTENT}</textarea>
 			</div>

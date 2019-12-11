@@ -29,12 +29,18 @@ public class SearchwordAction implements Action {
 		System.out.println("list size = " + list.size());
 		int count = cdao.getListCount(search_word);
 
-		request.setAttribute("list", list);
-		request.setAttribute("count", count);
-		request.setAttribute("search_word", search_word);
-		forward.setRedirect(false);
-		forward.setPath("search/search_result_form.jsp");
-		return forward;
-
+		if (list.size() != 0) {
+			request.setAttribute("list", list);
+			request.setAttribute("count", count);
+			request.setAttribute("search_word", search_word);
+			forward.setRedirect(false);
+			forward.setPath("search/search_result_form.jsp");
+			return forward;
+		} else {
+			forward.setRedirect(false);
+			request.setAttribute("none", "검색 결과가 존재하지 않습니다.");
+			forward.setPath("search/search_result_form.jsp");
+			return forward;
+		}
 	}
 }
