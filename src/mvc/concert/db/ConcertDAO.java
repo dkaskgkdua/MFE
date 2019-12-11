@@ -12,6 +12,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import mvc.book.db.BookBean;
+
 public class ConcertDAO {
 	private DataSource ds;
 	private Connection con;
@@ -86,5 +88,83 @@ public class ConcertDAO {
 		}
 		return null;
 	}
+
+	public List<ConcertBean> getList(String string) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public List<ConcertBean> getLikeList(String id) {
+
+		String sql = "select * from concert inner join likey on concert.concert_id = likey.concert_id "
+				+ "where likey.member_id=? order by likey.likey_id desc";
+		List<ConcertBean> list = new ArrayList<ConcertBean>();
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			// DB에서 가져온 데이터를 VO객체에 담습니다.
+			while(rs.next()) {
+				ConcertBean c = new ConcertBean();
+				c.setConcert_image(rs.getString(7));
+				c.setConcert_name(rs.getString("CONCERT_NAME"));
+				list.add(c);
+				
+			}
+			return list; // 값을 담은 객체를 저장한 리스틀 호출한 곳으로 가져갑니다.
+		}catch(Exception e) {
+			System.out.println("getLikeList() 에러 : " + e);
+			e.printStackTrace();
+		}finally {
+	         if(pstmt != null) {
+		            try {
+		               pstmt.close();
+		            } catch(SQLException ex) {
+		               ex.printStackTrace();
+		            }
+		      }
+		     if(con!=null) {
+		            try {
+		               con.close();
+		            }catch(SQLException ex) {
+		               ex.printStackTrace();
+		            }
+		     }
+		}
+		return null;
+	}
+
+	public ConcertBean getDetail(int con_id) {
+		ConcertBean concert = null;
+		try {
+			con = ds.getConnection();
+			pstmt =con.prepareStatement("select * from concert where Concert_id=?");
+			pstmt.setInt(1, con_id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				concert = new ConcertBean();
+				concert.setConcert_id(rs.getInt("concert_id"));
+				concert.setConcert_name(rs.getString("concert_name"));
+				concert.setConcert_day(rs.getDate("concert_day"));
+				concert.setConcert_musician(rs.getString("concert_musician"));
+				concert.setConcert_open(rs.getString("concert_open"));
+				concert.setConcert_close(rs.getString("concert_close"));
+				concert.setConcert_image(rs.getString("concert_image"));
+				concert.setGenre_id(rs.getString("genre_id"));
+				concert.setLocal_id(rs.getString("local_id"));
+				concert.setConcert_price(rs.getString("concert_price"));
+			}
+			return concert;
+		} catch(SQLException e) {
+			System.out.println("Concert getDetail() 에러 : " + e);
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return null;
+	} //getDetail() 메서드 end
+
 
 }

@@ -1,4 +1,4 @@
-drop table member;
+drop table member CASCADE CONSTRAINTS;
 
 create table member(
 	member_id varchar2(30),
@@ -11,5 +11,8 @@ create table member(
 	primary key(member_id)
 );
 
-insert into member values('admin@mfe.com','1234','song','seoul','01063485549','rap','1');
-select * from member;
+insert into member values('admin@mfe.com','1234','관리자','서울시','01012341234','rap','1');
+insert into member values('abc123@mfe.com','1234','abc','서울시','01011112222','balad,rock','1');
+
+update member set member_preference = 'balad,rock' where member_id='abc123@mfe.com';
+select * from member where member_id = 'admin@mfe.com';

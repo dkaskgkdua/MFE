@@ -29,6 +29,7 @@ public class LoginProcessAction  implements Action {
 			forward.setPath("main.net");
 			//forward.setPath("BoardList.bo");
 			return forward;
+		
 		}  else {   // 아이디,비밀번호 가 존재하지 않음
 			String message = "비밀번호가 일치하지 않습니다.";
 			if(result == -1)

@@ -15,6 +15,9 @@ public class ConcertBean {
 	private String local_id;
 	private String concert_price;
 	
+	private int likey_id;
+	private String member_id;
+	
 	public int getConcert_id() {
 		return concert_id;
 	}
@@ -74,6 +77,18 @@ public class ConcertBean {
 	}
 	public void setConcert_price(String concert_price) {
 		this.concert_price = concert_price;
+	}
+	public int getLikey_id() {
+		return likey_id;
+	}
+	public void setLikey_id(int likey_id) {
+		this.likey_id = likey_id;
+	}
+	public String getMember_id() {
+		return member_id;
+	}
+	public void setMember_id(String member_id) {
+		this.member_id = member_id;
 	}
 	
 	

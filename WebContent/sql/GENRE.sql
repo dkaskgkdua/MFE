@@ -1,8 +1,8 @@
-drop table genre;
+drop table genre CASCADE CONSTRAINTS;
 drop sequence genre_seq;
 CREATE TABLE GENRE(
    GENRE_ID   NUMBER,
-   GENRE_NAME   VARCHAR2(20)   NOT NULL,
+   GENRE_NAME   VARCHAR2(300)   NOT NULL,
    PRIMARY KEY(GENRE_ID)
 );
 
@@ -16,3 +16,5 @@ insert into GENRE values(GENRE_SEQ.NEXTVAL, '인디음악');
 insert into GENRE values(GENRE_SEQ.NEXTVAL, '록/메탈');
 insert into GENRE values(GENRE_SEQ.NEXTVAL, '트로트');
 insert into GENRE values(GENRE_SEQ.NEXTVAL, 'EDM');
+
+select * from GENRE;

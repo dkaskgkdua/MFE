@@ -68,11 +68,11 @@ public class BoardListAction implements Action{
 		 *    [11][12][13]..[20]까지 표시됩니다.
 		 * */
 		int startpage = ((page-1) / 10) * 10 +1;
-		System.out.println("현제 페이지에 보여줄 시작 페이지 수 = " + startpage);
+		System.out.println("현재 페이지에 보여줄 시작 페이지 수 = " + startpage);
 		
 		//endpage : 현재 페이지 그룹에서 보여줄 마지막 페이지 수([10], [20], [30] 등)
 		int endpage = startpage + 10 -1;
-		System.out.println("현제 페이지에 보여줄 마지막 페이지 수 = " + endpage);
+		System.out.println("현재 페이지에 보여줄 마지막 페이지 수 = " + endpage);
 		
 		/*
 		 * 마지막 그룹의 마지막 페이지 값은 최대 페이지 값입니다.
