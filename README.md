@@ -17,7 +17,7 @@
    - Tool : Eclipse, Github, AQuerytool, StarUML
 # 세부내용
 * 팀원별 핵심 알고리즘
-   - [송민준](./src/mvc/member/action/ListAction2.java)
+   - [송민준](./src/mvc/member/action/ListAction.java)
    - [김현윤](./src)
    - [배유리](./src)
    - [조태석](./src)
