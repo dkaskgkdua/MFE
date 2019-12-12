@@ -24,7 +24,9 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p,
    font: inherit;
    vertical-align: baseline;
 }
-
+#mymy {
+		width : 100px;
+	}
 article, aside, details, figcaption, figure, footer, header, hgroup,
    menu, nav, section {
    display: block;
@@ -3564,7 +3566,7 @@ body.is-loading #banner:before {
 }
 
 .modal-title {
-   color: black;
+   color: white;
 }
 
 .modal.right.fade .modal-dialog {
@@ -3592,13 +3594,13 @@ body.is-loading #banner:before {
 }
 
 .modal.right .modal-content {
-   height: 100%;
-   overflow-y: auto;
+	width : 500px;
+   	height: 100%;
+   	background : #041625;
+   	color : #041625;
+	border-radius : 0
 }
 
-.accountDiv {
-   background: #fbc65a;
-}
 /* 검색버튼 css */
 .hidden {
    visibility: hidden;

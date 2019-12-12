@@ -226,7 +226,7 @@
 
 <!--  계정 모달 -->
 <div class="modal right fade" id="account_Modal" tabindex="-1"
-	role="dialog" aria-labelledby="accountLabel">
+	role="dialog" aria-labelledby="accountLabel" style="padding:0">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 
@@ -242,10 +242,10 @@
 					<form method="post" action="#" id="account_form">
 						<fieldset>
 							<div class="accountDiv">
-								<a href="mypage.bk">My page</a>
+								<a href="mypage.bk">마이페이지</a>
 							</div>
 							<div class="accountDiv">
-								<a href="logOut.net">Logout</a>
+								<a href="logOut.net">로그아웃</a>
 							</div>
 						</fieldset>
 					</form>
