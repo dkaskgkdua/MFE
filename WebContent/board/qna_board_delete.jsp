@@ -30,7 +30,7 @@
 
             <!-- Modal body -->
             <div class="modal-body">
-               <form name="deleteForm" action="BoardDeleteAction.bo"
+               <form name="deleteForm" action="BoardDeleteA.bo"
                   method="post">
                   <input type="hidden" name="num" value="${param.num}">
 

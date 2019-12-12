@@ -7,32 +7,32 @@
 <jsp:include page="../mainActivity/navbar.jsp" />
 <style>
 .container {
-	padding-top: 50px;
+   padding-top: 55px;
 }
 
 .select-wrapper {
-	float: right;
+   float: right;
 }
 
 #addBoard_Button {
-	float: right;
+   float: right;
 }
 
 #search_select {
-	width: 10%;
-	display: inline-block;
-	height: 32px;
+   width: 10%;
+   display: inline-block;
+   height: 32px;
 }
 
 #search_text {
-	width: 25%;
-	display: inline-block;
-	height: 32px;
+   width: 25%;
+   display: inline-block;
+   height: 32px;
 }
 
 .center-block {
-	display: flex;
-		justify-content: center; /* 가운데 정렬 */
+   display: flex;
+      justify-content: center; /* 가운데 정렬 */
 }
 </style>
 <script src="js/boardlist.js"></script>

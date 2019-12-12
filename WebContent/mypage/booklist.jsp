@@ -9,6 +9,7 @@
 	<c:if test="${listcount > 0}">
 		<div class = "rows ">
 			<span class = "sp">목록 갯수</span>
+			<br>
 			<select class = "form-control"  id = "viewcount" >
 				<option value = "1">1</option>
 				<option value = "3">3</option>

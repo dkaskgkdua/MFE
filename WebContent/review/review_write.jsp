@@ -11,15 +11,22 @@
 tr.center-block {
 	text-align : center
 }
-h1{font-size:1.5rem; text-align:center; color:#1a92b9}
-.container{width:60%}
+h1{
+	font-size:1.5rem; 
+	text-align:center; 
+	color:#1a92b9
+}
+.container{
+	margin : auto;
+	margin-top : 3%;
+	width : 70%;
+	height : 70%;
+}
 label{
 	font-weight:bold;
-	color : black !important ;
 }
-img{width:20px;}
-form {
-	background : white !important;
+img{
+	width:20px;
 }
 
 </style>

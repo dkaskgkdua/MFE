@@ -46,7 +46,6 @@ function show() {
 			// 남은 글자 수 표시
 			$("#board_content").keyup(function() {
 				var content = $(this).val();
-				
 				$("#counter").html(content.length + '/500');
 				
 				if(content.length >= 500){

@@ -5,42 +5,8 @@
 <html>
 <head>
 <jsp:include page ="../mainActivity/navbar.jsp"/>
-<style>
-	.table {
-		background-color : white !important;
-	}
-	th, td {
-		color : black !important;
-	}
-	.center-block {
-		display : flex;
-		justify-content:center; /* 가운데 정렬 */
-	}
-	.container {
-	
-		margin : auto;
-		margin-top : 3%;
-		width : 70%;
-		height : 70%;
-	}
-	.rows {
-		margin-top : 2%;
-		width : 24%;
-		float : right;
-		margin-bottom : 2%;
-	}
-	#viewcount3 {
-		display : inline;
-		width : 30%;
-		height : 28px;
-	}
-	.sp {
-		display : inline;
-	}
-	img {
-		width : 100px;
-	}
-</style>
+<link rel="stylesheet" type="text/css"
+	href="assets/css/board.css" />
  
 
 <meta charset="UTF-8">
@@ -51,6 +17,7 @@
 <c:if test ="${listcount > 0 }">
 	<div class = "rows ">
 		<span class = "sp">목록 갯수</span>
+		<br>
 		<select class = "form-control"  id = "viewcount3" >
 			<option value = "1">1</option>
 			<option value = "3">3</option>
@@ -110,6 +77,7 @@
 	</c:forEach>
 	</tbody>
 	</table>
+	<button id = "addReview_Button" type = "button" class = "btn btn-info">글쓰기</button>
 	</div>
 	
 	<div class="center-block">
@@ -162,7 +130,7 @@
 <!--  게시글이 없는 경우 -->
 <c:if test ="${listcount == 0 }">
 	<font size =5>등록된 글이 없습니다.</font>
-</c:if><br>
-<button id = "addReview_Button" type = "button" class = "btn btn-info float-right">글쓰기</button>
+</c:if>
+
 </body>
 </html>

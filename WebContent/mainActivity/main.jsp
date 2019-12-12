@@ -206,11 +206,11 @@
 		<section class="listWrapper">
 			<h4>Jazz 콘서트</h4>
 			<div class="slider">
-				<c:forEach var="indi_concert" items="${indi_concert_list}">
+				<c:forEach var="jazz_concert" items="${jazz_concert_list}">
 					<div class="item">
 						<img class="main_concert_image"
-							src="concertupload/${indi_concert.concert_image}"
-							alt="${indi_concert.concert_id}">
+							src="concertupload/${jazz_concert.concert_image}"
+							alt="${jazz_concert.concert_id}">
 						<button type="button" class="btn btn-secondary heart heart_button">
 							<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
 						</button>
@@ -222,11 +222,11 @@
 		<section class="listWrapper">
 			<h4>Classic 콘서트</h4>
 			<div class="slider">
-				<c:forEach var="dance_concert" items="${dance_concert_list}">
+				<c:forEach var="classic_concert" items="${classic_concert_list}">
 					<div class="item">
 						<img class="main_concert_image"
-							src="concertupload/${dance_concert.concert_image}"
-							alt="${dance_concert.concert_id}">
+							src="concertupload/${classic_concert.concert_image}"
+							alt="${classic_concert.concert_id}">
 						<button type="button" class="btn btn-secondary heart heart_button">
 							<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
 						</button>
@@ -238,11 +238,11 @@
 		<section class="listWrapper">
 			<h4>POP 콘서트</h4>
 			<div class="slider">
-				<c:forEach var="tro_concert" items="${tro_concert_list}">
+				<c:forEach var="pop_concert" items="${pop_concert_list}">
 					<div class="item">
 						<img class="main_concert_image"
-							src="concertupload/${tro_concert.concert_image}"
-							alt="${tro_concert.concert_id}">
+							src="concertupload/${pop_concert.concert_image}"
+							alt="${pop_concert.concert_id}">
 						<button type="button" class="btn btn-secondary heart heart_button">
 							<span class="glyphicon glyphicon-heart-empty" aria-hidden="true"></span>
 						</button>
@@ -442,7 +442,8 @@
 					arrows : false,
 					centerMode : true,
 					infinite : true,
-					slidesToShow : 1,
+					centerPadding : '10px',
+					slidesToShow : 2,
 					slidesToscroll : 3
 				}
 			} ]

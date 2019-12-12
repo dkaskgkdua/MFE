@@ -6,8 +6,6 @@
 <html>
 <head>
 <jsp:include page="../mainActivity/navbar.jsp" />
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 <script
@@ -15,40 +13,41 @@
 <script type="text/javascript" src="js/ckeditor.js"></script>
 
 <meta charset="UTF-8">
-<script src="js/writeform.js" charset="UTF-8"></script>
 <title>게시판 수정</title>
 <style>
 .container {
-	margin: 0 auto;
-	width: 70%;
-	height: 70%;
-	background: white;
+   padding-top : 55px;
+   margin: 0 auto;
+   width: 70%;
+   height: 70%;
 }
 
 label {
-	color: black !important;
+   color: black !important;
 }
 
 h1 {
-	font-size: 1.5rem;
-	text-align: center;
-	color: #1a92b9;
+   font-size: 1.5rem;
+   text-align: center;
+   color: #1a92b9;
 }
 
 #upfile {
-	display: none
+   display: none
 }
 
 #counter {
-	float: right;
-	position: relative;
-	left: -10px;
-	top: 30px;
-	background: rgba(255, 0, 0, 0.5);
-	border-radius: 0.5em;
-	padding: 0 .5em 0 .5em;
+   float: right;
+   position: relative;
+   left: -10px;
+   top: 30px;
+   background: rgba(255, 0, 0, 0.5);
+   border-radius: 0.5em;
+   padding: 0 .5em 0 .5em;
 }
 </style>
+<script src = "js/writeform.js"></script>
+
 </head>
 <body>
 	<div class="container">
@@ -80,7 +79,7 @@ h1 {
 			<c:if test="${boarddata.BOARD_RE_LEV ==0}">
 				<div class="form-group read">
 					<label for="board_file">파일 첨부</label> <label for="upfile">
-						<img src="images/attach.png" alt="파일첨부" width="20px">
+						<img src="images/file.png" alt="파일첨부" width="20px">
 					</label> <input type="file" id="upfile" name="BOARD_FILE"> <span
 						id="filevalue">${boarddata.BOARD_FILE}</span> <img
 						src="images/remove.png" alt="파일삭제" width="10px" class="remove">

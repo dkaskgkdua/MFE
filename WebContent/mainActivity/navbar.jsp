@@ -70,11 +70,14 @@ input[type="button"].local, input[type="button"]#all_local {
 input[type="button"].genre, input[type="button"]#all_genre {
 	width: 110px
 }
+.user{
+	color : white;
+}
 
 </style>
 <header id="header">
 	<h1>
-		<a href="main.net">MFE <span>by</span></a>
+		<a href="main.net">MFE</a>
 	</h1>
 	<div>
 		<button type="button" class="btn btn-secondary" data-toggle="modal"
@@ -273,7 +276,7 @@ input[type="button"].genre, input[type="button"]#all_genre {
 
 			<!-- Modal Header -->
 			<div class="modal-header">
-				<h4 class="modal-title" id="accountLabel">계정 관리</h4>
+				<h4 class="modal-title user" id="accountLabel">${id }님</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 
@@ -282,6 +285,7 @@ input[type="button"].genre, input[type="button"]#all_genre {
 				<div class="container uniform">
 					<form method="post" action="#" id="account_form">
 						<fieldset>
+							<br>
 							<div class="accountDiv">
 								<a href="mypage.bk">마이페이지</a>
 							</div>

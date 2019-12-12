@@ -5,26 +5,39 @@
 <head>
 <meta charset="UTF-8">
 <title>자유게시판 작성</title>
+<jsp:include page="../mainActivity/navbar.jsp" />
 <style>
 .container {
-	padding-top : 50px;
+   padding-top: 55px;
 }
 
 #counter {
-	float: right;
-	position: relative;
-	left: -10px;
-	top: 30px;
-	background: rgba(255, 0, 0, 0.5);
-	border-radius: 0.5em;
-	padding: 0 .5em 0 .5em;
+   float: right;
+   position: relative;
+   left: -10px;
+   top: 30px;
+   background: rgba(255, 0, 0, 0.5);
+   border-radius: 0.5em;
+   padding: 0 .5em 0 .5em;
+}
+
+#upfile {
+   display: none;
+}
+
+img {
+   width: 25px;
+}
+
+img:hover {
+   cursor: pointer
 }
 </style>
 <script src = "js/writeform.js"></script>
 </head>
 <body>
 
-	<jsp:include page="../mainActivity/navbar.jsp" />
+
 	<div class="container">
 		<form action="BoardAddAction.bo" method="post"
 			enctype="multipart/form-data" name="boardform">
@@ -56,7 +69,7 @@
 
 			<div class="form-group">
 				<label for="board_file">파일 첨부</label> <label for="upfile"> <img
-					id=ig src="./images/attach.png" alt="사막"></label> <input type="file"
+					id=ig src="./images/file.png" alt="사막"></label> <input type="file"
 					id="upfile" name="BOARD_FILE"> <span id="filevalue"></span>
 			</div>
 
