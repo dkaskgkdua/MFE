@@ -166,8 +166,8 @@ public class ConcertDAO {
 			pstmt.setString(4, co.getConcert_open());
 			pstmt.setString(5, co.getConcert_close());
 			pstmt.setString(6, co.getConcert_image());
-			pstmt.setInt(7, Integer.parseInt(co.getGenre_id()));
-			pstmt.setInt(8, Integer.parseInt(co.getLocal_id()));
+			pstmt.setString(7, co.getGenre_id());
+			pstmt.setString(8, co.getLocal_id());
 			pstmt.setString(9, co.getConcert_price());
 			
 			result = pstmt.executeUpdate();
@@ -249,8 +249,8 @@ public class ConcertDAO {
 
 	// 검색어 입력시 리스트
 
-	public List<ConcertBean> getSearchList(String search_word) {
-		List<ConcertBean> list = new ArrayList<ConcertBean>();
+	public List<ConcertBeanN> getSearchList(String search_word) {
+		List<ConcertBeanN> list = new ArrayList<ConcertBeanN>();
 
 		try {
 			con = ds.getConnection();
@@ -272,7 +272,7 @@ public class ConcertDAO {
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				ConcertBean c = new ConcertBean();
+				ConcertBeanN c = new ConcertBeanN();
 				c.setConcert_id(rs.getInt(1));
 				c.setConcert_name(rs.getString(2));
 				c.setConcert_day(rs.getDate(3));
@@ -438,8 +438,8 @@ public class ConcertDAO {
 	} //getDetail() 메서드 end
 
 	// 필터에서 date 선택시
-	public List<ConcertBean> getDateList(Date search_date) {
-		List<ConcertBean> list = new ArrayList<ConcertBean>();
+	public List<ConcertBeanN> getDateList(Date search_date) {
+		List<ConcertBeanN> list = new ArrayList<ConcertBeanN>();
 		try {
 			con = ds.getConnection();
 			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
@@ -458,7 +458,7 @@ public class ConcertDAO {
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
-				ConcertBean c = new ConcertBean();
+				ConcertBeanN c = new ConcertBeanN();
 				c.setConcert_id(rs.getInt(1));
 				c.setConcert_name(rs.getString(2));
 				c.setConcert_day(rs.getDate(3));
@@ -484,8 +484,8 @@ public class ConcertDAO {
 	}
 
 	// 필터에서 local
-	public List<ConcertBean> getLocalList(String[] search_local) {
-		List<ConcertBean> list = new ArrayList<ConcertBean>();
+	public List<ConcertBeanN> getLocalList(String[] search_local) {
+		List<ConcertBeanN> list = new ArrayList<ConcertBeanN>();
 
 		try {
 			con = ds.getConnection();
@@ -516,7 +516,7 @@ public class ConcertDAO {
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				ConcertBean c = new ConcertBean();
+				ConcertBeanN c = new ConcertBeanN();
 				c.setConcert_id(rs.getInt(1));
 				c.setConcert_name(rs.getString(2));
 				c.setConcert_day(rs.getDate(3));
@@ -542,8 +542,8 @@ public class ConcertDAO {
 	}
 
 	// 필터에서 genre
-	public List<ConcertBean> getGenreList(String[] search_genre) {
-		List<ConcertBean> list = new ArrayList<ConcertBean>();
+	public List<ConcertBeanN> getGenreList(String[] search_genre) {
+		List<ConcertBeanN> list = new ArrayList<ConcertBeanN>();
 
 		try {
 			con = ds.getConnection();
@@ -574,7 +574,7 @@ public class ConcertDAO {
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				ConcertBean c = new ConcertBean();
+				ConcertBeanN c = new ConcertBeanN();
 				c.setConcert_id(rs.getInt(1));
 				c.setConcert_name(rs.getString(2));
 				c.setConcert_day(rs.getDate(3));
@@ -600,8 +600,8 @@ public class ConcertDAO {
 	}
 
 	// 필터 date + local + genre
-	public List<ConcertBean> getFilterList(List<Integer> list) {
-		List<ConcertBean> flist = new ArrayList<ConcertBean>();
+	public List<ConcertBeanN> getFilterList(List<Integer> list) {
+		List<ConcertBeanN> flist = new ArrayList<ConcertBeanN>();
 
 		try {
 			con = ds.getConnection();
@@ -631,7 +631,7 @@ public class ConcertDAO {
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				ConcertBean c = new ConcertBean();
+				ConcertBeanN c = new ConcertBeanN();
 				c.setConcert_id(rs.getInt(1));
 				c.setConcert_name(rs.getString(2));
 				c.setConcert_day(rs.getDate(3));
@@ -656,8 +656,8 @@ public class ConcertDAO {
 	}
 
 	// 모든 날짜, 전국, 전체 장르 선택시
-	public List<ConcertBean> getAllList() {
-		List<ConcertBean> flist = new ArrayList<ConcertBean>();
+	public List<ConcertBeanN> getAllList() {
+		List<ConcertBeanN> flist = new ArrayList<ConcertBeanN>();
 		try {
 			con = ds.getConnection();
 			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
@@ -675,7 +675,7 @@ public class ConcertDAO {
 
 			rs = pstmt.executeQuery();
 			while (rs.next()) {
-				ConcertBean c = new ConcertBean();
+				ConcertBeanN c = new ConcertBeanN();
 				c.setConcert_id(rs.getInt(1));
 				c.setConcert_name(rs.getString(2));
 				c.setConcert_day(rs.getDate(3));

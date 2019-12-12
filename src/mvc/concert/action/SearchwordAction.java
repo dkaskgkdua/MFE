@@ -1,13 +1,12 @@
 package mvc.concert.action;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import mvc.concert.db.ConcertBean;
+import mvc.concert.db.ConcertBeanN;
 import mvc.concert.db.ConcertDAO;
 import mvc.member.action.Action;
 import mvc.member.action.ActionForward;
@@ -20,7 +19,7 @@ public class SearchwordAction implements Action {
 		request.setCharacterEncoding("utf-8");
 
 		ConcertDAO cdao = new ConcertDAO();
-		List<ConcertBean> list = new ArrayList<ConcertBean>();
+		List<ConcertBeanN> list = new ArrayList<ConcertBeanN>();
 
 		String search_word = request.getParameter("search_Text");
 		System.out.println("search_word = " + search_word);

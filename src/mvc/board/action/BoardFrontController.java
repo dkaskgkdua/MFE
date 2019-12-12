@@ -22,7 +22,7 @@ import mvc.member.action.ActionForward;
 @WebServlet("*.bo")
 public class BoardFrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-<<<<<<< HEAD
+
     
 	   
     public BoardFrontController() {

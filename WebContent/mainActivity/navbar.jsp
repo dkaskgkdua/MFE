@@ -25,10 +25,54 @@
 <script src="assets/js/skel.min.js"></script>
 <script src="assets/js/util.js"></script>
 <script src="assets/js/main.js"></script>
-<link rel="stylesheet" href="assets/css/main.css?ver=5" />
+<link rel="stylesheet" href="assets/css/main.css?ver=6" />
 <script src="js/searchlist.js"></script>
 <script src="js/filterlist.js"></script>
+<style>
 
+	/* 필터 css */
+	#datepicker {
+	color: black;
+}
+
+input[type="button"].local, input[type="button"].genre, #all_local,
+	#all_genre {
+	background-color: #1d171752 !important;
+	color: #607d8bbd !important;
+	outline: none !important;
+}
+
+.table_f td {
+	padding: 0px !important;
+}
+
+input[type="button"].local, input[type="button"]#all_local {
+	width: 90px
+}
+
+#filter_btn {
+	background-color: #31315f;
+	width: 50%;
+	height : 40px;
+	float : left;
+}
+#filter_btn:hover{background-color: #2f2f5a}
+
+#filter_cancel {
+	width: 50%;
+	height : 40px;
+	font-weight : bold;
+}
+
+#genre {
+	width: 60%
+}
+
+input[type="button"].genre, input[type="button"]#all_genre {
+	width: 110px
+}
+
+</style>
 <header id="header">
 	<h1>
 		<a href="main.net">MFE <span>by</span></a>
@@ -107,100 +151,12 @@
 							<div class="form-group">
 								<label for="datepicker" class="modalBlack">날짜별</label> <input
 									type="date" name="search_date" id="datepicker">
-
 							</div>
 
-							<div class="form-group">
-								<label for="jido" class="modalBlack">지역별</label>
-								<table id="jido">
-									<tr>
-										<td><button value="local1">서울</button></td>
-										<td><button value="local2">경기</button></td>
-										<td><button value="local3">인천</button></td>
-										<td><button value="local4">강원</button></td>
-										<td><button value="local5">대전</button></td>
-										<td><button value="local6">세종</button></td>
-									</tr>
-									<tr>
-										<td><button value="local7">충남</button></td>
-										<td><button value="local8">충북</button></td>
-										<td><button value="local9">부산</button></td>
-										<td><button value="local10">울산</button></td>
-										<td><button value="local11">경남</button></td>
-										<td><button value="local12">경북</button></td>
-									</tr>
-									<tr>
-										<td><button value="local13">대구</button></td>
-										<td><button value="local14">광주</button></td>
-										<td><button value="local15">전남</button></td>
-										<td><button value="local16">전북</button></td>
-										<td><button value="local17">제주</button></td>
-										<td><button value="local18">전국</button></td>
-									</tr>
-								</table>
-							</div>
-
-							<div class="form-group">
-								<label for="jenre" class="modalBlack">장르별</label>
-								<table id="jenre">
-									<tr>
-										<td><button value="jenre1">발라드</button></td>
-										<td><button value="jenre2">댄스</button></td>
-										<td><button value="jenre3">랩/힙합</button></td>
-									</tr>
-									<tr>
-										<td><button value="jenre4">R&B/Soul</button></td>
-										<td><button value="jenre5">인디음악</button></td>
-										<td><button value="jenre6">록/메탈</button></td>
-									</tr>
-									<tr>
-										<td><button value="jenre7">트로트</button></td>
-										<td><button value="jenre8">EDM</button></td>
-										<td><button value="jenre9">전체 장르</button></td>
-									</tr>
-								</table>
-							</div>
-						</fieldset>
-					</form>
-				</div>
-			</div>
-
-			<!-- Modal footer -->
-			<div class="modal-footer">
-				<button id="filter_button" type="submit" class="btn btn-primary">검색</button>
-				<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
-			</div>
-
-		</div>
-	</div>
-</div>
-
-<!--  로그인 모달 -->
-<div class="modal" id="login_Modal">
-	<div class="modal-dialog">
-		<div class="modal-content">
-
-			<!-- Modal Header -->
-			<div class="modal-header">
-				<h4 class="modal-title">로그인</h4>
-				<button type="button" class="close" data-dismiss="modal">&times;</button>
-			</div>
-
-			<!-- Modal body -->
-			<div class="modal-body">
-				<div class="container uniform">
-					<form method="post" action="loginProcess.net" id="login_form">
-						<fieldset>
-							<div class="form-group">
-								<label for="login_id" class="modalBlack">아이디</label> <input
-									type="text" class="form-control" id="login_id"
-									placeholder="Enter id" name="login_id" required maxLength="30">
-								<span id="login_id_message"></span>
-							</div>
 							<div class="table-wrapper">
 								<label for="local" class="modalBlack">지역별</label> <input
 									type="hidden" name="search_local" id="search_local">
-								<table id="local">
+								<table class = "table_f" id="local">
 									<tr>
 										<td><input type='button' class='local' value="서울"></td>
 										<td><input type='button' class='local' value="경기"></td>
@@ -231,7 +187,7 @@
 							<div class="form-group">
 								<label for="genre" class="modalBlack">장르별</label> <input
 									type="hidden" name="search_genre" id="search_genre">
-								<table id="genre">
+								<table class = "table_f" id="genre">
 									<tr>
 										<td><input type='button' class='genre' value="발라드"></td>
 										<td><input type='button' class='genre' value="댄스"></td>
@@ -261,7 +217,6 @@
 		</div>
 	</div>
 </div>
-
 <!--  로그인 모달 -->
 <div class="modal" id="login_Modal">
 	<div class="modal-dialog">
@@ -311,6 +266,7 @@
 		</div>
 	</div>
 </div>
+
 
 <!--  계정 모달 -->
 <div class="modal right fade" id="account_Modal" tabindex="-1"

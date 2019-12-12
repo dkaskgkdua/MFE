@@ -11,10 +11,8 @@ public class ConcertBean {
 	private String concert_open;
 	private String concert_close;
 	private String concert_image;
-	private int genre_id;
-	private String genre_name;
-	private int local_id;
-	private String local_name;
+	private String genre_id;
+	private String local_id;
 	private String concert_price;
 	
 	public int getConcert_id() {
@@ -59,29 +57,17 @@ public class ConcertBean {
 	public void setConcert_image(String concert_image) {
 		this.concert_image = concert_image;
 	}
-	public int getGenre_id() {
+	public String getGenre_id() {
 		return genre_id;
 	}
-	public void setGenre_id(int genre_id) {
+	public void setGenre_id(String genre_id) {
 		this.genre_id = genre_id;
 	}
-	public String getGenre_name() {
-		return genre_name;
-	}
-	public void setGenre_name(String genre_name) {
-		this.genre_name = genre_name;
-	}
-	public int getLocal_id() {
+	public String getLocal_id() {
 		return local_id;
 	}
-	public void setLocal_id(int local_id) {
+	public void setLocal_id(String local_id) {
 		this.local_id = local_id;
-	}
-	public String getLocal_name() {
-		return local_name;
-	}
-	public void setLocal_name(String local_name) {
-		this.local_name = local_name;
 	}
 	public String getConcert_price() {
 		return concert_price;
@@ -89,5 +75,8 @@ public class ConcertBean {
 	public void setConcert_price(String concert_price) {
 		this.concert_price = concert_price;
 	}
+	
+	
+	
 
 }

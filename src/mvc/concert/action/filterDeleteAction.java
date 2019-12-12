@@ -11,7 +11,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import mvc.concert.db.ConcertBean;
+import mvc.concert.db.ConcertBeanN;
 import mvc.concert.db.ConcertDAO;
 import mvc.member.action.Action;
 import mvc.member.action.ActionForward;
@@ -36,10 +36,10 @@ public class filterDeleteAction implements Action {
 		String[] search_genre = null;
 
 		List<Integer> list = new ArrayList<Integer>();
-		List<ConcertBean> list1 = null;
-		List<ConcertBean> list2 = null;
-		List<ConcertBean> list3 = null;
-		List<ConcertBean> flist = null;
+		List<ConcertBeanN> list1 = null;
+		List<ConcertBeanN> list2 = null;
+		List<ConcertBeanN> list3 = null;
+		List<ConcertBeanN> flist = null;
 
 		// date, local, genre 모두 선택했을 경우
 		if (!(date.equals(null) || date.equals("")) && !local.equals("전국,") && !genre.equals("모든 장르,")) {
