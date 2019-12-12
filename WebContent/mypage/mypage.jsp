@@ -89,6 +89,25 @@
 	#viewcount3 {
 		width : 80%;
 	}
+	.admin_chat {
+		clear : both;
+		display : inline-block;
+		float: left;
+		background : grey;
+		border-radius : 20px;
+		margin : 10px;
+		padding : 10px;
+	}
+	.user_chat {
+		clear : both;
+		display : inline-block;
+		float : right;
+		background : #01A9DB;
+		border-radius : 20px;
+		margin : 10px;
+		padding : 10px;
+		
+	}
 </style>
  <script src="js/mypage.js"></script>
 </head>

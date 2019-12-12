@@ -4,7 +4,7 @@ $(document).ready(function () {
 	var count = 0;
 	
     $('.chat_date').on('click', function () {
-    	//$(".chch").empty();
+    	
     	var no = $(this).next().children().val();
     	var test = $(this).next().children().next();
     	test.empty();
@@ -21,11 +21,10 @@ $(document).ready(function () {
             	var output = "";
 				$(data).each(function(index, item){
 					if(item.member_id == 'admin@mfe.com'){
-						output += "<div>관리자 : "+item.chat_log_content+"</div>"
+						output += "<div class='admin_chat'>관리자 : "+item.chat_log_content + "<br>"+item.chat_log_date+"</div><br>"
 					} else {
-						output += "<div>나 : "+item.chat_log_content+"</div>"
+						output += "<div class='user_chat'>나 : "+item.chat_log_content+ "<br>"+item.chat_log_date+"</div><br>"
 					}
-					output += "<div>"+item.chat_log_date+"</div>"
 				})
 				if(count==0){
 					test.append(output);
