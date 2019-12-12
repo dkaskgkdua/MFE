@@ -25,8 +25,8 @@
 <script src="assets/js/main.js"></script>
 <link rel="stylesheet" href="assets/css/main.css?ver=5" />
 
-<script src = "js/searchlist.js"></script>
-<script src = "js/filterlist.js"></script>
+<script src="js/searchlist.js"></script>
+<script src="js/filterlist.js"></script>
 <style>
 #datepicker {
 	color: black;
@@ -47,9 +47,27 @@ input[type="button"].local, input[type="button"]#all_local {
 	width: 90px
 }
 
-#genre {width : 60%}
-input[type="button"].genre, input[type="button"]#all_genre{
-width : 110px}
+#filter_btn {
+	background-color: #31315f;
+	width: 50%;
+	height : 40px;
+	float : left;
+}
+#filter_btn:hover{background-color: #2f2f5a}
+
+#filter_cancel {
+	width: 50%;
+	height : 40px;
+	font-weight : bold;
+}
+
+#genre {
+	width: 60%
+}
+
+input[type="button"].genre, input[type="button"]#all_genre {
+	width: 110px
+}
 </style>
 
 <header id="header">
@@ -187,7 +205,7 @@ width : 110px}
 							<!-- Modal footer -->
 							<input type="submit" id="filter_btn" class="btn btn-primary"
 								value='검색'> <input class="btn btn-danger"
-								data-dismiss="modal" value='취소'>
+								id="filter_cancel" data-dismiss="modal" value='취소'>
 
 						</fieldset>
 					</div>
@@ -304,8 +322,8 @@ width : 110px}
 									id="addMember_id_message"></span>
 							</div>
 							<div class="form-group">
-								<label for="addMember_pass" class="modalBlack">비밀번호</label> 
-								<input type="password" class="form-control" id="addMember_pass"
+								<label for="addMember_pass" class="modalBlack">비밀번호</label> <input
+									type="password" class="form-control" id="addMember_pass"
 									placeholder="Enter password" name="addMember_pass" required
 									maxLength="12">
 							</div>
@@ -563,7 +581,7 @@ width : 110px}
 				if ($(this).css('opacity') == 1)
 					search_local += $(this).val() + ",";
 			});
-			
+
 			$(".genre").each(function(index, item) {
 				if ($(this).css('opacity') == 1)
 					search_genre += $(this).val() + ",";
@@ -575,10 +593,10 @@ width : 110px}
 			if ($("#all_genre").css('opacity') == 1)
 				search_genre = $("#all_genre").val() + ",";
 
-			if(search_local == null || search_local == ""){
+			if (search_local == null || search_local == "") {
 				search_local = "전국,";
 			}
-			if(search_genre == null || search_genre == ""){
+			if (search_genre == null || search_genre == "") {
 				search_genre = "모든 장르,";
 			}
 			$("#search_local").val(search_local); // text에 넣음
