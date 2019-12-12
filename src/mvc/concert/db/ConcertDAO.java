@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.naming.Context;
@@ -197,6 +198,7 @@ public class ConcertDAO {
 			e.printStackTrace();
 		}
 	}
+
 	/* 콘서트 삭제 */
 	public int delete(String id) {
 		result = 0;
@@ -217,14 +219,52 @@ public class ConcertDAO {
 		return result;
 	}
 	/* 콘서트 검색 */
+
+
+	// 검색어 입력시 리스트 개수
+	public int getListCount(String search_word) {
+		int x = 0;
+		try {
+			con = ds.getConnection();
+
+			String sql = "select count(*) from CONCERT " + "where (CONCERT_NAME like ? "
+					+ "or CONCERT_MUSICIAN like ? ) " + "and CONCERT_DAY >= sysdate ";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, "%" + search_word + "%");
+			pstmt.setString(2, "%" + search_word + "%");
+
+			rs = pstmt.executeQuery();
+			if (rs.next()) {
+				x = rs.getInt(1);
+			}
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			System.out.println("getListCount() 에러 : " + ex);
+		} finally {
+			close();
+		}
+		return x;
+	}
+
+	// 검색어 입력시 리스트
+
 	public List<ConcertBean> getSearchList(String search_word) {
 		List<ConcertBean> list = new ArrayList<ConcertBean>();
 
 		try {
 			con = ds.getConnection();
-			String sql = "select * from CONCERT " 
-					+ "where CONCERT_NAME like ? " 
-					+ "or CONCERT_MUSICIAN like ? ";
+			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
+					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
+					+ "from CONCERT C "
+					+ "inner join GENRE G " + "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join LOCAL L "
+					+ "on C.LOCAL_ID = L.LOCAL_ID " 
+					+ "where (C.CONCERT_NAME like ? "
+					+ "or C.CONCERT_MUSICIAN like ? ) " 
+					+ "and C.CONCERT_DAY >= sysdate " 
+					+ "order by C.CONCERT_DAY";
 
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, "%" + search_word + "%");
@@ -240,8 +280,8 @@ public class ConcertDAO {
 				c.setConcert_open(rs.getString(5));
 				c.setConcert_close(rs.getString(6));
 				c.setConcert_image(rs.getString(7));
-				c.setGenre_id(rs.getString(8));
-				c.setLocal_id(rs.getString(9));
+				c.setGenre_name(rs.getString(8));
+				c.setLocal_name(rs.getString(9));
 				c.setConcert_price(rs.getString(10));
 
 				list.add(c);
@@ -397,4 +437,265 @@ public class ConcertDAO {
 		return null;
 	} //getDetail() 메서드 end
 
+	// 필터에서 date 선택시
+	public List<ConcertBean> getDateList(Date search_date) {
+		List<ConcertBean> list = new ArrayList<ConcertBean>();
+		try {
+			con = ds.getConnection();
+			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
+					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " + "from CONCERT C "
+					+ "inner join GENRE G " 
+					+ "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join LOCAL L "
+					+ "on C.LOCAL_ID = L.LOCAL_ID " 
+					+ "where C.CONCERT_DAY = ?" 
+					+ " and C.CONCERT_DAY >= sysdate"
+					+ " order by C.CONCERT_DAY";
+
+			pstmt = con.prepareStatement(sql);
+			pstmt.setDate(1, (java.sql.Date) search_date);
+			rs = pstmt.executeQuery();
+
+			while (rs.next()) {
+				ConcertBean c = new ConcertBean();
+				c.setConcert_id(rs.getInt(1));
+				c.setConcert_name(rs.getString(2));
+				c.setConcert_day(rs.getDate(3));
+				c.setConcert_musician(rs.getString(4));
+				c.setConcert_open(rs.getString(5));
+				c.setConcert_close(rs.getString(6));
+				c.setConcert_image(rs.getString(7));
+				c.setGenre_name(rs.getString(8));
+				c.setLocal_name(rs.getString(9));
+				c.setConcert_price(rs.getString(10));
+
+				list.add(c);
+			}
+
+			return list;
+		} catch (SQLException e) {
+			System.out.println("getDateList() 에러 : " + e);
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return null;
+	}
+
+	// 필터에서 local
+	public List<ConcertBean> getLocalList(String[] search_local) {
+		List<ConcertBean> list = new ArrayList<ConcertBean>();
+
+		try {
+			con = ds.getConnection();
+			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
+					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
+					+ "from CONCERT C "
+					+ "inner join GENRE G " 
+					+ "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join LOCAL L "
+					+ "on C.LOCAL_ID = L.LOCAL_ID " 
+					+ "where L.LOCAL_NAME = ";
+
+			for (int i = 0; i < search_local.length; i++) {
+				if (i == search_local.length - 1)
+					sql += " ? ";
+				else
+					sql += " ? or L.LOCAL_NAME = ";
+			}
+
+			sql += " and C.CONCERT_DAY >= sysdate";
+			sql += " order by C.CONCERT_DAY";
+
+			pstmt = con.prepareStatement(sql);
+			for (int i = 0; i < search_local.length; i++) {
+				pstmt.setString(i + 1, search_local[i]);
+			}
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ConcertBean c = new ConcertBean();
+				c.setConcert_id(rs.getInt(1));
+				c.setConcert_name(rs.getString(2));
+				c.setConcert_day(rs.getDate(3));
+				c.setConcert_musician(rs.getString(4));
+				c.setConcert_open(rs.getString(5));
+				c.setConcert_close(rs.getString(6));
+				c.setConcert_image(rs.getString(7));
+				c.setGenre_name(rs.getString(8));
+				c.setLocal_name(rs.getString(9));
+				c.setConcert_price(rs.getString(10));
+
+				list.add(c);
+			}
+
+			return list;
+		} catch (SQLException e) {
+			System.out.println("getLocalList() 에러 : " + e);
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return null;
+	}
+
+	// 필터에서 genre
+	public List<ConcertBean> getGenreList(String[] search_genre) {
+		List<ConcertBean> list = new ArrayList<ConcertBean>();
+
+		try {
+			con = ds.getConnection();
+			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
+					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE  " 
+					+ "from CONCERT C "
+					+ "inner join GENRE G " 
+					+ "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join LOCAL L "
+					+ "on C.LOCAL_ID = L.LOCAL_ID " 
+					+ "where G.GENRE_NAME = ";
+
+			for (int i = 0; i < search_genre.length; i++) {
+				if (i == search_genre.length - 1)
+					sql += " ? ";
+				else
+					sql += " ? or G.GENRE_NAME = ";
+			}
+
+			sql += " and C.CONCERT_DAY >= sysdate";
+			sql += " order by C.CONCERT_DAY";
+
+			pstmt = con.prepareStatement(sql);
+			for (int i = 0; i < search_genre.length; i++) {
+				pstmt.setString(i + 1, search_genre[i]);
+			}
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ConcertBean c = new ConcertBean();
+				c.setConcert_id(rs.getInt(1));
+				c.setConcert_name(rs.getString(2));
+				c.setConcert_day(rs.getDate(3));
+				c.setConcert_musician(rs.getString(4));
+				c.setConcert_open(rs.getString(5));
+				c.setConcert_close(rs.getString(6));
+				c.setConcert_image(rs.getString(7));
+				c.setGenre_name(rs.getString(8));
+				c.setLocal_name(rs.getString(9));
+				c.setConcert_price(rs.getString(10));
+
+				list.add(c);
+			}
+
+			return list;
+		} catch (SQLException e) {
+			System.out.println("getGenreList() 에러 : " + e);
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return null;
+	}
+
+	// 필터 date + local + genre
+	public List<ConcertBean> getFilterList(List<Integer> list) {
+		List<ConcertBean> flist = new ArrayList<ConcertBean>();
+
+		try {
+			con = ds.getConnection();
+
+			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
+					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
+					+ "from CONCERT C "
+					+ "inner join GENRE G " 
+					+ "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join LOCAL L "
+					+ "on C.LOCAL_ID = L.LOCAL_ID " 
+					+ "where C.CONCERT_ID = ";
+
+			for (int i = 0; i < list.size(); i++) {
+				if (i == list.size() - 1)
+					sql += " ? ";
+				else
+					sql += " ? or C.CONCERT_ID = ";
+			}
+			sql += "order by C.CONCERT_DAY";
+
+			pstmt = con.prepareStatement(sql);
+			for (int i = 0; i < list.size(); i++) {
+				pstmt.setInt(i + 1, list.get(i));
+			}
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ConcertBean c = new ConcertBean();
+				c.setConcert_id(rs.getInt(1));
+				c.setConcert_name(rs.getString(2));
+				c.setConcert_day(rs.getDate(3));
+				c.setConcert_musician(rs.getString(4));
+				c.setConcert_open(rs.getString(5));
+				c.setConcert_close(rs.getString(6));
+				c.setConcert_image(rs.getString(7));
+				c.setGenre_name(rs.getString(8));
+				c.setLocal_name(rs.getString(9));
+				c.setConcert_price(rs.getString(10));
+
+				flist.add(c);
+			}
+			return flist;
+		} catch (SQLException e) {
+			System.out.println("getFilterList() 에러 : " + e);
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return null;
+	}
+
+	// 모든 날짜, 전국, 전체 장르 선택시
+	public List<ConcertBean> getAllList() {
+		List<ConcertBean> flist = new ArrayList<ConcertBean>();
+		try {
+			con = ds.getConnection();
+			String sql = "select C.CONCERT_ID, C.CONCERT_NAME, C.CONCERT_DAY, "
+					+ "C.CONCERT_MUSICIAN, C.CONCERT_OPEN, C.CONCERT_CLOSE, "
+					+ "C.CONCERT_IMAGE, G.GENRE_NAME, L.LOCAL_NAME, C.CONCERT_PRICE " 
+					+ "from CONCERT C "
+					+ "inner join GENRE G " 
+					+ "on C.GENRE_ID = G.GENRE_ID " 
+					+ "inner join LOCAL L "
+					+ "on C.LOCAL_ID = L.LOCAL_ID " 
+					+ "where C.CONCERT_DAY >= sysdate " 
+					+ "order by C.CONCERT_DAY";
+
+			pstmt = con.prepareStatement(sql);
+
+			rs = pstmt.executeQuery();
+			while (rs.next()) {
+				ConcertBean c = new ConcertBean();
+				c.setConcert_id(rs.getInt(1));
+				c.setConcert_name(rs.getString(2));
+				c.setConcert_day(rs.getDate(3));
+				c.setConcert_musician(rs.getString(4));
+				c.setConcert_open(rs.getString(5));
+				c.setConcert_close(rs.getString(6));
+				c.setConcert_image(rs.getString(7));
+				c.setGenre_name(rs.getString(8));
+				c.setLocal_name(rs.getString(9));
+				c.setConcert_price(rs.getString(10));
+
+				flist.add(c);
+			}
+			return flist;
+		} catch (SQLException e) {
+			System.out.println("getAllList() 에러 : " + e);
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return null;
+	}
 }

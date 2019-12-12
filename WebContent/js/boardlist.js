@@ -1,20 +1,25 @@
-function go(page){
-   var limit = $('#viewcount').val();
-   var data = "limit=" + limit + "&state=ajax&page=" + page;
-   ajax(data);
+function go(page) {
+	var limit = $('#viewcount').val();
+	var search_select = $("#search_select").val();
+	var search_text = $("#search_text").val();
+	var data = "limit=" + limit + "&state=ajax&page=" + page + "&search_select=" + search_select
+			+ "&search_text=" + search_text;
+	ajax(data);
 }
 
-function setPaging(href, digit){
-   output += "<li class=page-item>";
-   gray="";
-   if(href==""){
-      gray = "gray";
-   }
-   anchor = "<a class='page-link " + gray + "'" + href + ">" + digit + "</a></li>";
-   output += anchor;
+function setPaging(href, digit) {
+	output += "<li class=page-item>";
+	gray = "";
+	if (href == "") {
+		gray = "gray";
+	}
+	anchor = "<a class='page-link " + gray + "'" + href + ">" + digit
+			+ "</a></li>";
+	output += anchor;
 }
 
 function ajax(data) {
+
 console.log(data)
 output="";
 $.ajax({
@@ -44,10 +49,8 @@ $.ajax({
                     				if(item.BOARD_RE_LEV > 0) {
                     					img="<img src='images/AnswerLine.gif'>";
                     				}
-
                     				output += "<td><div>" + blank + img
                     				output += '<a href="./BoardDetailAction.bo?num=' + item.BOARD_NUM + '&page=' + data.page + '">'
-
                     				output += item.BOARD_SUBJECT + '</a></div></td>'
                     				output += '<td><div>' + item.BOARD_NAME + '</div></td>'
                     				output += '<td><div>' + item.BOARD_DATE  + '</div></td>'
@@ -78,7 +81,6 @@ $.ajax({
                     				href='href=javascript:go('+(data.page+1)+')';
                     			}
                     			setPaging(href, digit);
-
                     			$('.pagination').append(output)
                     } //if(data.listcount) end
                     else {
@@ -99,4 +101,9 @@ $(function(){
    $('#addBoard_Button').click(function() {
 		location.href ="BoardWrite.bo";
 	});
+	
+	$("#search_btn").click(function(){
+		go(1);
+	})
+
 });

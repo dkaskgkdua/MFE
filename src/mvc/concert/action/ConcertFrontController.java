@@ -19,6 +19,7 @@ import mvc.member.action.IdCheckAction;
 @WebServlet("*.co")
 public class ConcertFrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
     
 	   
     public ConcertFrontController() {
@@ -52,14 +53,7 @@ public class ConcertFrontController extends HttpServlet {
     	ActionForward forward = null;
     	Action action=null;
     	
-    	if(command.equals("/mytickets.co")) {
-    		action = new MyticketsAction();
-    		try {
-    			forward=action.execute(request, response);
-    		} catch(Exception e) {
-    			e.printStackTrace();
-    		}
-    	} else if(command.equals("/searchword.co")) {
+    	if(command.equals("/searchword.co")) {
     		action = new SearchwordAction();
     		try {
     			forward=action.execute(request, response);
@@ -87,7 +81,21 @@ public class ConcertFrontController extends HttpServlet {
     		} catch(Exception e) {
     			e.printStackTrace();
     		}
-    	} 
+    	} else if (command.equals("/searchfilter.co")) {
+			action = new SearchfilterAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else if (command.equals("/filterdelete.co")) {
+			action = new filterDeleteAction();
+			try {
+				forward = action.execute(request, response);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
     	
     	
     	
@@ -103,13 +111,15 @@ public class ConcertFrontController extends HttpServlet {
     }
     
     
+
 //get이든 post든 dpProcess메서드를 구현하여 처리하도록 하였음.
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doProcess(request, response);
 	}
 
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doProcess(request, response);
 	}
 

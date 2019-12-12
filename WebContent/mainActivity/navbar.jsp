@@ -6,6 +6,7 @@
 <!-- Scripts -->
 
 
+
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -25,6 +26,8 @@
 <script src="assets/js/util.js"></script>
 <script src="assets/js/main.js"></script>
 <link rel="stylesheet" href="assets/css/main.css?ver=5" />
+<script src="js/searchlist.js"></script>
+<script src="js/filterlist.js"></script>
 
 <header id="header">
 	<h1>
@@ -96,15 +99,14 @@
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 
-			<!-- Modal body -->
-			<div class="modal-body">
-				<div class="container uniform">
-
-					<form method="post" action="searchcondition.co" id="filter_form">
+			<form method="post" action="searchfilter.co" id="filter_form">
+				<!-- Modal body -->
+				<div class="modal-body">
+					<div class="container uniform">
 						<fieldset>
 							<div class="form-group">
 								<label for="datepicker" class="modalBlack">날짜별</label> <input
-									type="date" id="datepicker">
+									type="date" name="search_date" id="datepicker">
 
 							</div>
 
@@ -160,7 +162,6 @@
 							</div>
 						</fieldset>
 					</form>
-
 				</div>
 			</div>
 
@@ -170,6 +171,93 @@
 				<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
 			</div>
 
+		</div>
+	</div>
+</div>
+
+<!--  로그인 모달 -->
+<div class="modal" id="login_Modal">
+	<div class="modal-dialog">
+		<div class="modal-content">
+
+			<!-- Modal Header -->
+			<div class="modal-header">
+				<h4 class="modal-title">로그인</h4>
+				<button type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+
+			<!-- Modal body -->
+			<div class="modal-body">
+				<div class="container uniform">
+					<form method="post" action="loginProcess.net" id="login_form">
+						<fieldset>
+							<div class="form-group">
+								<label for="login_id" class="modalBlack">아이디</label> <input
+									type="text" class="form-control" id="login_id"
+									placeholder="Enter id" name="login_id" required maxLength="30">
+								<span id="login_id_message"></span>
+							</div>
+							<div class="table-wrapper">
+								<label for="local" class="modalBlack">지역별</label> <input
+									type="hidden" name="search_local" id="search_local">
+								<table id="local">
+									<tr>
+										<td><input type='button' class='local' value="서울"></td>
+										<td><input type='button' class='local' value="경기"></td>
+										<td><input type='button' class='local' value="인천"></td>
+										<td><input type='button' class='local' value="부산"></td>
+										<td><input type='button' class='local' value="대구"></td>
+										<td><input type='button' class='local' value="대전"></td>
+									</tr>
+									<tr>
+										<td><input type='button' class='local' value="경남"></td>
+										<td><input type='button' class='local' value="전남"></td>
+										<td><input type='button' class='local' value="충남"></td>
+										<td><input type='button' class='local' value="광주"></td>
+										<td><input type='button' class='local' value="울산"></td>
+										<td><input type='button' class='local' value="경북"></td>
+									</tr>
+									<tr>
+										<td><input type='button' class='local' value="전북"></td>
+										<td><input type='button' class='local' value="충북"></td>
+										<td><input type='button' class='local' value="강원"></td>
+										<td><input type='button' class='local' value="제주"></td>
+										<td><input type='button' class='local' value="세종"></td>
+										<td><input type='button' id="all_local" value="전국"></td>
+									</tr>
+								</table>
+							</div>
+
+							<div class="form-group">
+								<label for="genre" class="modalBlack">장르별</label> <input
+									type="hidden" name="search_genre" id="search_genre">
+								<table id="genre">
+									<tr>
+										<td><input type='button' class='genre' value="발라드"></td>
+										<td><input type='button' class='genre' value="댄스"></td>
+										<td><input type='button' class='genre' value="랩/힙합"></td>
+									</tr>
+									<tr>
+										<td><input type='button' class='genre' value="R&B/Soul"></td>
+										<td><input type='button' class='genre' value="인디음악"></td>
+										<td><input type='button' class='genre' value="록/메탈"></td>
+									</tr>
+									<tr>
+										<td><input type='button' class='genre' value="트로트"></td>
+										<td><input type='button' class='genre' value="EDM"></td>
+										<td><input type='button' id="all_genre" value="모든 장르"></td>
+									</tr>
+								</table>
+							</div>
+							<!-- Modal footer -->
+							<input type="submit" id="filter_btn" class="btn btn-primary"
+								value='검색'> <input class="btn btn-danger"
+								id="filter_cancel" data-dismiss="modal" value='취소'>
+
+						</fieldset>
+					</div>
+				</div>
+			</form>
 		</div>
 	</div>
 </div>
@@ -356,7 +444,6 @@
 
 		$('#adminMode_Button').click(function() {
 			location.href = 'adminPage.net';
-
 		});
 		var idCheck = false;
 
@@ -470,6 +557,97 @@
 	}); 
 	$("#datepicker").datepicker();  
 	--%>
+	// filter 클릭시 색상 변함
+		$(".local").css('opacity', '0.5');
+		$(".local").each(function(index, item) {
+			$(this).click(function() {
+				var status = $(this).css('opacity');
+				if (status == '0.5') {
+					$(this).css('opacity', '1');
+					if ($("#all_local").css('opacity') == 1) {
+						$("#all_local").css('opacity', '0.5');
+					}
+				} else {
+					$(this).css('opacity', '0.5');
+				}
+			});
+		});
+
+		// filter 클릭시 색상 변함
+		$(".genre").css('opacity', '0.5');
+		$(".genre").each(function(index, item) {
+			$(this).click(function() {
+				var status = $(this).css('opacity');
+				if (status == '0.5') {
+					$(this).css('opacity', '1');
+					if ($("#all_genre").css('opacity') == 1) {
+						$("#all_genre").css('opacity', '0.5');
+					}
+				} else {
+					$(this).css('opacity', '0.5');
+				}
+			});
+		});
+		// 전체 지역 클릭시 다른 지역은 해제되게 하기
+		$("#all_local").css("opacity", '0.5');
+		$("#all_local").click(function() {
+			var status = $(this).css('opacity');
+			if (status == '0.5') {
+				$(this).css('opacity', '1');
+				$(".local").each(function(index, item) {
+					$(".local").css('opacity', '0.5');
+				});
+			} else {
+				$(this).css('opacity', '0.5');
+			}
+		});
+
+		// 모든 장르 클릭시 다른 장르는 해제되게 하기
+		$("#all_genre").css("opacity", '0.5');
+		$("#all_genre").click(function() {
+			var status = $(this).css('opacity');
+			if (status == '0.5') {
+				$(this).css('opacity', '1');
+				$(".genre").each(function(index, item) {
+					$(".genre").css('opacity', '0.5');
+				});
+			} else {
+				$(this).css('opacity', '0.5');
+			}
+		});
+
+		// <input type = "hidden" name = "search_local" id = "search_local">
+		// <input type = "hidden" name = "search_genre" id = "search_genre">								
+		$("#filter_btn").click(function() {
+			var search_local = "";
+			var search_genre = "";
+
+			$(".local").each(function(index, item) {
+				if ($(this).css('opacity') == 1)
+					search_local += $(this).val() + ",";
+			});
+
+			$(".genre").each(function(index, item) {
+				if ($(this).css('opacity') == 1)
+					search_genre += $(this).val() + ",";
+			});
+
+			if ($("#all_local").css('opacity') == 1)
+				search_local = $("#all_local").val() + ",";
+
+			if ($("#all_genre").css('opacity') == 1)
+				search_genre = $("#all_genre").val() + ",";
+
+			if (search_local == null || search_local == "") {
+				search_local = "전국,";
+			}
+			if (search_genre == null || search_genre == "") {
+				search_genre = "모든 장르,";
+			}
+			$("#search_local").val(search_local); // text에 넣음
+			$("#search_genre").val(search_genre);
+		});
+
 	});
 </script>
 

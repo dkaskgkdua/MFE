@@ -22,6 +22,7 @@ import mvc.member.action.ActionForward;
 @WebServlet("*.bo")
 public class BoardFrontController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+<<<<<<< HEAD
     
 	   
     public BoardFrontController() {
@@ -176,15 +177,15 @@ public class BoardFrontController extends HttpServlet {
     		}
     	}
     }
-    
-    
+
 //get이든 post든 dpProcess메서드를 구현하여 처리하도록 하였음.
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doProcess(request, response);
 	}
 
-	
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 		doProcess(request, response);
 	}
 

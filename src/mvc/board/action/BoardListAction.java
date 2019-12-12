@@ -22,6 +22,11 @@ public class BoardListAction implements Action{
 	 			
 		BoardDAO boarddao = new BoardDAO();
 		List<BoardBean> boardlist = new ArrayList<BoardBean>();
+		String search_select = request.getParameter("search_select");
+		String search_text = request.getParameter("search_text");
+		
+		System.out.println("search_select = " + search_select);
+		System.out.println("search_text = " + search_text);
 		
 		int page=1;
 		int limit=10;
@@ -29,18 +34,15 @@ public class BoardListAction implements Action{
 		if(request.getParameter("page")!=null) {
 			page=Integer.parseInt(request.getParameter("page"));
 		}
-		System.out.println("넘어온 페이지 = " + page);
-		
 		if(request.getParameter("limit") != null) {
 			limit = Integer.parseInt(request.getParameter("limit"));
 		}
-		System.out.println("넘어온 limit = " + limit);
 		
 		//총 리스트 수를 받아온다.
-		int listcount = boarddao.getListCount();
-		
+		int listcount = boarddao.getListCount(search_select, search_text);
+		System.out.println("listcount = " + listcount);
 		//리스트를 받아온다.
-		boardlist = boarddao.getBoardList(page, limit);
+		boardlist = boarddao.getBoardList(page, limit, search_select, search_text);
 		/*	총 페이지 수 = 
 		 *  (DB에 저장된 총 리스트 수 + 한 페이지에서 보여주는 리스트의 수 -1)/ 한페이지에서 보여주는 리스트의 수
 		 * 
@@ -115,7 +117,7 @@ public class BoardListAction implements Action{
 			object.addProperty("startpage", startpage);
 			object.addProperty("endpage", endpage);
 			object.addProperty("listcount",listcount);
-			object.addProperty("limit", limit);
+			object.addProperty("limit", limit);	// 한 페이지에 나타낼 글 수
 			// List => JsonArray
 			JsonArray je = new Gson().toJsonTree(boardlist).getAsJsonArray();
 			
