@@ -75,9 +75,7 @@
 		margin-bottom : 2%;
 	}
 	#viewcount2 {
-		display : inline;
-		width : 70px;
-		height : 28px;
+		width : 80%;
 	}
 	.sp {
 		width : 70px;
@@ -86,7 +84,7 @@
 	.gray { 
 		background : gray;
 	}
-	#viewcount3{
+	#viewcount3 {
 		width : 80%;
 	}
 	.modalTable {

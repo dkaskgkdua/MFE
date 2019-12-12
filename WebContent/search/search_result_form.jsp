@@ -120,7 +120,7 @@ float : left;
 							</tr>
 						</table>
 
-						<a href="#" class="button special icon fa-search fit">상세보기</a>
+						<a href="ConcertDetailAction.co?detail_concert=${flist.concert_id }" class="button special icon fa-search fit">상세보기</a>
 					</div>
 				</div>
 			</c:forEach>

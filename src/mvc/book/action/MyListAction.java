@@ -1,6 +1,5 @@
 package mvc.book.action;
 
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,7 +55,7 @@ public class MyListAction implements Action {
 			
 			
 			MemberDAO mdao = new MemberDAO();
-			Member m = mdao.getDetail(id);
+			Member m = mdao.getDetail2(id);
 			if(m==null) {
 				System.out.println("정보 가져오기 실패");
 				forward.setRedirect(false);

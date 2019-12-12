@@ -308,9 +308,37 @@ public class MemberDAO {
 		}finally {
 			close();
 		}
-		
 		return json;
-		
+	}
+	public Member getDetail2(String id) {
+		Member m = new Member();
+	      
+	      try {
+	      con = ds.getConnection();
+	      System.out.println("getConnection");
+	      
+	      pstmt = con.prepareStatement("select * from member where member_id = ?");
+	      pstmt.setString(1, id);
+	      rs = pstmt.executeQuery();
+	      
+	      if (rs.next()) {
+	         m.setId(rs.getString(1));
+	         m.setPassword(rs.getString(2));
+	         m.setName(rs.getString(3));
+	         m.setAddress(rs.getString(4));
+	         m.setPhone_number(rs.getString(5));
+	         m.setPreference(rs.getString(6));
+	         m.setGender(rs.getString(7));
+	      }
+	      
+	      } catch(SQLException e) {
+	         System.out.println("getDetail() 에러 : " + e);
+	         e.printStackTrace();
+	      }finally {
+	         close();
+	      }
+	      
+	      return m;
 	}
 	
 	public int insert(Member m) {

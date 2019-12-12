@@ -342,7 +342,6 @@ public class ConcertDAO {
 		List<ConcertBean> list = new ArrayList<ConcertBean>();
 		String field = "";
 
-<<<<<<< HEAD
 		
 		switch(concert_search_field) {
 		case 0:

@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <!-- Scripts -->
 
-<<<<<<< HEAD
-
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 <script
@@ -189,17 +187,17 @@ input[type="button"].genre, input[type="button"]#all_genre {
 									type="hidden" name="search_genre" id="search_genre">
 								<table class = "table_f" id="genre">
 									<tr>
-										<td><input type='button' class='genre' value="발라드"></td>
-										<td><input type='button' class='genre' value="댄스"></td>
-										<td><input type='button' class='genre' value="랩/힙합"></td>
+										<td><input type='button' class='genre' value="balad"></td>
+										<td><input type='button' class='genre' value="rock"></td>
+										<td><input type='button' class='genre' value="rap"></td>
 									</tr>
 									<tr>
 										<td><input type='button' class='genre' value="R&B/Soul"></td>
-										<td><input type='button' class='genre' value="인디음악"></td>
-										<td><input type='button' class='genre' value="록/메탈"></td>
+										<td><input type='button' class='genre' value="jazz"></td>
+										<td><input type='button' class='genre' value="classic"></td>
 									</tr>
 									<tr>
-										<td><input type='button' class='genre' value="트로트"></td>
+										<td><input type='button' class='genre' value="pop"></td>
 										<td><input type='button' class='genre' value="EDM"></td>
 										<td><input type='button' id="all_genre" value="모든 장르"></td>
 									</tr>

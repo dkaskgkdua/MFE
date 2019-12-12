@@ -49,7 +49,7 @@
 							<div>${b.book_date}</div>
 						</td>
 						<td>
-							<div><a href=#>${b.concert_name }</a></div> <!-- 콘서트 상세정보 모달로 띄울거임 -->	
+							<div><a href="ConcertDetailAction.co?detail_concert=${b.concert_id }">${b.concert_name }</a></div> <!-- 콘서트 상세정보 모달로 띄울거임 -->	
 						</td>
 						<td>
 							<div>${b.concert_day}</div>	

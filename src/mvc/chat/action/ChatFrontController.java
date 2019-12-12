@@ -25,7 +25,7 @@ public class ChatFrontController extends HttpServlet {
     protected void doProcess(HttpServletRequest request,
     							HttpServletResponse response)
     	throws ServletException, IOException {
-   
+    	response.setContentType("text/html;charset=UTF-8");
     	String RequestURI = request.getRequestURI();
     	System.out.println("리퀘스트URI = " + RequestURI);
     
