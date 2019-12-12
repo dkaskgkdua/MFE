@@ -94,18 +94,21 @@
 		display : inline-block;
 		float: left;
 		background : grey;
-		border-radius : 20px;
+		border-radius : 10px;
 		margin : 10px;
-		padding : 10px;
+		padding-left : 10px;
+		padding-right : 10px;
+		
 	}
 	.user_chat {
 		clear : both;
 		display : inline-block;
 		float : right;
 		background : #01A9DB;
-		border-radius : 20px;
+		border-radius : 10px;
 		margin : 10px;
-		padding : 10px;
+		padding-left : 10px;
+		padding-right : 10px;
 		
 	}
 </style>
