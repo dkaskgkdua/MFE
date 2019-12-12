@@ -54,6 +54,34 @@ td {
 .concert_time {
 	padding-left: 0px;
 }
+
+.deadline {
+	display: inline-block;
+	background: red;
+	font-size: 12px;
+	font-weight: bold;
+	color: black;
+	border-radius: 0.2em;
+	padding: 0.15em;
+}
+
+#count {
+	float: right;
+	margin-right: 30px;
+	display: block;
+	margin-bottom: 30px;
+}
+
+.out {
+	clear: both;
+	margin: 0;
+}
+
+.box {
+	width: 47%;
+	margin: 20px;
+	float: left;
+}
 </style>
 </head>
 <body>

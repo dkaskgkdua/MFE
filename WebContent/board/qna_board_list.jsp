@@ -9,6 +9,31 @@
 .container {
 	padding-top: 50px;
 }
+
+.select-wrapper {
+	float: right;
+}
+
+#addBoard_Button {
+	float: right;
+}
+
+#search_select {
+	width: 10%;
+	display: inline-block;
+	height: 32px;
+}
+
+#search_text {
+	width: 25%;
+	display: inline-block;
+	height: 32px;
+}
+
+.center-block {
+	display: flex;
+		justify-content: center; /* 가운데 정렬 */
+}
 </style>
 <script src="js/boardlist.js"></script>
 
@@ -90,65 +115,69 @@
 							</td>
 						</tr>
 					</c:forEach>
-
-
-					<div class="center-block">
-						<div class="row">
-							<div class="col">
-								<ul class="pagination">
-									<c:if test="${page <= 1 }">
-										<li class="page-item"><a class="page-link" href="#">이전&nbsp;</a>
-										</li>
-									</c:if>
-									<c:if test="${page > 1 }">
-										<li class="page-item"><a
-											href="BoardList.bo?page=${page-1 }" class="page-link">이전</a>
-											&nbsp;</li>
-									</c:if>
-
-									<c:forEach var="a" begin="${startpage }" end="${endpage }">
-										<c:if test="${a == page }">
-											<li class="page-item"><a class="page-link" href="#">${a }</a>
-											</li>
-										</c:if>
-										<c:if test="${a != page }">
-											<li class="page-item"><a href="BoardList.bo?page=${a }"
-												class="page-link">${a }</a></li>
-										</c:if>
-									</c:forEach>
-
-									<c:if test="${page >= maxpage }">
-										<li class="page-item"><a class="page-link" href="#">&nbsp;다음</a>
-										</li>
-									</c:if>
-									<c:if test="${page < maxpage }">
-										<li class="page-item"><a
-											href="BoardList.bo?page=${page+1 }" class="page-link">&nbsp;다음</a>
-										</li>
-									</c:if>
-								</ul>
-							</div>
-						</div>
-					</div>
 				</c:if>
-
-				<p>
-					<select name="search_select" size="1" id="search_select">
-						<option value="board_name">작성자</option>
-						<option value="board_subject">제목</option>
-						<option value="board_content">내용</option>
-					</select> 
-					<input type="text" id="search_text" name = "search_text" placeholder="검색할 내용을 입력하세요.">
-					<button type="submit" id="search_btn">검색</button>
-				</p>
-
-
 
 			</tbody>
 		</table>
+
+		<button id="addBoard_Button" type="button"
+			class="btn btn-info float-right">글쓰기</button>
+
+		<c:if test="${listcount > 0 }">
+			<p>
+				<select name="search_select" size="1" id="search_select">
+					<option value="board_name">작성자</option>
+					<option value="board_subject">제목</option>
+					<option value="board_content">내용</option>
+				</select> <input type="text" id="search_text" name="search_text"
+					placeholder="검색할 내용을 입력하세요.">
+				<button type="submit" id="search_btn">검색</button>
+			</p>
+
+			<div class="center-block">
+				<div class="row">
+					<div class="col">
+						<ul class="pagination">
+							<c:if test="${page <= 1 }">
+								<li class="page-item"><a class="page-link" href="#">이전&nbsp;</a>
+								</li>
+							</c:if>
+							<c:if test="${page > 1 }">
+								<li class="page-item"><a
+									href="BoardList.bo?page=${page-1 }" class="page-link">이전</a>
+									&nbsp;</li>
+							</c:if>
+
+							<c:forEach var="a" begin="${startpage }" end="${endpage }">
+								<c:if test="${a == page }">
+									<li class="page-item"><a class="page-link" href="#">${a }</a>
+									</li>
+								</c:if>
+								<c:if test="${a != page }">
+									<li class="page-item"><a href="BoardList.bo?page=${a }"
+										class="page-link">${a }</a></li>
+								</c:if>
+							</c:forEach>
+
+							<c:if test="${page >= maxpage }">
+								<li class="page-item"><a class="page-link" href="#">&nbsp;다음</a>
+								</li>
+							</c:if>
+							<c:if test="${page < maxpage }">
+								<li class="page-item"><a
+									href="BoardList.bo?page=${page+1 }" class="page-link">&nbsp;다음</a>
+								</li>
+							</c:if>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</c:if>
 	</div>
 
-	<button id="addBoard_Button" type="button"
-		class="btn btn-info float-right">글쓰기</button>
+
+
+
+
 </body>
 </html>

@@ -144,11 +144,11 @@ $(function() {
 							output += item.concert_open + "-" + item.concert_close;
 							output += "</td></tr>";
 							output += "<tr><th>공연 장소</th>";
-							output += "<td>" + item.local_name + "</td></tr>";
+							output += "<td colspan=3>" + item.local_name + "</td></tr>";
 							output += "<tr><th>공연 가격</th>";
-							output += "<td>" + item.concert_price + "</td></tr>";
+							output += "<td colspan=3>" + item.concert_price + "</td></tr>";
 							output += "<tr><th>장르</th>";
-							output += "<td>" + item.genre_name + "</td></tr></table>"
+							output += "<td colspan=3>" + item.genre_name + "</td></tr></table>"
 							output += "</div></div>";
 						}); // each end
 					 	$(".out").append(output);
