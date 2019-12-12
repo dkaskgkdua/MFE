@@ -98,7 +98,6 @@ public class ConcertFrontController extends HttpServlet {
 		}
     	
     	
-    	
     	if(forward !=null) {
     		if(forward.isRedirect()) { //리다이렉트 된다.
     			response.sendRedirect(forward.getPath());

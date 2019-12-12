@@ -3791,7 +3791,7 @@
 		background-color : white;
 	}
 	.modal-title {
-		color : black;
+		color : white;
 	}
 	
 	.modal.right.fade .modal-dialog {
@@ -3819,9 +3819,12 @@
 	}
 
 	.modal.right .modal-content {
-		height: 100%;
-		overflow-y: auto;
-	}
+  	  width : 500px;
+      height: 100%;
+      background : #041625;
+      color : #041625;
+      border-radius : 0
+    }
 	.accountDiv {
 		background : #fbc65a;
 	}
@@ -3931,4 +3934,3 @@ body, footer {
 			}
 
 		}
-	

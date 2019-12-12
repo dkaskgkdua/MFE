@@ -6,6 +6,7 @@ CREATE TABLE LOCAL(
    PRIMARY KEY(LOCAL_ID)
 );
 
+
 create sequence LOCAL_SEQ;
 
 insert into LOCAL values(LOCAL_SEQ.NEXTVAL, '서울');

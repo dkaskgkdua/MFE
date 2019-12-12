@@ -6,7 +6,6 @@
 <!DOCTYPE HTML>
 
 <html>
-
 <head>
 <title>Music For Everyone</title>
 <jsp:include page="navbar.jsp" />

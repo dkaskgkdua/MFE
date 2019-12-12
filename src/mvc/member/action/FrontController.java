@@ -129,6 +129,13 @@ public class FrontController extends HttpServlet {
     		}catch(Exception e) {
     			e.printStackTrace();
     		}
+    	} else if(command.equals("/my_delete.net")) {
+    		action = new My_deleteAction();
+    		try {
+    			forward= action.execute(request,  response);
+    		} catch(Exception e) {
+    			e.printStackTrace();
+    		}
     	}
     	
     	if(forward !=null) {

@@ -1,5 +1,6 @@
 package mvc.book.action;
 
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,7 +26,7 @@ public class MyListAction implements Action {
 
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		request.setCharacterEncoding("euc-kr");
+		request.setCharacterEncoding("utf-8");
 		
 		ActionForward forward = new ActionForward();
 		
@@ -68,18 +69,21 @@ public class MyListAction implements Action {
 		//-------------------------
 			
 			
-			//chatlist
-			
 			ChatDAO chatdao = new ChatDAO();
 			List<ChatBean> chatlist = new ArrayList<ChatBean>();
-		
+			ArrayList<ChatBean> chatloglist = new ArrayList<ChatBean>();
+			
+			
+
 			int chatlistcount = chatdao.getListCount(id);
+			request.setAttribute("chatlistcount", chatlistcount); 
+			
+			chatloglist = chatdao.chatLog(id);
+			request.setAttribute("chatloglist", chatloglist);
 			
 			chatlist = chatdao.getChatList(id);
-		
-			request.setAttribute("chatlistcount",chatlistcount); //총 글의 수
-			
 			request.setAttribute("chatlist", chatlist);
+		
 			
 		//------------------------
 		
@@ -111,6 +115,8 @@ public class MyListAction implements Action {
 			
 			if(endpage > maxpage) endpage = maxpage;
 			
+			
+			
 			String state = request.getParameter("state");
 			
 			if(state == null) {
@@ -127,12 +133,14 @@ public class MyListAction implements Action {
 				request.setAttribute("booklist", booklist);
 				request.setAttribute("limit", limit);
 				
+				
+		
 				forward = new ActionForward();
 				forward.setRedirect(false);
 				
 				forward.setPath("mypage/mypage.jsp");
 			 	return forward; 
-			} else {
+			} else if(state.equals("ajax")){
 				System.out.println("state=ajax");
 				JsonObject object = new JsonObject();
 				object.addProperty("page", page);
@@ -141,22 +149,27 @@ public class MyListAction implements Action {
 				object.addProperty("endpage", endpage);
 				object.addProperty("listcount",listcount);
 				object.addProperty("limit", limit);
-				
+
+
 				JsonArray je = new Gson().toJsonTree(booklist).getAsJsonArray();
-				
+
+
 				System.out.println("je = " + je);
 				object.add("booklist", je);
-				
+
+
 				Gson gson = new Gson();
 				String json = gson.toJson(object);
-				
+
+
+
 				response.setContentType("text/html;charset=UTF-8");
 				response.getWriter().append(json);
 				System.out.println(json);
+	
 				return null;
 			}
-
-		
+			return null;
 	}
 
 }

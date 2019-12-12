@@ -17,6 +17,7 @@ CREATE TABLE CONCERT(
 );
 create sequence concert_seq increment by 1 start with 1;
 
+
 SELECT * FROM CONCERT;
 delete * from concert;
 INSERT INTO CONCERT VALUES(concert_seq.nextval, '악동뮤지션 콘서트', SYSDATE, '악동뮤지션', '19', '23','악동뮤지션.jpg', 1, 1, '80000');

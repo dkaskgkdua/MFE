@@ -8,6 +8,7 @@ CREATE TABLE GENRE(
 
 create sequence GENRE_SEQ;
 
+
 insert into GENRE values(GENRE_SEQ.NEXTVAL, 'balad');
 insert into GENRE values(GENRE_SEQ.NEXTVAL, 'rock');
 insert into GENRE values(GENRE_SEQ.NEXTVAL, 'rap');
@@ -18,7 +19,10 @@ insert into GENRE values(GENRE_SEQ.NEXTVAL, 'pop');
 insert into GENRE values(GENRE_SEQ.NEXTVAL, 'EDM');
 
 
+
+
 update genre set genre_name = 'EDM' where genre_id ='8';
 update genre set genre_name ='EDM' where genre_id = 8;
 select * from genre;
+
 

@@ -1,6 +1,8 @@
 drop table chat;
+
 drop sequence chat_seq;
 drop sequence chat_seq2;
+
 
 CREATE TABLE CHAT(
    CHAT_LOG_ID number(30) PRIMARY KEY,
@@ -11,13 +13,14 @@ CREATE TABLE CHAT(
    FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER on delete cascade
 );
 
-alter table chat modify(member_id varchar2(50));
 create sequence chat_seq increment by 1 start with 1;
 create sequence chat_seq2 increment by 1 start with 1;
 
 
 create table sessId (id varchar(100));
+
 SELECT * FROM CHAT;
 DELETE FROM CHAT;
 select * from sessId;
 delete from sessId;
+

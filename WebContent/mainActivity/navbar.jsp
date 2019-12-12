@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <!-- Scripts -->
 
+<<<<<<< HEAD
 
 
 <script src="http://code.jquery.com/jquery-latest.js"></script>
@@ -126,7 +127,7 @@ input[type="button"].genre, input[type="button"]#all_genre {
 	<ul class="links">
 		<li><a href="BoardList.bo" class="dropdown-toggle"
 			data-toggle="dropdown" role="button" aria-expanded="false">자유게시판</a></li>
-		<li><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+		<li><a href="ReviewList.rv" class="dropdown-toggle" data-toggle="dropdown"
 			role="button" aria-expanded="false">리뷰게시판</a></li>
 		<li><a href="#" class="dropdown-toggle" data-toggle="dropdown"
 			role="button" aria-expanded="false">고객센터 </a></li>
@@ -152,7 +153,6 @@ input[type="button"].genre, input[type="button"]#all_genre {
 								<label for="datepicker" class="modalBlack">날짜별</label> <input
 									type="date" name="search_date" id="datepicker">
 							</div>
-
 							<div class="table-wrapper">
 								<label for="local" class="modalBlack">지역별</label> <input
 									type="hidden" name="search_local" id="search_local">
@@ -267,7 +267,6 @@ input[type="button"].genre, input[type="button"]#all_genre {
 	</div>
 </div>
 
-
 <!--  계정 모달 -->
 <div class="modal right fade" id="account_Modal" tabindex="-1"
 	role="dialog" aria-labelledby="accountLabel">
@@ -286,13 +285,10 @@ input[type="button"].genre, input[type="button"]#all_genre {
 					<form method="post" action="#" id="account_form">
 						<fieldset>
 							<div class="accountDiv">
-								<a href="#">My page</a>
+								<a href="mypage.bk">마이페이지</a>
 							</div>
 							<div class="accountDiv">
-								<a href="member_update.net">정보 수정</a>
-							</div>
-							<div class="accountDiv">
-								<a href="logOut.net">Logout</a>
+								<a href="logOut.net">로그아웃</a>
 							</div>
 						</fieldset>
 					</form>
@@ -397,7 +393,6 @@ input[type="button"].genre, input[type="button"]#all_genre {
 
 <script>
 	$(function() {
-
 		$('#adminMode_Button').click(function() {
 			location.href = 'adminPage.net';
 		});
@@ -606,5 +601,3 @@ input[type="button"].genre, input[type="button"]#all_genre {
 
 	});
 </script>
-
-

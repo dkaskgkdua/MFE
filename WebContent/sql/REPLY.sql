@@ -12,3 +12,4 @@ alter table reply modify(member_id varchar2(50));
 create sequence reply_seq ;
 SELECT * FROM REPLY;
 DELETE FROM REPLY;
+
