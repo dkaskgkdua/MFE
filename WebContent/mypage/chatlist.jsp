@@ -21,7 +21,7 @@
 					</tr>
 					<tr>
 						<th width="30%">채팅번호</th>
-						<th width="70%">상담날짜</th>
+						<th width="70%">상세보기</th>
 					</tr>
 				</thead>
 				<tbody class="tb2">
@@ -36,7 +36,7 @@
 												<td>
 													<div>
 													
-														<button class="chat_date" >클릭</button>	
+														<button class="chat_date" >상세보기</button>	
 														<form class="chat_detail">
 															 <input type="hidden" value="${c.chat_log_id2 }" name="log_id2">
 															<div class="chch">

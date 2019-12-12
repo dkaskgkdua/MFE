@@ -12,8 +12,6 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-import mvc.concert.db.ConcertBean;
-
 public class BookDAO {
 	private DataSource ds; 
 	private Connection con;
@@ -90,10 +88,10 @@ public class BookDAO {
 				BookBean book = new BookBean();
 				book.setBook_id(rs.getInt("BOOK_ID"));
 				book.setBook_amount(rs.getInt("BOOK_AMOUNT"));
-				book.setBook_date(rs.getString("BOOK_DATE"));
+				book.setBook_date(rs.getDate("BOOK_DATE"));
 				book.setBook_eticket(rs.getString("BOOK_ETICKET"));
 				book.setMember_id(rs.getString("MEMBER_ID"));
-				book.setConcert_day(rs.getString("CONCERT_DAY"));
+				book.setConcert_day(rs.getDate("CONCERT_DAY"));
 				book.setConcert_id(rs.getInt("CONCERT_ID"));
 				book.setConcert_name(rs.getString("CONCERT_NAME"));
 				list.add(book);
