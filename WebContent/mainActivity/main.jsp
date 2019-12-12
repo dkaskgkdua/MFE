@@ -94,7 +94,7 @@
 		</div>
 	</section>
 	<div id="main">
-		<form id="detail_concert_form" action="book.bk" method="post"
+		<form id="detail_concert_form" action="ConcertDetailAction.co" method="post"
 			style="display: none">
 			<input id="detail_concert" type="text" name="detail_concert">
 		</form>

@@ -367,5 +367,34 @@ public class ConcertDAO {
 		
 		
 	}
+	public ConcertBean getDetail(int con_id) {
+		ConcertBean concert = null;
+		try {
+			con = ds.getConnection();
+			pstmt =con.prepareStatement("select * from concert where Concert_id=?");
+			pstmt.setInt(1, con_id);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				concert = new ConcertBean();
+				concert.setConcert_id(rs.getInt("concert_id"));
+				concert.setConcert_name(rs.getString("concert_name"));
+				concert.setConcert_day(rs.getDate("concert_day"));
+				concert.setConcert_musician(rs.getString("concert_musician"));
+				concert.setConcert_open(rs.getString("concert_open"));
+				concert.setConcert_close(rs.getString("concert_close"));
+				concert.setConcert_image(rs.getString("concert_image"));
+				concert.setGenre_id(rs.getString("genre_id"));
+				concert.setLocal_id(rs.getString("local_id"));
+				concert.setConcert_price(rs.getString("concert_price"));
+			}
+			return concert;
+		} catch(SQLException e) {
+			System.out.println("Concert getDetail() 에러 : " + e);
+			e.printStackTrace();
+		} finally {
+			close();
+		}
+		return null;
+	} //getDetail() 메서드 end
 
 }

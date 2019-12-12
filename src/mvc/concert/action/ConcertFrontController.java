@@ -80,7 +80,14 @@ public class ConcertFrontController extends HttpServlet {
     		} catch(Exception e) {
     			e.printStackTrace();
     		}
-    	}
+    	}  else if(command.equals("/ConcertDetailAction.co")) {
+    		action = new ConcertDetailAction();
+    		try {
+    			forward=action.execute(request, response);
+    		} catch(Exception e) {
+    			e.printStackTrace();
+    		}
+    	} 
     	
     	
     	
