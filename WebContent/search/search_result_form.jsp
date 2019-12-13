@@ -92,7 +92,7 @@ float : left;
 				<div class="box">
 					<div class="table-wrapper">
 						<input type="hidden" name="concert_id" value="${list.concert_id}">
-						<img src="images/${list.concert_image }" alt="" />
+						<img src="concertupload/${list.concert_image }" alt="" />
 
 						<div class="deadline"></div>
 						<h4 style="display: inline-block">${list.concert_name }</h4>

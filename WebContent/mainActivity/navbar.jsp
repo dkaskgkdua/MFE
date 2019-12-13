@@ -73,6 +73,9 @@ input[type="button"].genre, input[type="button"]#all_genre {
 .user{
 	color : white;
 }
+.logog{
+	color : black;
+}
 
 </style>
 <header id="header">
@@ -225,7 +228,7 @@ input[type="button"].genre, input[type="button"]#all_genre {
 
 			<!-- Modal Header -->
 			<div class="modal-header">
-				<h4 class="modal-title">로그인</h4>
+				<h4 class="modal-title logog">로그인</h4>
 				<button type="button" class="close" data-dismiss="modal">&times;</button>
 			</div>
 

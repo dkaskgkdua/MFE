@@ -111,6 +111,10 @@
 		padding-right : 10px;
 		
 	}
+	.likeimg {
+		width : 100px;
+		height : 200px
+	}
 </style>
  <script src="js/mypage.js"></script>
 </head>

@@ -6,9 +6,9 @@
 	<div class="video col">
 		<div class="image fit">
 			<div class="item">			
-				<img src='images/${l.concert_image }'/>
+				<img src='concertupload/${l.concert_image }' class="likeimg"/>
 				<button type="button" class="btn btn-secondary heart" id="rec_update">
-					<span class="glyphicon glyphicon-heart rec_count" aria-hidden="true"></span>
+					<span class="glyphicon glyphicon-heart rec_count " aria-hidden="true"></span>
 				</button>
 			</div>
 			<div>${l.concert_name }</div>

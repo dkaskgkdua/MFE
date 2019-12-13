@@ -584,10 +584,10 @@
 					"concert_id" : concert_id
 				},
 				success : function() {
-					alert("삭제 성공");
+					
 				},
 				error : function() {
-					alert("에러");
+					
 				}
 			});
 		};

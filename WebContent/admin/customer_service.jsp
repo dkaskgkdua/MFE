@@ -113,7 +113,7 @@ $(".chat_btn").on({
      };
      //웹 소켓에서 메시지가 날라왔을 때 호출되는 이벤트
      webSocket.onmessage = function(message) {
-         if(message.data!="start=")
+         if(message.data.substring(6)!="start=")
         messageTextArea.value +=  message.data + "\n";
 
      };

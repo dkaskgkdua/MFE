@@ -136,7 +136,7 @@ td {
 				<div class="box">
 					<div class="table-wrapper">
 						<input type="hidden" name="concert_id" value="${flist.concert_id}">
-						<img src="images/${flist.concert_image }" alt="" />
+						<img src="concertupload/${flist.concert_image }" alt="" />
 
 						<div class="deadline"></div>
 						<h4 style="display: inline-block">${flist.concert_name }</h4>
