@@ -129,6 +129,14 @@
 	color: #333;
 }
 
+strong{
+	color:#c0c2c4;
+}
+
+h3 {
+	color :black;
+}
+
 @media ( min-width : 320px) and (max-width: 767px) {
 	.container {
 		padding: 0;
@@ -166,10 +174,7 @@
 		<p class="name">${c.concert_name}</p>
 		<!-- 공연명 -->
 		<div class="info">
-			<p class="date gray">${c.concert_day},
-				${c.concert_open}
-				~
-				${c.concert_close }</p>
+			<p class="date gray">${c.concert_day}, ${c.concert_open} ~ ${c.concert_close }</p>
 			<!-- 공연일시 -->
 			<p class="prc gray">
 				Ticket price<span class="price pricetag gray">￦${c.concert_price}(x${c.book_amount})
@@ -192,7 +197,7 @@
 		<!-- 공연이미지 -->
 		<div class="payInfo">
 			<p class="title">
-				Card : <strong>${c.card_id}</strong>
+				Card : ￦<strong>${c.card_id}</strong>
 			</p>
 		</div>	
 	</div>
@@ -215,9 +220,5 @@
 	</div>
 </div>
 	
-
-	<!-- footer -->
-	<footer>footer</footer>
-	<!-- //footer -->
 </body>
 </html>

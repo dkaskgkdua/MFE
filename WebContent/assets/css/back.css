@@ -23,7 +23,7 @@ img {
 	outline: 0;
 }
 
-/* layout */
+/* 
 header {
 	width: 100%;
 	height: 50px;
@@ -44,7 +44,7 @@ header .menubar a {
 	font-size: 14px;
 	line-height: 50px;
 	text-decoration: none;
-}
+} 
 
 header .menubar .logo {
 	float: left;
@@ -52,7 +52,7 @@ header .menubar .logo {
 
 header .menubar .icon {
 	float: right;
-}
+}*/
 
 footer {
 	display: none;
@@ -63,7 +63,8 @@ footer {
 #detail {
 	width: 550px;
 	margin: 0 auto;
-	padding-bottom: 54px;
+	margin-top:54px;
+	padding-bottom:11px;
 	background: #fff;
 }
 
@@ -91,6 +92,11 @@ footer {
 	background-color: rgba(0, 0, 0, 0.5);
 	color: white;
 	font-weight: bolder;
+}
+
+#detail .Thumbnail .concertTitle dl{
+	margin:0;
+	
 }
 
 #detail .content .cont_tab {
@@ -132,6 +138,29 @@ footer {
 	width: 100%;
 	font-size: 0;
 	padding: 10px;
+}
+
+#detail .content .sp-quantity {
+	font-size:0; 
+	text-align:center;
+	margin:auto;
+} 
+
+#detail .content .sp-quantity > * {
+	display:inline-block;
+	font-size:15px;
+}
+
+#detail .content .sp-quantity .ddd{
+	background:#5bc0de;
+	border-color:white;
+}
+
+#detail .content .sp-quantity .quntity-input {
+	border:none;
+	text-align:center;
+	font-weight:bolder;
+	
 }
 
 @media ( min-width :320px) {
