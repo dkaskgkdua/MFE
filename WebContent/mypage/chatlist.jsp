@@ -31,7 +31,7 @@
 											<tr>
 												<td>
 													<div><c:out value="${num }"/></div>
-													<c:set var="num" value="${num-1 }"/>
+													<c:set var="num" value="${num+1 }"/>
 												</td>
 												<td>
 													<div>

@@ -25,9 +25,7 @@ public class websocket {
 
       System.out.println("=================입장=============================");
       System.out.println("쿼리 스트링 : " + session.getQueryString());
-      //admin&aaaa@mfe.com  겟쿼리스트링을 substr로 잘라서 어드민아이디를 분리
-      //
-      //clickid = aaaa@mfe.com   //겟쿼리스트링을 substr로 잘라서 고객아이디를 분리
+
       String customer = "";
       String admin ="";
       if(session.getQueryString().substring(0,5).equals("admin")) {
@@ -90,12 +88,12 @@ public class websocket {
        * for(int i =0; i< sessionList.size(); i++) {
        * System.out.println(sessionList.get(i) + " : 세션 값 조회"); }
        */
-	   websocketVO vo = new websocketVO();
+      websocketVO vo = new websocketVO();
       String id = session.getQueryString();
-      if(id.substring(0, 13).equals("admin@mfe.com")) {
-    	  vo.setMEMBER_ID("admin@mfe.com");
+      if(id.substring(0, 5).equals("admin")) {
+         vo.setMEMBER_ID("admin@mfe.com");
       } else {
-    	  vo.setMEMBER_ID(id);
+         vo.setMEMBER_ID(id);
       }
       String chatContent = message;
 

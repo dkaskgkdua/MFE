@@ -37,8 +37,9 @@
 input[type="button"].local, input[type="button"].genre, #all_local,
 	#all_genre {
 	background-color: #1d171752 !important;
-	color: #607d8bbd !important;
+	color: black !important;
 	outline: none !important;
+	margin : 1px;
 }
 
 .table_f td {
@@ -46,7 +47,7 @@ input[type="button"].local, input[type="button"].genre, #all_local,
 }
 
 input[type="button"].local, input[type="button"]#all_local {
-	width: 90px
+	width: 85px
 }
 
 #filter_btn {
@@ -76,6 +77,7 @@ input[type="button"].genre, input[type="button"]#all_genre {
 .logog{
 	color : black;
 }
+
 
 </style>
 <header id="header">

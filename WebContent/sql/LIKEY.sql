@@ -1,5 +1,6 @@
 drop table likey;
 drop sequence likey_seq;
+
 CREATE TABLE LIKEY(
 	LIKEY_ID	NUMBER,
 	CONCERT_ID	NUMBER(10)	NOT NULL,
@@ -9,7 +10,6 @@ CREATE TABLE LIKEY(
 	FOREIGN KEY(member_id) REFERENCES member(member_id) on delete cascade
 );
 
-alter table likey modify(member_id varchar2(50));
 create sequence likey_seq; 
 
 DELETE FROM LIKEY;

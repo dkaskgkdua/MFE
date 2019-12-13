@@ -2713,10 +2713,6 @@
 
 /* Table */
 
-	.table-wrapper {
-		-webkit-overflow-scrolling: touch;
-		overflow-x: auto;
-	}
 
 	table {
 		margin: 0 0 2em 0;
@@ -3794,7 +3790,7 @@
 		background-color : white;
 	}
 	.modal-title {
-		color : white;
+		color : black;
 	}
 	
 	.modal.right.fade .modal-dialog {

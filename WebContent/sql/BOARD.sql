@@ -1,4 +1,6 @@
-drop table BOARD;
+drop table BOARD cascade constraints;
+drop sequence board_seq;
+
 CREATE TABLE BOARD(
 	BOARD_NUM          NUMBER(5),         --글 번호(기본키)
 	BOARD_NAME         VARCHAR2(30),   --작성자
@@ -14,8 +16,10 @@ CREATE TABLE BOARD(
 	BOARD_DATE DATE,                --글의 작성 날짜
 	PRIMARY KEY(BOARD_NUM)
 );
-drop sequence board_seq;
+
 create sequence board_seq increment by 1 start with 1;
+
+
 select * from board;
 
 delete * from board;

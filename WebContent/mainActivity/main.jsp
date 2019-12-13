@@ -569,7 +569,6 @@
 					"concert_id" : concert_id
 				},
 				success : function() {
-					alert("삽입 성공");
 				},
 				error : function() {
 					alert("에러");

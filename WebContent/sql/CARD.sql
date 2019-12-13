@@ -12,6 +12,7 @@ CREATE TABLE CARD(
 );
 
 create sequence card_seq increment by 1 start with 1;
+
 SELECT * FROM CARD;
 DELETE FROM CARD;
 

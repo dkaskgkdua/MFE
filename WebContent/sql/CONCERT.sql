@@ -1,5 +1,6 @@
 drop table concert;
 drop sequence concert_seq;
+
 CREATE TABLE CONCERT(
 	CONCERT_ID		NUMBER(10),
 	CONCERT_NAME	VARCHAR2(30)	NOT NULL,

@@ -717,6 +717,7 @@ public class ConcertDAO {
 				ConcertBean c = new ConcertBean();
 				c.setConcert_image(rs.getString(7));
 				c.setConcert_name(rs.getString("CONCERT_NAME"));
+				c.setConcert_id(rs.getInt("CONCERT_ID"));
 				list.add(c);
 				
 			}

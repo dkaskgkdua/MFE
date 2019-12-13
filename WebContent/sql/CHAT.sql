@@ -2,7 +2,7 @@ drop table chat;
 
 drop sequence chat_seq;
 drop sequence chat_seq2;
-
+drop table sessId;
 
 CREATE TABLE CHAT(
    CHAT_LOG_ID number(30) PRIMARY KEY,
@@ -15,7 +15,6 @@ CREATE TABLE CHAT(
 
 create sequence chat_seq increment by 1 start with 1;
 create sequence chat_seq2 increment by 1 start with 1;
-
 
 create table sessId (id varchar(100));
 

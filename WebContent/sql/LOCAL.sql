@@ -1,5 +1,6 @@
 drop table LOCAL;
 drop sequence LOCAL_SEQ;
+
 CREATE TABLE LOCAL(
    LOCAL_ID   NUMBER,
    LOCAL_NAME   VARCHAR2(20)   NOT NULL,

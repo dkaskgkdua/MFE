@@ -215,7 +215,7 @@ h3 {
 			<a href="index.jsp">메인으로</a>
 		</div>
 		<div class="box_btn">
-			<a href="mypage.jsp">예매내역확인</a>
+			<a href="mypage.bk">예매내역확인</a>
 		</div>
 	</div>
 </div>

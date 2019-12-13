@@ -1,3 +1,6 @@
+drop table recent_search;
+drop table recent_seq;
+
 CREATE TABLE RECENT_SEARCH(
 	RECENT_SEARCH_ID		NUMBER,
 	MEMBER_ID				VARCHAR2(20)	NOT NULL,
@@ -6,6 +9,7 @@ CREATE TABLE RECENT_SEARCH(
 	FOREIGN KEY(MEMBER_ID) REFERENCES MEMBER on delete cascade
 );
 create sequence recent_seq increment by 1 start with 1;
+
 SELECT * FROM RECENT_SEARCH;
 DELETE FROM RECENT_SEARCH;
 
