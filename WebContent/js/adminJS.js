@@ -36,22 +36,53 @@ function setPaging(href, digit){
 }
 /* 멤버 상세조회 ajax */
 function getView(member_id) {
+	
 	$.ajax({
 		type: "post",
 		url : 'member_info.net',
 		data : {"MEMBER_ID" : member_id},
 		dataType:"json",
 		success:function(rdata) {
-				$("#view_id").text(rdata.id);
-				$("#view_pass").text(rdata.password);
-				$("#view_name").text(rdata.name);
-				$("#view_address").text(rdata.address);
-				$("#view_phone_number").text(rdata.phone_number);
-				$("#view_preference").text(rdata.preference);
-				$("#view_gender").text(rdata.gender);
-		}
+				$("#updateMember_id").val(rdata.id);
+				$("#updateMember_pass").val(rdata.password);
+				$("#updateMember_name").val(rdata.name);
+				$("#updateMember_address").val(rdata.address);
+				$("#updateMember_phone_number").val(rdata.phone_number);
+				
+				var preference = rdata.preference;
+				var preferTEMP = preference.split(',');
+				preferTEMP.forEach(function(item) {
+					var temp = "#updateMember_preference_"+item;
+					$(temp).attr('checked', 'checked');
+				});
+				var gender = rdata.gender;
+				if(gender == 1) {
+					$('#Umale').attr('checked','checked');
+				} else {
+					$('#Ufemale').attr('checked','checked');
+				}
+		}, 
+		error : function() {
+        	console.log('에러')
+        }
 	});
 };
+
+/* 멤버 정보 수정 ajax*/
+function updateMember() {
+	var allData = $('#updateMember_form').serialize();
+	$.ajax({
+		type:"post",
+		url : 'updateProcess.net',
+		data : allData,
+		success:function() {
+			$('#member_view_Modal').modal("hide");
+			go2(1);
+		}, error : function() {
+			console.log('에러')
+        }
+	})
+}
 
 /* 게시판 목록 필터링 ajax */
 function ajax(data) {
@@ -364,6 +395,10 @@ $(function(){
 		var member_id = $(this).text();
 		getView(member_id);
 	});
+	$("#updateMember_button").click(function() {
+		updateMember();
+	})
+	
 	$("#textMessage").keydown(function(key) {
 		if (key.keyCode == 13) {
 			sendMessage();

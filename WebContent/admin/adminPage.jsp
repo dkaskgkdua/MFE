@@ -64,7 +64,7 @@
 	.huWidth {
 		width : 100% !important;
 	}
-	.memberDetail:hover {
+	.memberDetail:hover, .concertDetail:hover {
 		background-color : transparent !important;
 		color : #5426f3 !important;
 	}
@@ -96,9 +96,12 @@
 	label, #concert_add_form select {
 		color: black !important;
 	}
-	#concert_add_form input,  #concert_add_form select {
+	#concert_add_form input,  #concert_add_form select, #updateMember_form input {
 		border-color : gray !important;
 		color : black  !important;
+	}
+	#updateMember_form input[type="checkbox"] {
+		border-color : gray !important;
 	}
 	
 	#upfile{display:none}
@@ -108,6 +111,9 @@
 	}
 	#upfile_Label {
 		display : inline;
+	}
+	.update_button{
+		background-color : dimgray;
 	}
 	
 </style>

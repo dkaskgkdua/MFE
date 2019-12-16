@@ -19,7 +19,6 @@
 	href="http://kenwheeler.github.io/slick/slick/slick-theme.css" />
 <script type="text/javascript"
 	src="http://kenwheeler.github.io/slick/slick/slick.min.js"></script>
-<script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/jquery.scrolly.min.js"></script>
 <script src="assets/js/skel.min.js"></script>
 <script src="assets/js/util.js"></script>

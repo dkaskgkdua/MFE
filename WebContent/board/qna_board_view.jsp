@@ -127,11 +127,10 @@ span {
 		});
 		// 수정버튼 클릭경우(댓글)
 		$("#comment").on('click', '.update', function() {
-			// this는 해당 클래스가 있는 요소를 기준으로해서 parent는 부모, prev는 전 요소, next는 다음 요소, 즉 요소를 찾아감 
-			before = $(this).parent().prev().text(); // 선택한 내용을 가져온다.
-			$("#content").focus().val(before); // textarea에 수정전 내용을 입력
-			num = $(this).next().next().val(); //수정할 댓글번호를 저장합니다.
-			$("#write").text("수정완료"); //등록버튼의 라벨을 '수정완료'로 변경합니다.
+			before = $(this).parent().prev().text(); 
+			$("#content").focus().val(before); 
+			num = $(this).next().next().val(); 
+			$("#write").text("수정완료"); 
 			$(this).parent().parent().css('background', 'lightgray');
 		});
 
@@ -191,7 +190,7 @@ span {
 
 					<a href="BoardReplyView.bo?num=${boarddata.BOARD_NUM}">
 						<button class="btn btn-primary">답변</button>
-				</a> <c:if test="${boarddata.BOARD_NAME == id || id == 'admin'}">
+				</a> <c:if test="${boarddata.BOARD_NAME == id || id == 'admin@mfe.com'}">
 						<a href="BoardModifyView.bo?num=${boarddata.BOARD_NUM}">
 							<button class="btn btn-info">수정</button>
 						</a>

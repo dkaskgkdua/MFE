@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -23,7 +24,12 @@ public class ListAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response)
 	 							throws Exception {
 		ActionForward forward = new ActionForward();
-
+		HttpSession session = request.getSession();
+		if(session.getAttribute("id") == null || !session.getAttribute("id").equals("admin@mfe.com")) {
+			forward.setPath("main.net");
+			forward.setRedirect(true);
+			return forward;
+		}
 		
 		//////////////////////////////////////////////////  concert 구간
 		ConcertDAO concertdao = new ConcertDAO();
