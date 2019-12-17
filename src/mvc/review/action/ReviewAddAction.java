@@ -30,7 +30,7 @@ public class ReviewAddAction implements Action {
 		
 		System.out.println("realFolder= " + realFolder);
 		boolean result=false;
-		
+		 
 		try {
 			MultipartRequest multi = null;
 			multi = new MultipartRequest(request,

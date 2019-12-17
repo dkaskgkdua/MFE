@@ -1,4 +1,4 @@
-drop table review;
+drop table review; 
 
 drop sequence review_seq;
 

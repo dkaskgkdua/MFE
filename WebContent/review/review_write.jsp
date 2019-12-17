@@ -14,7 +14,7 @@ tr.center-block {
 }
 h1{
 	font-size:1.5rem; 
-	text-align:center; 
+	text-align:center;  
 	color:#1a92b9
 }
 .container{

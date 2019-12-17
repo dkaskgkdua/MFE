@@ -1,7 +1,7 @@
 package mvc.review.db;
 
 import java.sql.Date;
-
+ 
 public class ReviewBean {
 	private int review_id;
 	private String member_id;
