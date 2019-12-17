@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+     <%@ taglib prefix ="c"  uri = "http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -34,42 +35,56 @@ img{
 </head>
 <body>
 <div class="container">
-<form action = "ReviewAddAction.rv" method="post"
-		enctype="multipart/form-data" name= "reviewform">
-	<h1>리뷰 작성하기</h1>
-	<div class="form-group">
-		<label for="member_id">글쓴이</label>
-		<input name="MEMBER_ID" id="member_id" value="${id}"
-				readOnly type="text" size="10" maxlength="30"
-				class ="form-control"
-				placeholder="Enter id">
+		<form action="ReviewAddAction.bo" method="post"
+				enctype="multipart/form-data" name="reviewform">
+			<h1>MVC 게시판 - write 페이지</h1>
+			<div class="form-group">
+				<label for="member_id">글쓴이</label>
+				<input name="member_id" id="member_id" value="${id }"
+							readOnly
+							type="text" size="10" maxlength="30"
+							class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="review_pass">비밀번호</label>
+				<input name="review_pass" id="review_pass"
+							type="password" size="10" maxlength="30"
+							class="form-control" placeholder="Enter review_pass"
+							value="">
+			</div>
+			<div class="form-group">
+				<label for="review_title">제목</label>
+				<input name="review_title" id="review_title"
+							type="text" size="50" maxlength="100"
+							class="form-control" placeholder="Enter review_title"
+							value="">
+			</div>
+			<div class="form-group">
+				<label for="concert_name">콘서트 선택</label>
+				<select>
+					<c:forEach var="c" items="${concertlist}">
+						<option value="${c.concert_name }">${c.concert_name }</option>
+					</c:forEach>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="review_content">내용</label>
+				<textarea name="review_content" id="review_content"
+							cols="67" rows="10" class="form-control" ></textarea>
+			</div>
+			<div class="form-group">
+				<label for="review_file">파일 첨부</label>
+				<label for="upfile">
+					<img src="images/attach.png" alt="사막">
+				</label>
+				<input type="file" id="upfile" name="review_file">
+				<span id="filevalue"></span>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary">등록</button>
+				<button type="reset" class="btn btn-danger">취소</button>
+			</div>
+		</form>
 	</div>
-	<div class="form-group">
-		<label for="review_pass">비밀번호</label>
-		<input name="REVIEW_PASS" id="review_pass" 
-				type="password" size="10" maxlength="30"
-				class ="form-control"
-				placeholder="Enter password" value="">
-	</div>		
-	<div class="form-group">
-		<label for="review_title">제목</label>
-		<input name="REVIEW_TITLE" id="review_title" 
-				type="text" size="50" maxlength="100"
-				class ="form-control"
-				placeholder="Enter review_title" value="">
-	</div>	
-	<div class="form-group">
-		<label for="review_content">내용</label>
-		<textarea name="REVIEW_CONTENT" id="review_content"
-				  cols="67" rows="10" class="form-control"></textarea>
-	</div>
-	
-	<div class="form-group">
-		<button type=submit class="btn btn-primary">등록</button>
-		<button type=reset class="btn btn-danger">취소</button>
-	</div>
-		
-</form>
-</div>
 </body>
 </html>

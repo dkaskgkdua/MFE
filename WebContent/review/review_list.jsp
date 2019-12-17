@@ -12,7 +12,7 @@
 <meta charset="UTF-8">
 <title>리뷰 게시판</title>
 </head>
-<body>
+<body> 
 <script src="js/reviewlist.js"></script>
 <c:if test ="${listcount > 0 }">
 	<div class = "rows ">
@@ -77,7 +77,7 @@
 	</c:forEach>
 	</tbody>
 	</table>
-	<button id = "addReview_Button" type = "button" class = "btn btn-info">글쓰기</button>
+	
 	</div>
 	
 	<div class="center-block">
@@ -131,6 +131,6 @@
 <c:if test ="${listcount == 0 }">
 	<font size =5>등록된 글이 없습니다.</font>
 </c:if>
-
+<button id = "addReview_Button" type = "button" class = "btn btn-info">글쓰기</button>
 </body>
 </html>

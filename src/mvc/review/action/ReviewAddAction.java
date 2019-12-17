@@ -14,45 +14,66 @@ import mvc.review.db.ReviewDAO;
 
 public class ReviewAddAction implements Action {
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ReviewDAO reviewdao = new ReviewDAO();
-		ReviewBean reviewbean = new ReviewBean();
-		ActionForward forward = new ActionForward();
-		request.setCharacterEncoding("utf-8");
 		
-		boolean result = false;
+		ReviewDAO dao = new ReviewDAO();
+		ReviewBean review = new ReviewBean();
+		ActionForward forward = new ActionForward();
+		
+		String realFolder = "";
+		
+		String saveFolder = "reviewupload";
+		
+		int fileSize=10*1024*1024; 
+		
+		ServletContext sc = request.getServletContext();
+		realFolder = sc.getRealPath(saveFolder);
+		
+		System.out.println("realFolder= " + realFolder);
+		boolean result=false;
 		
 		try {
-			reviewbean.setReview_id(Integer.parseInt(request.getParameter("review_id")));
-			reviewbean.setReview_pass(request.getParameter("review_pass"));
-			reviewbean.setReview_title(replaceParameter(request.getParameter("review_title")));
-			reviewbean.setReview_content(replaceParameter(request.getParameter("review_content")));
+			MultipartRequest multi = null;
+			multi = new MultipartRequest(request,
+							realFolder,
+							fileSize,
+							"utf-8",
+							new DefaultFileRenamePolicy());
 			
-			result = reviewdao.reviewInsert(reviewbean);
+			review.setMember_id(multi.getParameter("member_id"));
+			review.setReview_pass(multi.getParameter("review_pass"));
+			review.setReview_title(replaceParameter(multi.getParameter("review_title")));
+			review.setReview_content(replaceParameter(multi.getParameter("review_content")));
 			
-			if(result==false) {
-				System.out.println("리뷰 등록 실패");
+			review.setReview_file(multi.getFilesystemName("review_file"));
+			
+			result=dao.reviewInsert(review);
+			
+			if(result == false) {
+				System.out.println("게시판 등록 실패");
 				forward.setRedirect(false);
-				request.setAttribute("message","리뷰 등록 실패입니다.");
+				request.setAttribute("message","게시판 등록 실패입니다.");
 				forward.setPath("error/error.jsp");
 				return forward;
 			}
-			System.out.println("리뷰 등록 완료");
+			System.out.println("게시판 등록 완료");
 			forward.setRedirect(true);
 			forward.setPath("ReviewList.rv");
 			return forward;
-		} catch(Exception ex) {
+		}catch(Exception ex) {
 			ex.printStackTrace();
 		}
+		
 		return null;
 	}
-	
+
 	private String replaceParameter(String param) {
 		String result = param;
 		if(param != null) {
 			result = result.replaceAll("<","&lt;");
-			result = result.replaceAll("<","&lt;");
-			result = result.replaceAll("<","&lt;");
+			result = result.replaceAll(">","&gt;");
+			result = result.replaceAll("\"","&quot;");
 		}
 		return result;
+		
 	}
 }

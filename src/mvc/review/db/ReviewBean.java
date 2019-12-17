@@ -13,6 +13,7 @@ public class ReviewBean {
 	private int review_readcount;
 	private String concert_image;
 	private String concert_name;
+	private String review_file;
 	
 	public int getReview_id() {
 		return review_id;
@@ -73,6 +74,12 @@ public class ReviewBean {
 	}
 	public void setConcert_name(String concert_name) {
 		this.concert_name = concert_name;
+	}
+	public String getReview_file() {
+		return review_file;
+	}
+	public void setReview_file(String review_file) {
+		this.review_file = review_file;
 	}
 
 	

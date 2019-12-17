@@ -191,27 +191,41 @@ public class ReviewDAO {
 		return false;
 	}
 	
+	
+	
 	public boolean reviewInsert(ReviewBean review) {
+		boolean Check = false;
 		try {
 			con = ds.getConnection();
 			System.out.println("getConnection");
-			pstmt = con.prepareStatement("INSERT INTO review(review_id, member_id, review_pass, review_title, review_content, review_readcount, reivew_date) VALUES (review_seq.nextval, ?, ?, ?, ?, 0, sysdate)");
+			pstmt = con.prepareStatement("INSERT INTO review(review_id, member_id, "
+					+ "review_pass, review_title, review_content, review_readcount, "
+					+ "review_file, reivew_date, concert_id) "
+					+ "VALUES (review_seq.nextval, ?, ?, ?, ?, 0, ?, sysdate, ?)");
 	
 			pstmt.setString(1, review.getMember_id());
 			pstmt.setString(2, review.getReview_pass());
 			pstmt.setString(3, review.getReview_title());
 			pstmt.setString(4, review.getReview_content());
+			pstmt.setString(5, review.getReview_file());
+			pstmt.setInt(6, review.getConcert_id());
 			
+			int result2 = pstmt.executeUpdate();
+
+			if(result2 == 1) {
+				System.out.println("데이터 삽입이 완료되었습니다.");
+				Check = true;
+			}else {
+				Check = false;
+			}
 			
-			result = pstmt.executeUpdate();
-			System.out.println("리뷰 삽입 결과 = " + result);
 		} catch(SQLException e) {
 			System.out.println("reviewInsert() 에러 : " + e);
 			e.printStackTrace();
 		}finally {
 			close();
 		}
-		return (result==1) ? true:false;
+		return Check;
 		
 	}
 	public int  reviewDelete(int num) {
@@ -241,5 +255,35 @@ public class ReviewDAO {
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public List<ReviewBean> getConcertList(String id) {
+		
+		String sql = "select * from book inner join concert " + 
+				"on concert.concert_id=book.concert_id " + 
+				"where book.member_id=?";
+		List<ReviewBean> list = new ArrayList<ReviewBean>();
+		
+		try {
+			con = ds.getConnection();
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				ReviewBean review = new ReviewBean();
+				review.setConcert_id(rs.getInt("concert_id"));
+				review.setConcert_name(rs.getString("concert_name"));
+				review.setConcert_image(rs.getString("concert_image"));
+				list.add(review);
+			}
+			return list;
+		} catch(Exception ex) {
+			System.out.println("getConcertList() 에러 : " + ex);
+			ex.printStackTrace();
+		} finally {
+			close();
+		}
+		return null;
 	}
 }
