@@ -1,5 +1,11 @@
 package mvc.member.action;
 
+import java.security.KeyFactory;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.spec.RSAPublicKeySpec;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +22,18 @@ public class MainViewAction implements Action {
 	@Override
 	public ActionForward execute(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ConcertDAO concertdao = new ConcertDAO();
+		HttpSession session = request.getSession();
+		
+		KeyPairGenerator generator = KeyPairGenerator.getInstance("RSA");
+		generator.initialize(1024);
+		KeyPair keyPair = generator.genKeyPair();
+		KeyFactory keyFactory = KeyFactory.getInstance("RSA");
+		PublicKey publicKey = keyPair.getPublic();
+		PrivateKey privateKey = keyPair.getPrivate();
+		RSAPublicKeySpec publicSpec = (RSAPublicKeySpec) keyFactory.getKeySpec(publicKey, RSAPublicKeySpec.class);
+		String publicKeyModulus = publicSpec.getModulus().toString(16);
+		String publicKeyExponent = publicSpec.getPublicExponent().toString(16);
+		
 		
 		likeyDAO likeydao = new likeyDAO();
 		
@@ -30,7 +48,7 @@ public class MainViewAction implements Action {
 		List<ConcertBean> last_concert_list = concertdao.getLastConcertList();
 		
 		
-		HttpSession session = request.getSession();
+		
 		String id = (String)session.getAttribute("id");
 		if(id != null) {
 			MemberDAO mdao = new MemberDAO();
@@ -48,8 +66,9 @@ public class MainViewAction implements Action {
 			}
 		}
 		
-		
-		
+		request.setAttribute("publicKeyModulus", publicKeyModulus);
+		request.setAttribute("publicKeyExponent", publicKeyExponent);
+		session.setAttribute("__rsaPrivateKey__", privateKey);
 		request.setAttribute("jazz_concert_list", jazz_concert_list);
 		request.setAttribute("balad_concert_list", balad_concert_list);
 		request.setAttribute("rap_concert_list", rap_concert_list);

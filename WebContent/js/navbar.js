@@ -1,13 +1,47 @@
+function validateEncryptedForm() {
+    var login_id = $("#login_id").val();
+    var login_pass = $("#login_pass").val();
+    if (!login_id || !login_pass) {
+        alert("ID/비밀번호를 입력해주세요.");
+        return false;
+    }
+    try {
+        var rsaPublicKeyModulus = $("#rsaPublicKeyModulus").val();
+        var rsaPublicKeyExponent = $("#rsaPublicKeyExponent").val();
+        submitEncryptedForm(login_id,login_pass, rsaPublicKeyModulus, rsaPublicKeyExponent);
+    } catch(err) {
+        alert(err);
+    }
+    return false;
+}
+
+function submitEncryptedForm(login_id, login_pass, rsaPublicKeyModulus, rsaPpublicKeyExponent) {
+    var rsa = new RSAKey();
+    rsa.setPublic(rsaPublicKeyModulus, rsaPpublicKeyExponent);
+
+    // 사용자ID와 비밀번호를 RSA로 암호화한다.
+    var securedlogin_id = rsa.encrypt(login_id);
+    var securedlogin_pass = rsa.encrypt(login_pass);
+
+    // POST 로그인 폼에 값을 설정하고 발행(submit) 한다.
+    $("#secured_id").val(securedlogin_id);
+    $("#secured_pass").val(securedlogin_pass);
+    $("#securedLoginForm").submit();
+}
 $(function() {
+		$("#alogin").click(function() {
+			validateEncryptedForm();
+			return false;
+		})
 		$('#adminMode_Button').click(function() {
 			location.href = 'adminPage.net';
 		});
 		var idCheck = false;
-
+		/*
 		$('#login_button').click(function() {
 			$('#login_form').submit();
 		})
-
+		 */
 		// ID keyup 이벤트(중복 확인)
 		$("#addMember_id").on(
 				'keyup',

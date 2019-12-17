@@ -19,8 +19,11 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <script src="js/searchlist.js"></script>
 <script src="js/filterlist.js"></script>
+<script src="js/jsbn.js"></script>
+<script src="js/rsa.js"></script>
+<script src="js/prng4.js"></script>
+<script src="js/rng.js"></script>
 <script src="js/navbar.js"></script>
-
 <header id="header">
 	<h1>
 		<a href="main.net">MFE</a>
@@ -178,25 +181,28 @@
 			<!-- Modal body -->
 			<div class="modal-body">
 				<div class="container uniform">
-					<form method="post" action="loginProcess.net" id="login_form">
+					<form id="login_form">
 						<fieldset>
 							<div class="form-group">
-								<label for="login_id" class="modalBlack">아이디</label> <input
+								<label for="login_id" class="modalBlack">아이디</label> 
+								<input
 									type="text" class="form-control" id="login_id"
 									placeholder="Enter id" name="login_id" required maxLength="30">
+									<input type="hidden" id="rsaPublicKeyModulus" value="${publicKeyModulus}" />
 								<span id="login_id_message"></span>
 							</div>
 							<div class="form-group">
-								<label for="modal_pass" class="modalBlack">비밀번호</label> <input
+								<label for="modal_pass" class="modalBlack">비밀번호</label> 
+								<input
 									type="password" class="form-control" id="login_pass"
 									placeholder="Enter password" name="login_pass" required>
+									<input type="hidden" id="rsaPublicKeyExponent" value="${publicKeyExponent}" />
 							</div>
 							<div class="6u$ 12u$(small)">
 								<input type="checkbox" id="login_remember" name="login_remember"
 									checked> <label for="login_remember">Remember
 									me</label>
 							</div>
-
 						</fieldset>
 					</form>
 				</div>
@@ -204,10 +210,15 @@
 
 			<!-- Modal footer -->
 			<div class="modal-footer">
-				<button id="login_button" type="submit" class="btn btn-primary">로그인</button>
+				<%-- <a id = "alogin"href="<%=request.getContextPath()%>/loginFailure.jsp">로그인</a>--%>
+				<button id="alogin" type="button" class="btn btn-primary">로그인</button>
 				<button type="button" class="btn btn-danger" data-dismiss="modal">취소</button>
 				<button type="button" class="btn btn-info" data-dismiss="modal"
 					data-toggle="modal" data-target="#addMember_Modal">회원가입</button>
+				<form id="securedLoginForm" name="securedLoginForm" action="loginProcess.net" method="post" style="display:none">
+					<input type="hidden" name="secured_id" id="secured_id" value="" />
+            		<input type="hidden" name="secured_pass" id="secured_pass" value="" />
+				</form>
 			</div>
 
 		</div>
