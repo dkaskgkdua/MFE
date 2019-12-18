@@ -20,10 +20,6 @@ insert into GENRE values(GENRE_SEQ.NEXTVAL, 'pop');
 insert into GENRE values(GENRE_SEQ.NEXTVAL, 'EDM');
 
 
-
-
-update genre set genre_name = 'EDM' where genre_id ='8';
-update genre set genre_name ='EDM' where genre_id = 8;
 select * from genre;
 
 

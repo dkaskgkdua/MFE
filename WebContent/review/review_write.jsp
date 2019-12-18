@@ -6,36 +6,40 @@
 <head>
 <meta charset="UTF-8">
 <title>리뷰 작성</title>
-<script src="js/writeform2.js" charset="UTF-8"></script>
 <jsp:include page ="../mainActivity/navbar.jsp"/>
 <style>
-tr.center-block {
-	text-align : center
+.container {
+   padding-top: 55px;
 }
-h1{
-	font-size:1.5rem; 
-	text-align:center;  
-	color:#1a92b9
+
+#counter {
+   float: right;
+   position: relative;
+   left: -10px;
+   top: 30px;
+   background: rgba(255, 0, 0, 0.5);
+   border-radius: 0.5em;
+   padding: 0 .5em 0 .5em;
 }
-.container{
-	margin : auto;
-	margin-top : 3%;
-	width : 70%;
-	height : 70%;
+
+#upfile {
+   display: none;
 }
-label{
-	font-weight:bold;
+
+img {
+   width: 25px;
 }
-img{
-	width:20px;
+
+img:hover {
+   cursor: pointer
 }
 
 </style>
-
+<script src="js/reviewform.js"></script>
 </head>
 <body>
 <div class="container">
-		<form action="ReviewAddAction.bo" method="post"
+		<form action="ReviewAddAction.rv" method="post"
 				enctype="multipart/form-data" name="reviewform">
 			<h1>MVC 게시판 - write 페이지</h1>
 			<div class="form-group">
@@ -61,9 +65,9 @@ img{
 			</div>
 			<div class="form-group">
 				<label for="concert_name">콘서트 선택</label>
-				<select>
+				<select name="review_concert">
 					<c:forEach var="c" items="${concertlist}">
-						<option value="${c.concert_name }">${c.concert_name }</option>
+						<option value="${c.concert_id }">${c.concert_name }</option>
 					</c:forEach>
 				</select>
 			</div>
@@ -73,16 +77,14 @@ img{
 							cols="67" rows="10" class="form-control" ></textarea>
 			</div>
 			<div class="form-group">
-				<label for="review_file">파일 첨부</label>
-				<label for="upfile">
-					<img src="images/attach.png" alt="사막">
-				</label>
-				<input type="file" id="upfile" name="review_file">
-				<span id="filevalue"></span>
+				<label for="review_file">파일 첨부</label> <label for="upfile"> <img
+					id=ig src="./images/file.png" alt=""></label> <input type="file"
+					id="upfile" name="review_file"> <span id="filevalue"></span>
 			</div>
 			<div class="form-group">
 				<button type="submit" class="btn btn-primary">등록</button>
-				<button type="reset" class="btn btn-danger">취소</button>
+				<input type='button' value="취소" class="back"
+					onClick='history.back(); return false;'>
 			</div>
 		</form>
 	</div>

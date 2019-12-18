@@ -97,8 +97,8 @@ public class ReviewDAO {
 			rs = pstmt.executeQuery();
 			
 			if(rs.next()) {
-				if(pass.equals(rs.getString("REVIEW_PASS"))) {
-					System.out.println(pass + "와 " + rs.getString("REVIEW_PASS") + "는 일치");
+				if(pass.equals(rs.getString("review_pass"))) {
+					System.out.println(pass + "와 " + rs.getString("review_pass") + "는 일치");
 					return true;
 				}
 			}
@@ -154,6 +154,7 @@ public class ReviewDAO {
 			review.setReview_content(rs.getString("REVIEW_CONTENT"));
 			review.setReview_readcount(rs.getInt("REVIEW_READCOUNT"));
 			review.setReview_date(rs.getDate("REVIEW_DATE"));
+			review.setReview_file(rs.getString("review_file"));
 			review.setConcert_image(rs.getString("CONCERT_IMAGE"));
 			review.setConcert_name(rs.getString("CONCERT_NAME"));
 		}
@@ -169,16 +170,17 @@ public class ReviewDAO {
 		
 	}
 	
-	public boolean reviewModify(ReviewBean modifyreview) {
+	public boolean reviewModify(ReviewBean review) {
 		String sql = "update review "
-				   + "set    review_title = ?, review_content = ? "
+				   + "set    review_title = ?, review_content = ?, review_file = ?"
 				   + "where  review_id = ? ";
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(sql);
-			pstmt.setString(1,  modifyreview.getReview_title());
-			pstmt.setString(2,  modifyreview.getReview_content());
-			pstmt.setInt(3,  modifyreview.getReview_id());
+			pstmt.setString(1,  review.getReview_title());
+			pstmt.setString(2,  review.getReview_content());
+			pstmt.setString(3,  review.getReview_file());
+			pstmt.setInt(4,  review.getReview_id());
 			int result = pstmt.executeUpdate();
 			if(result == 1)
 				return true;
@@ -200,7 +202,7 @@ public class ReviewDAO {
 			System.out.println("getConnection");
 			pstmt = con.prepareStatement("INSERT INTO review(review_id, member_id, "
 					+ "review_pass, review_title, review_content, review_readcount, "
-					+ "review_file, reivew_date, concert_id) "
+					+ "review_file, review_date, concert_id) "
 					+ "VALUES (review_seq.nextval, ?, ?, ?, ?, 0, ?, sysdate, ?)");
 	
 			pstmt.setString(1, review.getMember_id());
@@ -285,5 +287,32 @@ public class ReviewDAO {
 			close();
 		}
 		return null;
+	}
+
+	public int isId(String id, String pass) {
+		try {
+			con = ds.getConnection();
+			System.out.println("getConnection");
+			
+			String sql = "select member_id, member_password from member where member_id = ? ";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			rs = pstmt.executeQuery();
+			
+			if(rs.next()) {
+				if(rs.getString(2).equals(pass)) {
+					result = 1;	 // 비밀번호 일치
+				} else {
+					result = 0;  // 비밀번호 일치X
+				}				
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close();
+		}
+		System.out.println("결과는 = " + result);
+		
+		return result;
 	}
 }

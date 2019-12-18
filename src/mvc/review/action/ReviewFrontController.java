@@ -94,7 +94,14 @@ public class ReviewFrontController extends HttpServlet {
         	  } catch(Exception e) {
         		  e.printStackTrace();
         	  }
-          }
+          } else if (command.equals("/ReviewFileDown.rv")) {
+  			action = new ReviewFileDownAction();
+  			try {
+  				forward = action.execute(request, response);
+  			} catch (Exception e) {
+  				e.printStackTrace();
+  			}
+  		}
     	
     	if(forward !=null) {
     		if(forward.isRedirect()) { //리다이렉트 된다.

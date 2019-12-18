@@ -38,7 +38,7 @@
                      <label for="pwd">비밀번호</label> 
                         <input type="password"
                         class="form-control" placeholder="Enter password"
-                        name="REVIEW_PASS" id="review_pass">
+                        name="review_pass" id="review_pass">
                   </div>
                   <button type="submit" class="btn btn-primary" >확인</button>
                    <button id = "can" type="button" class="btn btn-danger">취소</button>

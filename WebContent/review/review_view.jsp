@@ -5,23 +5,23 @@
 <html>
 <head>
 <jsp:include page ="../mainActivity/navbar.jsp"/>
-	  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-	  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-	  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 <meta charset="UTF-8">
 <title>리뷰 상세보기</title>
 <style>
-span{width:20px;}
-.no {
-	display : none;
-}
-img {
-	width : 300px;
-}
-.container {
-	margin-top : 100px;
-}
+	span{
+		width:20px;
+	}
+	.no {
+		display : none;
+	}
+	img {
+		width : 300px;
+	}
+	.container {
+		margin-top : 100px;
+	}
 </style>
+
 </head>
 <body>
 <div class="container">
@@ -40,18 +40,24 @@ img {
 		</tr>
 		<tr>
 			<td><div>내용</div></td>
-			<td><textarea class = "form-control" rows="5" readOnly style = "width:102%">${reviewbean.review_content}</textarea></td>
+			<td><textarea class = "form-control" rows="5" readOnly style = "width:100%">${reviewbean.review_content}</textarea></td>
 		</tr>
 		<tr>
 			<td><div>공연명</div></td>
 			<td>
+				<img src='concertupload/${reviewbean.concert_image }'/>
 				<div>${reviewbean.concert_name}</div>
+				
 			</td>
 		</tr>
 		<tr>
-			<td><div></div></td>
+			<td><div>첨부파일</div></td>
 			<td>
-				<img src='images/${reviewbean.concert_image }'/>
+				<c:if test="${!empty reviewbean.review_file}">
+					<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+					<a href="ReviewFileDown.rv?filename=${reviewbean.review_file}">
+						${reviewbean.review_file}</a>
+				</c:if>
 			</td>
 		</tr>
 		
@@ -89,7 +95,7 @@ img {
                      <label for="pwd">비밀번호</label> 
                         <input type="password"
                         class="form-control" placeholder="Enter password"
-                        name="REVIEW_PASS" id="review_pass">
+                        name="review_pass" id="review_pass">
                   </div>
                   <button type="submit" class="btn btn-primary" >Submit</button>
                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

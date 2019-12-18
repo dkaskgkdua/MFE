@@ -22,17 +22,28 @@ public class ReviewModifyAction implements Action {
 		   ActionForward forward = new ActionForward();
 		   ReviewDAO reviewdao = new ReviewDAO();
 		   ReviewBean reviewbean = new ReviewBean();
-		 
+		   
+		   String realFolder="";
+		   String saveFolder="reviewupload";
+		   int fileSize = 10*1024*1024;
 		   ServletContext sc = request.getServletContext();
+		   realFolder = sc.getRealPath(saveFolder);
+		 
 		   
 		   boolean result = false;
 		   
-			   
-				int num=Integer.parseInt(request.getParameter("REVIEW_ID"));	
-				String pass = request.getParameter("REVIEW_PASS");
+		
+		   try {
+				MultipartRequest multi = null;
+				multi = new MultipartRequest(request, realFolder,
+									fileSize,
+									"UTF-8",
+									new DefaultFileRenamePolicy());
+				int num=Integer.parseInt(multi.getParameter("review_id"));	
+				String pass = multi.getParameter("review_pass");
 				
 				boolean usercheck = reviewdao.isReviewWriter(num, pass);
-		
+				
 				if(usercheck ==false) {
 					response.setContentType("text/html;charset=UTF-8");
 					PrintWriter out = response.getWriter();
@@ -43,28 +54,38 @@ public class ReviewModifyAction implements Action {
 					out.close();
 					return null;
 				}
+		   
 				reviewbean.setReview_id(num);
-				reviewbean.setMember_id(request.getParameter("MEMBER_ID"));
+				reviewbean.setMember_id(multi.getParameter("member_id"));
 				reviewbean.setReview_pass(pass);
-				reviewbean.setReview_title(request.getParameter("REVIEW_TITLE"));
-				reviewbean.setReview_content(request.getParameter("REVIEW_CONTENT"));
-				String check = request.getParameter("check");
+				reviewbean.setReview_title(multi.getParameter("review_title"));
+				reviewbean.setReview_content(multi.getParameter("review_content"));
+				String check = multi.getParameter("check");
 				System.out.println("check=" + check);
-				
+				if(check != null) {
+					reviewbean.setReview_file(check);
+				} else {
+					String filename=multi.getFilesystemName("review_file");
+					reviewbean.setReview_file(filename);
+				}
 				result = reviewdao.reviewModify(reviewbean);
-	
 				if(result == false) {
-					System.out.println("리뷰 수정 실패");
+					System.out.println("게시판 수정 실패");
 					forward.setRedirect(false);
-					request.setAttribute("message", "리뷰 수정 실패입니다.");
+					request.setAttribute("message", "게시판 수정 실패입니다.");
 					forward.setPath("error/error.jsp");
 					return forward;
 				}
 		   
-				System.out.println("리뷰 수정 완료");
+				System.out.println("게시판 수정 완료");
 				forward.setRedirect(true);
 				forward.setPath("ReviewDetailAction.rv?num="+reviewbean.getReview_id());
 				return forward;
+		   } catch(Exception e) {
+			   
+		   }
+		   return null;
+			
 		   
 	   }
 }

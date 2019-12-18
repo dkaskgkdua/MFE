@@ -1,6 +1,10 @@
 function go(page){
    var limit = $('#viewcount3').val();
+//   var search_select = $("#search_select").val();
+//   var search_text = $("#search_text").val();
    var data = "limit=" + limit + "&state=ajax&page=" + page;
+//   var data = "limit=" + limit + "&state=ajax&page=" + page + "&search_select=" + search_select
+//   + "&search_text=" + search_text;
    ajax(data);
 }
 
@@ -35,7 +39,7 @@ output = "<tbody>";
 $(data.reviewlist).each( 
 function(index, item) {
 output += '<tr><td>' + (num--) + '</td>'
-output += '<td><div>' + '<img src="images/'+item.concert_image + '"/></div></td>'
+output += '<td><div>' + '<img src="concertupload/'+item.concert_image + '"/></div></td>'
 output += '<td><div>' + '<a href="ReviewDetailAction.rv?num=' + item.review_id + '&page=' + data.page + '">' + item.review_title + '</a></div></td>'
 output += '<td><div>' + item.member_id  + '</div></td>'
 output += '<td><div>' + item.review_date + '</div></td>'

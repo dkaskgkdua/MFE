@@ -1,4 +1,4 @@
-drop table concert;
+drop table concert cascade constraints;
 drop sequence concert_seq;
 
 CREATE TABLE CONCERT(

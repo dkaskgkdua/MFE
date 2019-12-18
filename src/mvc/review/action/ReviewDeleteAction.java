@@ -19,11 +19,11 @@ public class ReviewDeleteAction implements Action {
 		   boolean usercheck = false;
 		   
 		   int num = Integer.parseInt(request.getParameter("num"));
+		   System.out.println(num);
 		   
 		   ReviewDAO reviewdao = new ReviewDAO();
 		   
-		   usercheck = reviewdao.isReviewWriter(num, request.getParameter("REVIEW_PASS"));
-		   System.out.println("비번 = " +  request.getParameter("REVIEW_PASS"));
+		   usercheck = reviewdao.isReviewWriter(num, request.getParameter("review_pass"));
 		
 		   if(usercheck == false) {
 		       response.setContentType("text/html;charset=UTF-8");
