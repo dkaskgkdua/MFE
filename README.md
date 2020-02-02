@@ -36,4 +36,4 @@
    - 기존의 여러 예매 사이트들은 직관성이 떨어진다. UI에서 직관성을 높여 차별화를 높이고 개인별 맞춤형 정보를
       제공하여 20~30대 소비자의 니즈를 충족, VOC를 제공하여 고객관리 업무 효율 극대화를 주안점으로 한다.
 * 산출물(대표)
-   - <img alt="erd" src="https://github.com/dkaskgkdua/MFE/tree/master/WebContent/images/result_image/erd.png">
+   - <img alt="erd" src="https://github.com/dkaskgkdua/MFE/blob/master/WebContent/images/result_image/erd.png">
