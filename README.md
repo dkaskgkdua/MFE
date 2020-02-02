@@ -16,6 +16,7 @@
    - Programming Language : JAVA, HTML, JavaScript
    - Tool : Eclipse, Github, AQuerytool, StarUML
 # 내용
+* [PPT(Slideshare)](https://www.slideshare.net/mjSong9/mfe-project)
 * 구현 기능
    - 로그인 / 회원가입
    - 티켓 예매(전자티켓), 취소
@@ -25,7 +26,6 @@
    - 마이페이지(찜기능, 개인정보관리, 예매내역, 상담내역)
    - 관리자(회원 정보 관리, 콘서트 정보 관리, 게시판 관리, 상담 관리)
    - 메인화면(맞춤형 콘서트 정보 제공, 최신 콘서트 정보 제공, 장르별 콘서트 정보 제공)
-   
 * 팀원별 역할
    - 송민준 : 기획, DB설계, 관리자, 메인화면
    - 김현윤 : 디자인, 마이페이지, 리뷰게시판
@@ -36,4 +36,13 @@
    - 기존의 여러 예매 사이트들은 직관성이 떨어진다. UI에서 직관성을 높여 차별화를 높이고 개인별 맞춤형 정보를
       제공하여 20~30대 소비자의 니즈를 충족, VOC를 제공하여 고객관리 업무 효율 극대화를 주안점으로 한다.
 * 산출물(대표)
-   - <img alt="erd" src="https://github.com/dkaskgkdua/MFE/blob/master/WebContent/images/result_image/erd.png">
+   - ERD
+   <img alt="erd" src="https://github.com/dkaskgkdua/MFE/blob/master/WebContent/images/result_image/erd.png">
+   - 시퀀스
+   <img alt="erd" src="https://github.com/dkaskgkdua/MFE/blob/master/WebContent/images/result_image/sequence.png">
+   - 테이블 정의서
+   <img alt="erd" src="https://github.com/dkaskgkdua/MFE/blob/master/WebContent/images/result_image/table_defi.png">
+   - 유스케이스
+   <img alt="erd" src="https://github.com/dkaskgkdua/MFE/blob/master/WebContent/images/result_image/usecase.png">
+   - WBS
+   <img alt="erd" src="https://github.com/dkaskgkdua/MFE/blob/master/WebContent/images/result_image/wbs.png">
