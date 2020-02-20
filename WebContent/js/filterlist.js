@@ -1,42 +1,43 @@
 $(function() {
-			$(".concert_day").each(function(index, item){
-				// d-day 계산
-				var concert_day = $(this).text();
-				console.log("콘서트 날짜 = " + concert_day);
-				var arr = concert_day.split("-");
-				
-				var today = new Date();	// 오늘 날짜
-				var date = new Date(arr[0], arr[1]-1, arr[2]);	// 콘서트 날짜
-				
-				var diff = date - today;	// 콘서트 날짜 - 오늘 날짜 = d-day 계산
-				var currDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
+	$(".concert_day").each(function(index, item){
+		// d-day 계산
+		var concert_day = $(this).text();
+		var arr = concert_day.split("-");
+		
+		var today = new Date();	// 오늘 날짜
+		var date = new Date(arr[0], arr[1]-1, arr[2]);	// 콘서트 날짜
+		
+		var diff = date - today;	// 콘서트 날짜 - 오늘 날짜 = d-day 계산
+		var currDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
 
-				var dd = parseInt(diff/currDay);	// 일수 차이
-				
-				$(this).prev().html("(D-" + dd + ")");
-			});
-			
-			$(".deadline").each(function(index, item){
-				var concert_day = $(this).next().next().next().children().children().find(".concert_day").text();
-				var arr = concert_day.split("-");
-				
-				var today = new Date();	// 오늘 날짜
-				var date = new Date(arr[0], arr[1]-1, arr[2]);	// 콘서트 날짜
-				console.log("오늘 날짜 = " + today);
-				console.log("콘서트 날짜 = " + date);
-				
-				var diff = date - today;	// 콘서트 날짜 - 오늘 날짜 = d-day 계산
-				var currDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 * 밀리세컨
+		var dd = parseInt(diff/currDay) + 1;	// 일수 차이
 
-				var dd = parseInt(diff/currDay);	// 일수 차이
-				
-				if(dd <= 5){
-					$(this).html("마감임박");
-				}else{
-					$(this).css('display', 'none');
-				}
-			});
-			
+		if(dd <= 5){
+			$(this).prev().children().html("마감임박");
+		}else{
+			$(this).prev().children().html("D-" + dd);
+		}
+	});
+	
+	// 시간 형태 변환
+	$(".concert_time").each(function(index, item){
+		var time = $(this).text();
+		var t1 = time.slice(0, 2);
+		var t2 = time.slice(2, 4);
+		var t3 = time.slice(-4, -2);
+		var t4 = time.slice(-2);
+		$(this).text(t1 + ":" + t2 + " - " + t3 + ":" + t4);
+	});
+	
+	function numberWithCommas(x) {
+	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	}
+	
+	$(".concert_price").each(function(index, item){
+		var price = $(this).text();
+		$(this).text(numberWithCommas(price) + "원");
+	});
+	
 			// 필터 삭제시
 			$(".filter_btn").click(function() {
 				$(this).parent().css('display', 'none');
@@ -87,13 +88,12 @@ $(function() {
 						if(data.flistsize > 0){
 						$("#count").html("총 <strong>" + data.flistsize + "</strong>개");
 						
-						$(".box").remove();
+						$(".fbox").remove();
 						output = "";
 						
 						$(data.flist).each(function(index, item){
-							<!-- Date 형태 yyyy-mm-dd -->
+							/* d-day 계산 */
 							var concert_day = item.concert_day;
-							console.log("concert_day 처음 형태 : " + concert_day);
 							
 							var month_index = concert_day.indexOf("월");
 							var month = concert_day.substring(0, month_index);
@@ -107,54 +107,72 @@ $(function() {
 							date = date.length == 1? "0" + date : date;
 							
 							var d = year + "-" + month + "-" + date;
-							console.log("d = " + d);
 							
-							<!-- D-Day 구하기 -->
 							var today = new Date();	// 오늘 날짜
 							
 							var arr = d.split("-");
 							var date = new Date(arr[0], arr[1]-1, arr[2]);	// 콘서트
-																			// 날짜
-							
 							var diff = date - today;	// 콘서트 날짜-오늘 날짜 = d-day
-														// 계산
 							var currDay = 24 * 60 * 60 * 1000;// 시 * 분 * 초 *
-																// 밀리세컨
-
-							var dd = parseInt(diff/currDay);	// 일수 차이
-							
-							output += "<div class='box'>";
-							output += "<div class='table-wrapper'>";
-							output += "<input type='hidden' name='concert_id' value='" + item.concert_id + "'>";
-							output += "<img src='images/" + item.concert_image + "' alt='' />";
+							var dd = parseInt(diff/currDay) + 1;	// d-day
 							
 							if(dd <= 5){
-								output += "<div class='deadline'>마감임박</div>";
+								dd = "마감임박";
 							}else{
-								output += "<div class='deadline' style = 'display : none'></div>";
+								dd = "D - " + dd;
 							}
+							/* d-day end */
 							
-							output += "<h4>" + item.concert_name + "</h4>";
+							/* 시간 형태 변환 */
+							var open = item.concert_open;
+							var close = item.concert_close;
+							var t1 = open.slice(0, 2);
+							var t2 = open.slice(2, 4);
+							var t3 = close.slice(0, 2);
+							var t4 = close.slice(2, 4);
+							
+							var time = t1 + ":" + t2 + " - " + t3 + ":" + t4;
+							/* 시간 end */
+							
+							output += "<li class='box fbox'>";
+							output += "<div class='finfo'>";
+							output += "<input type='hidden' name='concert_id' value='" + item.concert_id + "'>";
+							output += "<div class='concert_img'>";
+							output += "<img src='concertupload/" + item.concert_image + "' alt='' />";
+							output += "</div>";
+							
+							output += '<div class = "fsubject">';
+							output += "<h4 style='display: inline-block'>" + item.concert_name + "</h4>";
 							output += "<p>" + item.concert_musician + "</p>";
+							output += "</div>";
+							
 							output += "<table>";
 							output += "<tr><th>공연 일시</th>";
-							output += "<td class='d_day'>(D-" + dd + ")</td>";
-							output += "<td class='concert_day'>" + d + "</td>";
-							output += "<td class='concert_time'>";
-							output += item.concert_open + "-" + item.concert_close;
-							output += "</td></tr>";
-							output += "<tr><th>공연 장소</th>";
-							output += "<td colspan=3>" + item.local_name + "</td></tr>";
-							output += "<tr><th>공연 가격</th>";
-							output += "<td colspan=3>" + item.concert_price + "</td></tr>";
-							output += "<tr><th>장르</th>";
-							output += "<td colspan=3>" + item.genre_name + "</td></tr></table>"
-							output += "</div></div>";
+							output += "<td class='d_day'><div>" + dd + "</div></td>";
+							output += "<td class='concert_day'>" + d + "</td></tr>";
+							
+							output += "<tr><th colspan=2>공연 시간</th>";
+							output += "<td class = 'concert_time'>" + time + "</td></tr>";
+							
+							output += "<tr><th colspan=2>공연 장소</th>";
+							output += "<td>" + item.local_name + "</td></tr>";
+							
+							output += "<tr><th colspan=2>공연 가격</th>";
+							output += "<td class = 'concert_price'>";
+							output += numberWithCommas(item.concert_price) + "원</td></tr>";
+							
+							output += "<tr><th colspan=2>장르</th>";
+							output += "<td>" + item.genre_name + "</td></tr></table>"
+						
+							output += "<a href='ConcertDetailAction.co?detail_concert=" + item.concert_id + "' ";
+							output += "class='button icon fa-search fit' style = 'background: #06243c;'>상세보기</a>";
+								
+							output += "</div></li>";
 						}); // each end
-					 	$(".out").append(output);
+					 	$(".fout").append(output);
 						}else{
 							$("#count").remove();
-							$(".box").remove();
+							$(".fbox").remove();
 							$("body").append("<div style='margin: 100px; text-align: center; font-size: 50px'>검색 결과가 존재하지 않습니다.</div>");
 						}
 					} // success end

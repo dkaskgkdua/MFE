@@ -20,7 +20,6 @@ public class BoardReplyAction implements Action {
       
       int result = 0;
       
-      //파라미터로 넘어온 값들을 bdata 객체에 저장합니다.
       bdata.setBOARD_NAME(request.getParameter("BOARD_NAME"));
       bdata.setBOARD_PASS(request.getParameter("BOARD_PASS"));
       bdata.setBOARD_SUBJECT(request.getParameter("BOARD_SUBJECT"));
@@ -29,7 +28,6 @@ public class BoardReplyAction implements Action {
       bdata.setBOARD_RE_LEV(Integer.parseInt(request.getParameter("BOARD_RE_LEV")));
       bdata.setBOARD_RE_SEQ(Integer.parseInt(request.getParameter("BOARD_RE_SEQ")));
       
-      //답변을 DB에 저장하기 위해 bdata 객체를 파라미터로 DAO의 메서드 boardReply를 호출 합니다.
       result=bdao.boardReply(bdata);
       
       //답변 저장에 실패한 경우
@@ -41,10 +39,7 @@ public class BoardReplyAction implements Action {
          return forward;
       }
       
-      //답변 저장이 제대로 된 경우
-      System.out.println("답장 완료");
       forward.setRedirect(true);
-      //답변 글 내용을 확인하기 위해 글 내용 보기 페이지를 겨올로 설정합니다.
       forward.setPath("BoardDetailAction.bo?num="+result);
        return forward;
    }

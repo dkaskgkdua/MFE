@@ -7,7 +7,7 @@
 <jsp:include page="../mainActivity/navbar.jsp" />
 <style>
 .container {
-   padding-top: 55px;
+   padding-top: 70px;
 }
 
 .select-wrapper {
@@ -34,6 +34,7 @@
    display: flex;
       justify-content: center; /* 가운데 정렬 */
 }
+
 </style>
 <script src="js/boardlist.js"></script>
 
@@ -129,8 +130,8 @@
 					<option value="board_name">작성자</option>
 					<option value="board_subject">제목</option>
 					<option value="board_content">내용</option>
-				</select> <input type="text" id="search_text" name="search_text"
-					placeholder="검색할 내용을 입력하세요.">
+				</select> 
+				<input type="text" id="search_text" name="search_text" placeholder="검색할 내용을 입력하세요.">
 				<button type="submit" id="search_btn">검색</button>
 			</p>
 

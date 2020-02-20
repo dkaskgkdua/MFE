@@ -10,6 +10,8 @@
 <link rel="stylesheet" type="text/css" href="http://kenwheeler.github.io/slick/slick/slick-theme.css" />
 <link rel="stylesheet" href="assets/css/main.css?ver=6" />
 <link rel="stylesheet" href="css/navbar.css?ver=1" />
+
+
 <script type="text/javascript" src="http://kenwheeler.github.io/slick/slick/slick.min.js"></script>	
 <script src="assets/js/jquery.min.js"></script>
 <script src="assets/js/jquery.scrolly.min.js"></script>
@@ -17,8 +19,7 @@
 <script src="assets/js/util.js"></script>
 <script src="assets/js/main.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-<script src="js/searchlist.js"></script>
-<script src="js/filterlist.js"></script>
+
 <script src="js/jsbn.js"></script>
 <script src="js/rsa.js"></script>
 <script src="js/prng4.js"></script>

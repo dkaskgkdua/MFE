@@ -146,19 +146,19 @@ public class BoardDAO {
 			con = ds.getConnection();
 			
 			if(search_text != null && !search_text.equals("")) {
-				diff = " where " + search_select + " = ? ";
+				diff = " where " + search_select + " like ? ";
 			}
 			
 			String sql = "select count(*) from board" + diff;
 			
-			System.out.println("getListCount sql = " + sql);
-			
 			pstmt = con.prepareStatement(sql);
 			
 			if(!diff.equals("")) {
-				pstmt.setString(1, search_text);
+				pstmt.setString(1, "%" + search_text + "%");
 			}
+			System.out.println("getListCount sql = " + sql);
 			rs = pstmt.executeQuery();
+			
 			if(rs.next()) {
 				x = rs.getInt(1);
 			}
@@ -173,53 +173,41 @@ public class BoardDAO {
 	
 	
 	public List<BoardBean> getBoardList(int page, int limit, String search_select, String search_text) {
-		//page : 페이지
-		//limit : 페이지 당 목록의 수
-		// BOARD_RE_REF desc, BOARD_RE_SEQ asc에 의해 정렬한 것을
-		// 조건절에 맞는 rnum의 범위 만큼 가져오는 쿼리문이다.
-		/*
-		 * String sql = "select * "
-				+ "from (select rownum rnum, b.* "
-				+ "from (select * from board "
-				+ " order by BOARD_RE_REF desc,"
-				+ " BOARD_RE_SEQ asc) b)"
-				+ " where " + search_select + " = ? "
-				+ "and rnum >= ? and rnum <= ? ";
-		 */
 		String diff = "";
+		
 		if(search_text != null && !search_text.equals("")) {
-			diff = " where " + search_select + " = ? ";
+			diff = " where " + search_select + " like ? ";
 		}
-		String board_list_sql = 
-				"select * "
-			+   "from (select rownum rnum, b.* "
-			+          "from (select * from board "
-			+ diff
-			+          " order by BOARD_RE_REF desc,"
-			+          " BOARD_RE_SEQ asc) b "
-			+        ")"
-			+   " where rnum >= ? and rnum <= ? ";
+		
+		String board_list_sql = "select * "
+							+   "from (select rownum rnum, b.* "
+							+          "from (select * from board "
+							+ diff
+							+          " order by BOARD_RE_REF desc,"
+							+          " BOARD_RE_SEQ asc) b "
+							+        ")"
+							+   " where rnum >= ? and rnum <= ? ";
 			
-			System.out.println(board_list_sql);
+		System.out.println(board_list_sql);
+		
 		List<BoardBean> list = new ArrayList<BoardBean>();
-		// 한 페이지당 10개씩 목록인 경우 1페이지, 2페이지, 3페이지, 4페이지...
 		int startrow = (page-1) * limit +1;
-				//읽기 시작할 row번호 (1 11 21 31 ...)
 		int endrow = startrow + limit -1;
-				//읽을 마지막 row 번호 (10 20 30 40 ....)
+		
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(board_list_sql);
-			if(diff.equals("")){
-			pstmt.setInt(1, startrow);
-			pstmt.setInt(2, endrow);}
-			else {
-				pstmt.setString(1, search_text);
+
+			if (diff.equals("")) {
+				pstmt.setInt(1, startrow);
+				pstmt.setInt(2, endrow);
+			} else {
+				pstmt.setString(1, "%" + search_text + "%");
 				pstmt.setInt(2, startrow);
 				pstmt.setInt(3, endrow);
 			}
 			rs = pstmt.executeQuery();
-			
+
 			//DB에서 가져온 데이터를 VO 객체에 담는다.
 			while (rs.next()) {
 				BoardBean board = new BoardBean();
@@ -348,7 +336,6 @@ public class BoardDAO {
 		
 		try {
 			con = ds.getConnection();
-			//트랜잭션을 이용하기 위해 setAutoCommit을 false로 설정한다.
 			con.setAutoCommit(false);
 			
 			pstmt = con.prepareStatement(board_max_sql);
@@ -408,11 +395,8 @@ public class BoardDAO {
 				System.out.println("rollback()");
 			}
 		} catch(SQLException e) {
-			
 			System.out.println("boardReply에서 오류");
-			
 			e.printStackTrace();
-			
 		} finally {
 			close();
 		}

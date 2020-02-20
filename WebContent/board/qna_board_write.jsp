@@ -8,7 +8,7 @@
 <jsp:include page="../mainActivity/navbar.jsp" />
 <style>
 .container {
-   padding-top: 55px;
+   padding-top: 70px;
 }
 
 #counter {

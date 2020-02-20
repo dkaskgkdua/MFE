@@ -30,7 +30,7 @@ span {
 }
 
 .container {
-	padding-top: 55px;
+	padding-top: 70px;
 }
 </style>
 <script>
@@ -172,7 +172,7 @@ span {
 			<tr>
 				<td><div>내용</div></td>
 				<td><textarea class="form-control" rows="5" readOnly
-						style="width: 102%">${boarddata.BOARD_CONTENT}</textarea></td>
+						style="width: 100%">${boarddata.BOARD_CONTENT}</textarea></td>
 			</tr>
 
 			<tr>

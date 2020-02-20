@@ -35,18 +35,19 @@ function ajax(data) {
          if (data.listcount > 0) { // 총갯수가 1개 이상인 경우
             $("tbody").remove();
             var num = data.listcount - (data.page - 1) * data.limit; // page
-                                                         // = 1
-            console.log(num)
+
             output = "<tbody>";
+          
             $(data.boardlist).each(
-                  // <c:forEach var ="b" items="${boardlist}">
                   function(index, item) {
                      output += '<tr><td>' + (num--) + '</td>'
                      blank_count = item.BOARD_RE_LEV * 2 + 1;
                      blank = '&nbsp;';
+                     
                      for (var i = 0; i < blank_count; i++) {
                         blank += '&nbsp;&nbsp;'
                      }
+                     
                      img = "";
                      if (item.BOARD_RE_LEV > 0) {
                         img = "<img src='images/AnswerLine.gif'>";

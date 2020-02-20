@@ -6,7 +6,6 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <jsp:include page="../mainActivity/navbar.jsp" />
-<script type="text/javascript" src="js/ckeditor.js"></script>
 
 <style>
 tr.center-block {
@@ -20,15 +19,12 @@ h1 {
 }
 
 .container {
-	width: 60%
+	width: 60%;
+	padding-top: 70px;
 }
 
 label {
 	font-weight: bold
-}
-
-#upfile {
-	display: none
 }
 
 img {
@@ -45,6 +41,7 @@ img {
 	padding: 0 .5em 0 .5em;
 }
 </style>
+<script src = "js/replyform.js"></script>
 
 
 <meta charset="UTF-8">
@@ -54,13 +51,11 @@ img {
 	<div class="container">
 		<form action="BoardReplyAction.bo" method="post" name="boardform">
 
-			<%--답변을 추가하기 위해서는 답변의 원문글에 대한 BOARD_RE_REF, BOARD_RE_LEV, BOARD_RE_SEQ 정보가 필요합니다 --%>
 			<input type="hidden" name="BOARD_RE_REF"
 				value="${boarddata.BOARD_RE_REF}"> <input type="hidden"
 				name="BOARD_RE_LEV" value="${boarddata.BOARD_RE_LEV}"> <input
 				type="hidden" name="BOARD_RE_SEQ" value="${boarddata.BOARD_RE_SEQ}">
 
-			<h1>MVC 게시판-Reply</h1>
 			<div class="form-group">
 				<label for="board_name">글쓴이</label> <input name="BOARD_NAME"
 					id="board_name" type="text" value="${id }" class="form-control"
